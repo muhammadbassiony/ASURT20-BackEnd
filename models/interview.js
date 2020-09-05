@@ -3,7 +3,22 @@ const Schema = mongoose.Schema;
 
 const interviewSchema = new Schema(
     {
+        start: { type: Date, required: true},
+        end: { type: Date, required: true},
+
+        title: { type: String, required: true},
+        url: { type: String},
+
+        backgroundColor: { type: String },
         
+        extendedProps: {
+            ivStatus: {
+                type: String,
+                enum: ['SCHEDULED', 'DONE', 'BOOKED', 'MISSED'],
+                default: 'SCHEDULED'
+            },
+            application: { type: Schema.Types.ObjectId, ref: 'Application'}
+        }
 
     },
     { timestamps: true }

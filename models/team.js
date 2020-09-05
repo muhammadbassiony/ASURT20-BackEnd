@@ -5,7 +5,7 @@ const teamSchema = new Schema(
     {
         name: {type: String, required: true},
         subteams: [{
-            name: {type: String, required: true}
+            name: {type: Schema.Types.ObjectId, ref: 'Subteam'}
         }]
 
     },
