@@ -6,7 +6,7 @@ const eventSchema = new Schema(
         team: { type: Schema.Types.ObjectId, ref: 'Team'},
         season: {
             type: String,
-            enum: ['20-21', '21-22','22-23', '23-24', '24-25'],
+            enum: ['20-21', '21-22','22-23', '23-24', '24-25'], //system should 100% be revamped by then
             required: true
         },
         eventActive: { type: Boolean, default: true},
@@ -18,7 +18,7 @@ const eventSchema = new Schema(
         startDate: { type: Date },
         endDate: { type: Date },
 
-        numApplicants: {type: Number, default: 0, max: 600},
+        numApplicants: {type: Number, default: 0},
         numAccepted: {type: Number, default: 0},
         numRejected: {type: Number, default: 0}
 
