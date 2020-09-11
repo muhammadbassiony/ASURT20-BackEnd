@@ -5,7 +5,7 @@ const teamController = require('../controllers/team');
 
 const router = express.Router();
 
-router.get('/teams', teamController.getAllTeams);
+router.get('/all-teams', teamController.getAllTeams);
 
 router.get('/:teamId', teamController.getTeam);
 

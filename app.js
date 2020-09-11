@@ -3,7 +3,8 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 
-const teamController = require('./routes/team');
+const teamRoutes = require('./routes/team');
+const userRoutes = require('./routes/user');
 
 const MONGODB_URI =
   'mongodb+srv://admin:admin@cluster0.9141m.mongodb.net/recruitment?retryWrites=true&w=majority';
@@ -21,7 +22,8 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use('/api/team', teamController);
+app.use('/api/team', teamRoutes);
+app.use('/api/user', userRoutes);
 
 
 app.use((error, req, res, next) => {

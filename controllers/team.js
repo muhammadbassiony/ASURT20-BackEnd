@@ -1,6 +1,5 @@
 const Team = require("../models/team");
 const Subteam = require('../models/subteam');
-const { Promise } = require("mongoose");
 
 exports.getAllTeams = (req, res, next) => {
     Team.find()
@@ -23,9 +22,9 @@ exports.getTeam = (req, res, next) => {
     Team.findById(teamId)
     .then(team => {
         if (!team) {
-        const error = new Error('Could not find team.');
-        error.statusCode = 404;
-        throw error;
+            const error = new Error('Could not find team.');
+            error.statusCode = 404;
+            throw error;
         }
         res.status(200).json({ message: 'Team fetched.', team: team });
     })
@@ -51,7 +50,7 @@ exports.addTeam = (req, res, next) => {
             message: "team added",
             team: result
         });
-        console.log(result);
+        // console.log(result);
     })
     .catch(err => {
         if (!err.statusCode) {
