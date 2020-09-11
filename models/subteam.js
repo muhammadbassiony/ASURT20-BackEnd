@@ -10,4 +10,4 @@ const subteamSchema = new Schema(
     { timestamps: true }
 );
 
-module.exports = mongoose.model('Subteam', subteamSchema);
+module.exports = mongoose.model('Subteam', subteamSchema, 'subteams');

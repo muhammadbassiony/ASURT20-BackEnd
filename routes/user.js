@@ -7,10 +7,18 @@ const router = express.Router();
 
 router.get('/all-users', userController.getAllUsers);
 
-router.get('/:userId', userController.getUser);
+router.get('/all-members', userController.getAllMembers);
 
 router.post('/add-user', userController.addNewUser);
 
+router.post('/add-member', userController.addMember);
+
+router.get('/get-member/:memberId', userController.getMember);
+
+router.get('/get-team-members/:teamId', userController.getTeamMembers);
+
+
+router.get('/:userId', userController.getUser);
 
 module.exports = router;
 

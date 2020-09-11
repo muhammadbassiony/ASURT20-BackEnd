@@ -7,11 +7,11 @@ const router = express.Router();
 
 router.get('/all-teams', teamController.getAllTeams);
 
-router.get('/:teamId', teamController.getTeam);
-
 router.post('/add-team', teamController.addTeam);
 
 router.post('/add-subteam/:teamId', teamController.addSubteam);
+
+router.get('/:teamId', teamController.getTeam);
 
 module.exports = router;
 
