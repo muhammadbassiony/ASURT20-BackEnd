@@ -9,6 +9,7 @@ const eventSchema = new Schema(
             enum: ['20-21', '21-22','22-23', '23-24', '24-25'], //system should 100% be revamped by then
             required: true
         },
+        
         eventActive: { type: Boolean, default: true},
 
         questions: [{

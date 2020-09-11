@@ -137,7 +137,7 @@ exports.getTeamMembers = (req, res, next) => {
 }
 
 exports.getAllMembers = (req, res, next) => {
-    console.log("memberssss\n\n");
+    // console.log("memberssss\n\n");
     Member.find()
     .populate('user')
     .populate('team')
@@ -158,9 +158,77 @@ exports.getAllMembers = (req, res, next) => {
 
 // exports.getHeads = (req, res, next) => {}
 
-exports.updateUser = (req, res, next) => {}
+exports.updateUser = (req, res, next) => {
+    const userId = req.params.userId;
+    const email = req.body.email;
+    const name = req.body.userName;
+    const password = req.body.password;
+
+    User.findById(userId)
+    .then(user => {
+        if(!user){
+            const error = new Error('Could not find user.');
+            error.statusCode = 404;
+            throw error;
+        }
+
+        user.email = email;
+        user.name = name;
+        user.password = password;
+
+        return user.save();
+    })
+    .then(user => {
+        res.status(200).json({
+            message: "user updated!",
+            user: user
+        });
+    })
+    .catch(err => {
+        if (!err.statusCode) {
+            err.statusCode = 500;
+        }
+        next(err);
+    });
+}
+
+exports.updateMember = (req, res, next) => {
+    const memberId = req.params.memberId;
+    const userId = req.body.userId;
+    const teamId = req.body.teamId;
+    const subteamId = req.body.subteamId;
+    const isHead = req.body.head;
+
+    Member.findById(memberId)
+    .then(member => {
+        if(!member){
+            const error = new Error('Could not find member.');
+            error.statusCode = 404;
+            throw error;
+        }
+
+        member.team = teamId;
+        member.subteam = subteamId;
+        member.head = isHead;
+        
+        return member.save();
+    })
+    .then(member => {
+        res.status(200).json({
+            message: "member updated!",
+            member: member
+        });
+    })
+    .catch(err => {
+        if (!err.statusCode) {
+            err.statusCode = 500;
+        }
+        next(err);
+    });
+}
 
 exports.deleteUser = (req, res, next) => {}
+
 
 
 

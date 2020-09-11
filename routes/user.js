@@ -17,6 +17,9 @@ router.get('/get-member/:memberId', userController.getMember);
 
 router.get('/get-team-members/:teamId', userController.getTeamMembers);
 
+router.put('/edit-user/:userId', userController.updateUser);
+
+router.put('/edit-member/:memberId', userController.updateMember);
 
 router.get('/:userId', userController.getUser);
 
