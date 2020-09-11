@@ -3,18 +3,18 @@ const Schema = mongoose.Schema;
 
 const eventSchema = new Schema(
     {
-        team: { type: Schema.Types.ObjectId, ref: 'Team'},
+        team: { type: Schema.Types.ObjectId, ref: 'Team', required: true},
         season: {
             type: String,
             enum: ['20-21', '21-22','22-23', '23-24', '24-25'], //system should 100% be revamped by then
             required: true
         },
-        
-        eventActive: { type: Boolean, default: true},
 
-        questions: [{
-            question: { type: String }
-        }],
+        eventActive: { type: Boolean, default: true },
+
+        questions: [{ type: String }],
+
+        activeSubteams: [{ type: Schema.Types.ObjectId, ref: 'Subteam'}],
 
         startDate: { type: Date },
         endDate: { type: Date },
