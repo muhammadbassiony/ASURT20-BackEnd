@@ -11,6 +11,12 @@ router.get('/get-event/:eventId', eventsController.getEvent);
 
 router.post('/add-event', eventsController.addNewEvent);
 
+router.put('/update-event/:eventId', eventsController.updateEvent);
+
+router.put('/edit-event-status/:eventId', eventsController.toggleEventStatus);
+
+router.put('/increment-event-applicants/:eventId', eventsController.incrementNumApplicants);
+
 module.exports = router;
 
 //put -> update

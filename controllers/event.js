@@ -79,10 +79,87 @@ exports.addNewEvent = (req, res, next) => {
     });
 }
 
-// exports.updateEvent = (req, res, next) => {}
+exports.updateEvent = (req, res, next) => {
+    const eventId = req.params.eventId;
 
-// exports.deleteEvent = (req, res, next) => {}
+    const teamId = req.body.teamId;
+    const season = req.body.season;
+    const eventActive = req.body.eventActive;
+    const questions = req.body.questions;
+    const subteams = req.body.subteams;
 
-// exports.toggleEventStatus = (req, res, next) => {}
+    Event.findById(eventId)
+    .then(event => {
+        if(!event){
+            const error = new Error('Could not find event');
+            error.statusCode = 404;
+            throw error;
+        }
 
-// exports.incrementNumApplicants = (req, res, next) => {}
+        event.team = teamId;
+        event.season = season;
+        event.eventActive = eventActive;
+        event.questions = questions;
+        event.activeSubteams = subteams;
+
+        return event.save();
+    })
+    .then(event => {
+        res.status(200).json({
+            message: 'event updated',
+            event: event
+        });
+    })
+    .catch(err => {
+        if (!err.statusCode) {
+            err.statusCode = 500;
+        }
+        next(err);
+    });
+}
+
+exports.toggleEventStatus = (req, res, next) => {
+    const eventId = req.params.eventId;
+
+    Event.findById(eventId)
+    .then(event => {
+        event.eventActive = !event.eventActive;
+        return event.save();
+    })
+    .then(event => {
+        res.status(200).json({
+            message: 'event status toggled',
+            event: event
+        });
+    })
+    .catch(err => {
+        if (!err.statusCode) {
+            err.statusCode = 500;
+        }
+        next(err);
+    });
+}
+
+exports.incrementNumApplicants = (req, res, next) => {
+    const eventId = req.params.eventId;
+
+    Event.findById(eventId)
+    .then(event => {
+        event.numApplicants += 1;
+        return event.save();
+    })
+    .then(event => {
+        res.status(200).json({
+            message: 'event incremented number of applicants!',
+            event: event
+        });
+    })
+    .catch(err => {
+        if (!err.statusCode) {
+            err.statusCode = 500;
+        }
+        next(err);
+    });
+}
+
+exports.deleteEvent = (req, res, next) => {}
