@@ -66,7 +66,8 @@ exports.addSubteam = (req, res, next) => {
     const teamId = req.params.teamId;
     const name = req.body.subteamName;
     const subteam = new Subteam({ 
-        name: name
+        name: name,
+        team: teamId
     });
 
     subteam.save()

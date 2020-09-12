@@ -27,7 +27,7 @@ app.use((req, res, next) => {
 app.use('/api/team', teamRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/event', eventRoutes);
-app.use('/api/apps', appsRoutes);
+app.use('/api/application', appsRoutes);
 
 
 app.use((error, req, res, next) => {
