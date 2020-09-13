@@ -2,6 +2,9 @@ const Application = require('../models/application');
 const Event = require('../models/event');
 // const Team = require('../models/team');
 // const Subteam = require('../models/subteam');
+const User = require('../models/user');
+
+const Email = require('./emails');
 
 exports.getAllApps = (req, res, next) => {
     Application.find()
@@ -230,5 +233,93 @@ exports.getUserEvents = (req, res, next) => {
 }
 
 exports.deleteApp = (req, res, next) => {
+    
+}
+
+//cannot send more than 500 emails in 1 day from a personal account!!
+// add validation 
+exports.sendAcceptedEmails = (req, res, next) => { 
+    const eventId = req.params.eventId;
+    const phase = req.body.phase;
+
+    emails = [];
+    countAccepted = 0;
+
+    Application.find({ event: eventId })
+    .populate('user')
+    .then(apps => {
+        apps.forEach(app => {
+            if(JSON.stringify(app.currentPhase) === JSON.stringify(phase) && 
+                    JSON.stringify(app.currentPhaseStatus) === JSON.stringify('ACCEPTED')){
+                emails.push(app.user.email);
+                countAccepted ++;
+            }
+        });
+
+        if(countAccepted >= 500){
+            const error = new Error('Exceeded the number of allowed emails per day!');
+            error.statusCode = 500;
+            throw error;
+        }
+
+        emails = emails.join(', ');
+        // console.log(emails);
+        return Email.sendMails(emails);
+    })
+    .then(result => {
+        res.status(200).json({
+            message: 'acceptance emails sent!'
+        });
+    })
+    .catch(err => {
+        if (!err.statusCode) {
+            err.statusCode = 500;
+        }
+        next(err);
+    }); 
+}
+
+exports.sendRejectedEmails = (req, res, next) => { 
+    const eventId = req.params.eventId;
+    const phase = req.body.phase;
+
+    emails = [];
+    countRejected = 0;
+
+    Application.find({ event: eventId })
+    .populate('user')
+    .then(apps => {
+        apps.forEach(app => {
+            if(JSON.stringify(app.currentPhase) === JSON.stringify(phase) && 
+                    JSON.stringify(app.currentPhaseStatus) !== JSON.stringify('ACCEPTED')){
+                emails.push(app.user.email);
+                countRejected ++;
+            }
+        });
+
+        if(countRejected >= 500){
+            const error = new Error('Exceeded the number of allowed emails per day!');
+            error.statusCode = 500;
+            throw error;
+        }
+
+        emails = emails.join(', ');
+        // console.log(emails);
+        return Email.sendMails(emails);
+    })
+    .then(result => {
+        res.status(200).json({
+            message: 'rejection emails sent!'
+        });
+    })
+    .catch(err => {
+        if (!err.statusCode) {
+            err.statusCode = 500;
+        }
+        next(err);
+    }); 
+}
+
+exports.exportCsv = (req, res, next) => {
     
 }

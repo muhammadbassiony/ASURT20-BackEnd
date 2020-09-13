@@ -3,6 +3,8 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 
+const multer = require('multer');
+
 const teamRoutes = require('./routes/team');
 const userRoutes = require('./routes/user');
 const eventRoutes = require('./routes/event');

@@ -227,6 +227,13 @@ exports.updateMember = (req, res, next) => {
     });
 }
 
+
+exports.addUserInfo = (req, res, next) => {
+    // const userId = req.params.userId;
+    Email.sendMails();
+
+}
+
 exports.deleteUser = (req, res, next) => {}
 
 

@@ -22,4 +22,8 @@ router.put('/update-app/:appId', applicationsController.updateApp);
 
 router.get('/user-event-apps/:userId', applicationsController.getUserEvents);
 
+router.post('/send-acc-mails/:eventId', applicationsController.sendAcceptedEmails);
+
+router.post('/send-rej-mails/:eventId', applicationsController.sendRejectedEmails);
+
 module.exports = router;
