@@ -17,7 +17,7 @@ const interviewSchema = new Schema(
                 enum: ['SCHEDULED', 'DONE', 'BOOKED', 'MISSED'],
                 default: 'SCHEDULED'
             },
-            application: { type: Schema.Types.ObjectId, ref: 'Application'}
+            application: { type: Schema.Types.ObjectId, ref: 'Application' }
         }
 
     },

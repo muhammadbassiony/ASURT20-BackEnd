@@ -7,6 +7,7 @@ const teamRoutes = require('./routes/team');
 const userRoutes = require('./routes/user');
 const eventRoutes = require('./routes/event');
 const appsRoutes = require('./routes/application');
+const interviewRoutes = require('./routes/interview');
 
 const MONGODB_URI =
   'mongodb+srv://admin:admin@cluster0.9141m.mongodb.net/recruitment?retryWrites=true&w=majority';
@@ -28,6 +29,7 @@ app.use('/api/team', teamRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/event', eventRoutes);
 app.use('/api/application', appsRoutes);
+app.use('/api/interview', interviewRoutes);
 
 
 app.use((error, req, res, next) => {

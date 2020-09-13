@@ -229,4 +229,6 @@ exports.getUserEvents = (req, res, next) => {
     }); 
 }
 
-exports.deleteApp = (req, res, next) => {}
+exports.deleteApp = (req, res, next) => {
+    
+}
