@@ -21,7 +21,9 @@ const eventSchema = new Schema(
 
         numApplicants: {type: Number, default: 0},
         numAccepted: {type: Number, default: 0},
-        numRejected: {type: Number, default: 0}
+        numRejected: {type: Number, default: 0},
+        numPendAcc: {type: Number, default: 0},
+        numPendRej: {type: Number, default: 0}
 
     },
     { timestamps: true }

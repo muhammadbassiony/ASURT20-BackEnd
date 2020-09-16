@@ -17,6 +17,9 @@ const MONGODB_URI =
 const app = express();
 
 app.use(bodyParser.json()); 
+// app.use(bodyParser.urlencoded({ extended: false }));
+app.use("/cvs", express.static(path.join(__dirname, "cvs")));
+
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader(

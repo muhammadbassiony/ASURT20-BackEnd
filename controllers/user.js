@@ -229,8 +229,54 @@ exports.updateMember = (req, res, next) => {
 
 
 exports.addUserInfo = (req, res, next) => {
-    // const userId = req.params.userId;
-    Email.sendMails();
+    const userId = req.params.userId;
+    
+    const email = req.body.email;
+    const name = req.body.userName;
+    const password = req.body.password;
+
+    const university = req.body.university;
+    const mobile = req.body.mobile;
+    const birthdate = req.body.birthdate;
+    const department = req.body.department;
+    const credit = req.body.credit;
+    const graduationYear = req.body.graduationYear;
+    const collegeId = req.body.collegeId;
+
+    User.findById(userId)
+    .then(user => {
+        if(!user){
+            const error = new Error('Could not find user.');
+            error.statusCode = 404;
+            throw error;
+        }
+
+        user.email = email;
+        user.name = name;
+        user.password = password;
+
+        user.university = university;
+        user.mobile = mobile;
+        user.birthdate = birthdate;
+        user.department = department;
+        user.credit = credit;
+        user.graduationYear = graduationYear;
+        user.collegeId = collegeId;
+
+        return user.save();
+    })
+    .then(user => {
+        res.status(200).json({
+            message: "user updated!",
+            user: user
+        });
+    })
+    .catch(err => {
+        if (!err.statusCode) {
+            err.statusCode = 500;
+        }
+        next(err);
+    });
 
 }
 

@@ -25,7 +25,12 @@ const applicationSchema = new Schema(
             type: String,
             enum: ['PENDING', 'ACCEPTED', 'REJECTED', 'PENDING_ACCEPTANCE', 'PENDING_REJECTION'],
             default: 'PENDING'
-        }
+        },
+        season: {
+            type: String,
+            enum: ['20-21', '21-22','22-23', '23-24', '24-25'], 
+            default: '20-21'
+        },
 
     },
     { timestamps: true }

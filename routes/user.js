@@ -21,9 +21,9 @@ router.put('/edit-user/:userId', userController.updateUser);
 
 router.put('/edit-member/:memberId', userController.updateMember);
 
-router.put('/sumbit-user-info', userController.addUserInfo);
+router.put('/sumbit-user-info/:userId', userController.addUserInfo);
 
-router.get('/:userId', userController.getUser);
+router.get('get-user/:userId', userController.getUser);
 
 module.exports = router;
 

@@ -162,4 +162,92 @@ exports.incrementNumApplicants = (req, res, next) => {
     });
 }
 
+exports.incrementNumAccepted = (req, res, next) => {
+    const eventId = req.params.eventId;
+
+    Event.findById(eventId)
+    .then(event => {
+        event.numAccepted += 1;
+        return event.save();
+    })
+    .then(event => {
+        res.status(200).json({
+            message: 'event incremented number of accepted!',
+            event: event
+        });
+    })
+    .catch(err => {
+        if (!err.statusCode) {
+            err.statusCode = 500;
+        }
+        next(err);
+    });
+}
+
+exports.incrementNumRejected = (req, res, next) => {
+    const eventId = req.params.eventId;
+
+    Event.findById(eventId)
+    .then(event => {
+        event.numRejected += 1;
+        return event.save();
+    })
+    .then(event => {
+        res.status(200).json({
+            message: 'event incremented number of rejected!',
+            event: event
+        });
+    })
+    .catch(err => {
+        if (!err.statusCode) {
+            err.statusCode = 500;
+        }
+        next(err);
+    });
+}
+
+exports.incrementNumPendAcc = (req, res, next) => {
+    const eventId = req.params.eventId;
+
+    Event.findById(eventId)
+    .then(event => {
+        event.numPendAcc += 1;
+        return event.save();
+    })
+    .then(event => {
+        res.status(200).json({
+            message: 'event incremented number of pending acc!',
+            event: event
+        });
+    })
+    .catch(err => {
+        if (!err.statusCode) {
+            err.statusCode = 500;
+        }
+        next(err);
+    });
+}
+
+exports.incrementNumPendRej = (req, res, next) => {
+    const eventId = req.params.eventId;
+
+    Event.findById(eventId)
+    .then(event => {
+        event.numPendRej += 1;
+        return event.save();
+    })
+    .then(event => {
+        res.status(200).json({
+            message: 'event incremented number of pending rejection!',
+            event: event
+        });
+    })
+    .catch(err => {
+        if (!err.statusCode) {
+            err.statusCode = 500;
+        }
+        next(err);
+    });
+}
+
 exports.deleteEvent = (req, res, next) => {}
