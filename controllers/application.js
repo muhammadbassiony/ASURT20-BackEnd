@@ -58,6 +58,7 @@ exports.getApp = (req, res, next) => {
     });
 }
 
+//adjust function to receive form data not json
 exports.newApp = (req, res, next) => {
     const url = req.protocol + "://" + req.get("host");
 
