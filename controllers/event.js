@@ -2,6 +2,8 @@ const Event = require('../models/event');
 const Team = require('../models/team');
 const Subteam = require('../models/subteam');
 
+const mongoose = require('mongoose');
+
 exports.getAllEvents = (req, res, next) => {
     Event.find()
     .then(events => {
@@ -42,7 +44,7 @@ exports.getEvent = (req, res, next) => {
 }
 
 exports.addNewEvent = (req, res, next) => {
-    const teamId = req.body.teamId;
+    const teamId = mongoose.Types.ObjectId(req.body.teamId);
     const season = req.body.season;
     const eventActive = req.body.eventActive;
     const questions = req.body.questions;
@@ -82,7 +84,7 @@ exports.addNewEvent = (req, res, next) => {
 exports.updateEvent = (req, res, next) => {
     const eventId = req.params.eventId;
 
-    const teamId = req.body.teamId;
+    const teamId = mongoose.Types.ObjectId(req.body.teamId);
     const season = req.body.season;
     const eventActive = req.body.eventActive;
     const questions = req.body.questions;

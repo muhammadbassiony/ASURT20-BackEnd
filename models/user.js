@@ -11,6 +11,11 @@ const userSchema = new Schema(
         mobile: { type: String, maxlength: 13 },
         birthDate: { type: Date },
         nationalId: { type: String, maxlength: 20 },
+        gender: {
+            type: String,
+            enum: ['MALE', 'FEMALE', 'NA'],
+            default: 'NA'
+        },
 
         university: { type: String, maxlength: 40 },
         faculty: { type: String, maxlength: 50 },

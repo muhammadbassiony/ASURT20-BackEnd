@@ -1,6 +1,8 @@
 const Team = require("../models/team");
 const Subteam = require('../models/subteam');
 
+const mongoose = require('mongoose');
+
 exports.getAllTeams = (req, res, next) => {
     Team.find()
     .populate('subteams')
@@ -20,6 +22,7 @@ exports.getAllTeams = (req, res, next) => {
 
 exports.getTeam = (req, res, next) => {
     const teamId = req.params.teamId;
+
     Team.findById(teamId)
     .populate('subteams')
     .then(team => {
@@ -63,7 +66,7 @@ exports.addTeam = (req, res, next) => {
 }
 
 exports.addSubteam = (req, res, next) => {
-    const teamId = req.params.teamId;
+    const teamId = mongoose.Types.ObjectId(req.params.teamId);
     const name = req.body.subteamName;
     const subteam = new Subteam({ 
         name: name,

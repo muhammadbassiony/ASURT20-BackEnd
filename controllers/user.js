@@ -237,8 +237,10 @@ exports.addUserInfo = (req, res, next) => {
 
     const university = req.body.university;
     const mobile = req.body.mobile;
-    const birthdate = req.body.birthdate;
+    const gender = req.body.gender;
+    const birthdate = new Date(req.body.birthdate);
     const department = req.body.department;
+    const faculty = req.body.faculty;
     const credit = req.body.credit;
     const graduationYear = req.body.graduationYear;
     const collegeId = req.body.collegeId;
@@ -257,8 +259,10 @@ exports.addUserInfo = (req, res, next) => {
 
         user.university = university;
         user.mobile = mobile;
-        user.birthdate = birthdate;
+        user.gender = gender;
+        user.birthDate = birthdate;
         user.department = department;
+        user.faculty = faculty;
         user.credit = credit;
         user.graduationYear = graduationYear;
         user.collegeId = collegeId;

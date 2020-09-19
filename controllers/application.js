@@ -1,6 +1,8 @@
 const Application = require('../models/application');
 const Event = require('../models/event');
 
+const mongoose = require('mongoose');
+
 const fs = require('fs');
 const path = require('path')
 
@@ -62,10 +64,10 @@ exports.getApp = (req, res, next) => {
 exports.newApp = (req, res, next) => {
     const url = req.protocol + "://" + req.get("host");
 
-    const user = req.body.userId;
-    const event = req.body.eventId;
-    const selSubteam1 = req.body.selectedSubteam1;
-    const selSubteam2 = req.body.selectedSubteam2;
+    const user = mongoose.Types.ObjectId(req.body.userId);
+    const event = mongoose.Types.ObjectId(req.body.eventId);
+    const selSubteam1 = mongoose.Types.ObjectId(req.body.selectedSubteam1);
+    const selSubteam2 = mongoose.Types.ObjectId(req.body.selectedSubteam2);
     const cvPath = url + "/cvs/" + req.file.filename;
     const userAnswers = req.body.userAnswers;
 
@@ -174,10 +176,10 @@ exports.getSubteamApps = (req, res, next) => {
 exports.updateApp = (req, res, next) => {
     const appId = req.params.appId;
 
-    const user = req.body.userId;
-    const event = req.body.eventId;
-    const selSubteam1 = req.body.selectedSubteam1;
-    const selSubteam2 = req.body.selectedSubteam2;
+    const user = mongoose.Types.ObjectId(req.body.userId);
+    const event = mongoose.Types.ObjectId(req.body.eventId);
+    const selSubteam1 = mongoose.Types.ObjectId(req.body.selectedSubteam1);
+    const selSubteam2 = mongoose.Types.ObjectId(req.body.selectedSubteam2);
     const cvPath = req.body.cvPath;
     const userAnswers = req.body.userAnswers;
     const currentPhase = req.body.currentPhase;
