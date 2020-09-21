@@ -125,6 +125,12 @@ exports.toggleEventStatus = (req, res, next) => {
 
     Event.findById(eventId)
     .then(event => {
+        if(!event){
+            const error = new Error('Could not find event');
+            error.statusCode = 404;
+            throw error;
+        }
+
         event.eventActive = !event.eventActive;
         return event.save();
     })
@@ -147,6 +153,12 @@ exports.incrementNumApplicants = (req, res, next) => {
 
     Event.findById(eventId)
     .then(event => {
+        if(!event){
+            const error = new Error('Could not find event');
+            error.statusCode = 404;
+            throw error;
+        }
+
         event.numApplicants += 1;
         return event.save();
     })
@@ -169,6 +181,12 @@ exports.incrementNumAccepted = (req, res, next) => {
 
     Event.findById(eventId)
     .then(event => {
+        if(!event){
+            const error = new Error('Could not find event');
+            error.statusCode = 404;
+            throw error;
+        }
+
         event.numAccepted += 1;
         return event.save();
     })
@@ -191,6 +209,12 @@ exports.incrementNumRejected = (req, res, next) => {
 
     Event.findById(eventId)
     .then(event => {
+        if(!event){
+            const error = new Error('Could not find event');
+            error.statusCode = 404;
+            throw error;
+        }
+
         event.numRejected += 1;
         return event.save();
     })
@@ -213,6 +237,12 @@ exports.incrementNumPendAcc = (req, res, next) => {
 
     Event.findById(eventId)
     .then(event => {
+        if(!event){
+            const error = new Error('Could not find event');
+            error.statusCode = 404;
+            throw error;
+        }
+
         event.numPendAcc += 1;
         return event.save();
     })
@@ -235,6 +265,12 @@ exports.incrementNumPendRej = (req, res, next) => {
 
     Event.findById(eventId)
     .then(event => {
+        if(!event){
+            const error = new Error('Could not find event');
+            error.statusCode = 404;
+            throw error;
+        }
+        
         event.numPendRej += 1;
         return event.save();
     })
