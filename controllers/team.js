@@ -32,7 +32,10 @@ exports.getTeam = (req, res, next) => {
             error.statusCode = 404;
             throw error;
         }
-        res.status(200).json({ message: 'Team fetched.', team: team });
+        res.status(200).json({ 
+            message: 'Team fetched.', 
+            team: team 
+        });
     })
     .catch(err => {
         if (!err.statusCode) {

@@ -88,7 +88,7 @@ exports.updateEvent = (req, res, next) => {
     const season = req.body.season;
     const eventActive = req.body.eventActive;
     const questions = req.body.questions;
-    const subteams = req.body.subteams;
+    const activeSubteams = req.body.activeSubteams;
 
     Event.findById(eventId)
     .then(event => {
@@ -102,7 +102,7 @@ exports.updateEvent = (req, res, next) => {
         event.season = season;
         event.eventActive = eventActive;
         event.questions = questions;
-        event.activeSubteams = subteams;
+        event.activeSubteams = activeSubteams;
 
         return event.save();
     })
