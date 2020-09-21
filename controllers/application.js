@@ -253,8 +253,6 @@ exports.getUserEvents = (req, res, next) => {
     }); 
 }
 
-exports.deleteApp = (req, res, next) => { }
-
 //cannot send more than 500 emails in 1 day from a personal account!!
 // add validation 
 exports.sendAcceptedEmails = (req, res, next) => { 
@@ -406,3 +404,7 @@ exports.exportCsv = (req, res, next) => {
         next(err);
     });    
 }
+
+
+
+exports.deleteApp = (req, res, next) => { }

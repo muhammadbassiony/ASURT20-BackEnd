@@ -13,3 +13,5 @@ const memberSchema = new Schema(
 );
 
 module.exports = mongoose.model('Member', memberSchema);
+
+// TODO :: add adminstrator schema for ihub members?
