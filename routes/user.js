@@ -7,6 +7,8 @@ const router = express.Router();
 
 router.get('/all-users', userController.getAllUsers);
 
+router.get('/get-user/:userId', userController.getUser);
+
 router.get('/all-members', userController.getAllMembers);
 
 router.post('/add-user', userController.addNewUser);
@@ -23,7 +25,9 @@ router.put('/edit-member/:memberId', userController.updateMember);
 
 router.put('/sumbit-user-info/:userId', userController.addUserInfo);
 
-router.get('get-user/:userId', userController.getUser);
+router.delete('/delete-user/:userId', userController.deleteUser);
+
+router.delete('/delete-member/:meberId', userController.deleteMember);
 
 module.exports = router;
 

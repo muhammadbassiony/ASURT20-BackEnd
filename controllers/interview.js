@@ -165,7 +165,7 @@ exports.deleteInterview = (req, res, next) => {
     const ivId = req.params.ivId;
 
     Interview.findById(ivId)
-    .populate('extendedProps.application')
+    // .populate('extendedProps.application')
     .then(iv => {
         if(!iv){
             const error = new Error('Could not find interview');

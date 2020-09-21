@@ -245,6 +245,10 @@ exports.addUserInfo = (req, res, next) => {
     const graduationYear = req.body.graduationYear;
     const collegeId = req.body.collegeId;
 
+    const emergencyContact_name = req.body.emergencyContact_name;
+    const emergencyContact_relation = req.body.emergencyContact_relation;
+    const emergencyContact_mobile = req.body.emergencyContact_mobile 
+
     User.findById(userId)
     .then(user => {
         if(!user){
@@ -267,6 +271,10 @@ exports.addUserInfo = (req, res, next) => {
         user.graduationYear = graduationYear;
         user.collegeId = collegeId;
 
+        user.emergencyContact_name = emergencyContact_name;
+        user.emergencyContact_mobile = emergencyContact_mobile;
+        user.emergencyContact_relation = emergencyContact_relation;
+
         return user.save();
     })
     .then(user => {
@@ -284,8 +292,57 @@ exports.addUserInfo = (req, res, next) => {
 
 }
 
-exports.deleteUser = (req, res, next) => {}
+exports.deleteUser = (req, res, next) => {
+    const userId = req.params.userId;
 
+    User.findById(userId)
+    .then(user => {
+        if(!user){
+            const error = new Error('Could not find user.');
+            error.statusCode = 404;
+            throw error;
+        }
+
+        return User.findByIdAndDelete(userId);
+    })
+    .then(res => {
+        res.status(200).json({
+            message: "user deleted!"
+        });
+    })
+    .catch(err => {
+        if (!err.statusCode) {
+            err.statusCode = 500;
+        }
+        next(err);
+    });
+}
+
+exports.deleteMember = (req, res, next) => {
+    const memberId = req.params.memberId;
+    
+    Member.findById(memberId)
+    .then(member => {
+        if(!member){
+            const error = new Error('Could not find member.');
+            error.statusCode = 404;
+            throw error;
+        }
+
+        return Member.findByIdAndDelete(memberId);
+    })
+    .then(res => {
+        res.status(200).json({
+            message: "member deleted!"
+        });
+    })
+    .catch(err => {
+        if (!err.statusCode) {
+            err.statusCode = 500;
+        }
+        next(err);
+    });
+}
 
 
 
