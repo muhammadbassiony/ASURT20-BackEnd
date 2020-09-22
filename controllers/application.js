@@ -122,7 +122,7 @@ exports.getUserApps = (req, res, next) => {
 }
 
 exports.getEventApps = (req, res, next) => {
-    const eventId = req.params.eventId;
+    const eventId = mongoose.Types.ObjectId(req.params.eventId);
 
     Application.find({ event: eventId })
     .populate('user')
@@ -148,7 +148,7 @@ exports.getEventApps = (req, res, next) => {
 }
 
 exports.getSubteamApps = (req, res, next) => {
-    const subteamId = req.params.subteamId;
+    const subteamId = mongoose.Types.ObjectId(req.params.subteamId);
 
     Application.find({ $or: [{ selSubteam1: subteamId }, { selSubteam2: subteamId }] })
     .populate('user')
@@ -385,18 +385,12 @@ exports.exportCsv = (req, res, next) => {
         fs.writeFile(filePath, csv, function(err) {
             if (err) throw err;
             res.status(200).json({
-                message: 'created excel file'
-                // applications: apps  //send file here
+                message: 'created excel file',
+                csvPath: filePath
             });
         });
 
     })
-    // .then(apps => {
-    //     res.status(200).json({
-    //         message: 'apps fetched',
-    //         applications: apps  //send file here
-    //     });
-    // })
     .catch(err => {
         if (!err.statusCode) {
             err.statusCode = 500;

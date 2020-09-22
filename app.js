@@ -19,6 +19,7 @@ const app = express();
 app.use(bodyParser.json()); 
 // app.use(bodyParser.urlencoded({ extended: false }));
 app.use("/cvs", express.static(path.join(__dirname, "cvs")));
+app.use("/excel-files", express.static(path.join(__dirname, "excel-files")));
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -36,6 +37,7 @@ app.use('/api/event', eventRoutes);
 app.use('/api/application', appsRoutes);
 app.use('/api/interview', interviewRoutes);
 
+// TODO :: set global this.currentSeason for all app
 
 app.use((error, req, res, next) => {
   console.log(error);

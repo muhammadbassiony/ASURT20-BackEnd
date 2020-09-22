@@ -10,7 +10,7 @@ const router = express.Router();
 
 router.post('/add-new-app', extractCv, applicationsController.newApp);
 
-router.get('/all-apps', applicationsController.getAllApps);
+router.get('/all-apps', applicationsController.getAllApps); //why? - not implemented in front end
 
 router.get('/get-app/:appId', applicationsController.getApp);
 

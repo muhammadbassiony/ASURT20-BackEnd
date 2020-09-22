@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 
 exports.getAllEvents = (req, res, next) => {
     Event.find()
+    .populate('team', '-subteams')
     .then(events => {
         res.status(200).json({
             message: 'all events fetched',
