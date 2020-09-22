@@ -24,6 +24,7 @@ exports.getAllEvents = (req, res, next) => {
 exports.getEvent = (req, res, next) => {
     const eventId = req.params.eventId;
     Event.findById(eventId)
+    .populate('team')
     .then(event => {
         if(!event){
             const error = new Error('Could not find event');

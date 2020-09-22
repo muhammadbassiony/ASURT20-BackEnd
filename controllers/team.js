@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 exports.getAllTeams = (req, res, next) => {
     // Team.find({}, '-createdAt -__v -updatedAt')
     Team.find()
-    // .populate('subteams')
+    .populate('subteams')
     .then(teams => {
         res.status(200).json({
             message: 'all teams fetched',

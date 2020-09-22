@@ -37,7 +37,7 @@ exports.getApp = (req, res, next) => {
 
     Application.findById(appId)
     .populate('user')
-    .populate('event')
+    .populate({path: 'event', populate: {path: 'team', model: 'Team'}})
     .populate('selSubteam1')
     .populate('selSubteam2')
     .then(app => {
@@ -122,16 +122,17 @@ exports.getUserApps = (req, res, next) => {
 }
 
 exports.getEventApps = (req, res, next) => {
-    const eventId = mongoose.Types.ObjectId(req.params.eventId);
+    const eventId = req.params.eventId;
+    // const eventId = mongoose.Types.ObjectId(req.params.eventId);
 
     Application.find({ event: eventId })
     .populate('user')
-    .populate('event')
-    .populate('selSubteam1')
-    .populate('selSubteam2')
+    // .populate('event', '_id season team')
+    .populate('selSubteam1', '_id name')
+    .populate('selSubteam2', '_id name')
     .then(apps => {
         return apps.filter(app => 
-            JSON.stringify(app.event.season) === JSON.stringify(currentSeason));
+            JSON.stringify(app.season) === JSON.stringify(currentSeason));
     })
     .then(apps => {
         res.status(200).json({
