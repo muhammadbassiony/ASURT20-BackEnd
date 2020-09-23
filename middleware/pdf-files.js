@@ -10,12 +10,13 @@ const storage = multer.diskStorage({
       cb(error, "cvs");
     },
     filename: (req, file, cb) => {
+      const userId = req.body.userId;
       const name = file.originalname
         .toLowerCase()
         .split(" ")
         .join("-");
       const ext = 'pdf';
-      cb(null, name + "-" + Date.now() + "." + ext);
+      cb(null, name + "-" + userId + "." + ext);
     }
 });
   

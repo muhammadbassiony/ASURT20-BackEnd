@@ -1,5 +1,6 @@
 const Application = require('../models/application');
 const Event = require('../models/event');
+// const fs = require('fs'); 
 
 const mongoose = require('mongoose');
 
@@ -69,7 +70,8 @@ exports.newApp = (req, res, next) => {
     const selSubteam1 = mongoose.Types.ObjectId(req.body.selectedSubteam1);
     const selSubteam2 = mongoose.Types.ObjectId(req.body.selectedSubteam2);
     const cvPath = url + "/cvs/" + req.file.filename;
-    const userAnswers = req.body.userAnswers;
+    const userAnswers = JSON.parse(req.body.userAnswers);
+    // console.log("/cvs/" + req.file.filename, '\n\n\n');
 
     const app = new Application({
         user: user,
@@ -78,13 +80,28 @@ exports.newApp = (req, res, next) => {
         selSubteam2: selSubteam2,
         cvPath: cvPath,
         userAnswers: userAnswers
-    })
-    .save()
+    });
+
+    // .save()
+    Application.find({ user: user })
+        .then(res => {
+            res.forEach(a => {
+                if(a.event.team == event.team && a.event.season == currentSeason){
+                    fs.unlink("cvs/" + req.file.filename, (err) => {});
+                    const error = new Error('User has already applied to this event!');
+                    error.statusCode = 404;
+                    throw error;
+                }
+            });
+
+            return app.save();
+        })
     .then(app => {
         res.status(201).json({
             message: 'app created',
             application: app
-        });
+        });  
+        
     })
     .catch(err => {
         if (!err.statusCode) {
@@ -100,7 +117,8 @@ exports.getUserApps = (req, res, next) => {
 
     Application.find({ user: userId })
     .populate('user')
-    .populate('event')
+    // .populate('event')
+    .populate({path: 'event', populate: {path: 'team', model: 'Team'}})
     .populate('selSubteam1')
     .populate('selSubteam2')
     .then(apps => {
@@ -223,17 +241,19 @@ exports.getUserEvents = (req, res, next) => {
     const user = req.params.userId;
     
     Application.find({ user: user })
+    .populate({path: 'event', populate: {path: 'team', model: 'Team'}})
     .then(userApps => {
 
         userEvents = [];
         userApps.forEach(e => userEvents.push(e.event));
-        console.log('evss:: ', userEvents);
+        // console.log('evss:: ', userEvents);
 
-        return Event.find({ _id: { $in: userEvents } });
+        return Event.find({ _id: { $in: userEvents } }).populate('team');
     })
     .then(userEvents => {
         // console.log('usersss::', userEvents);
         Event.find()
+        .populate('team')
         .then(allEvents => {
             let difference = allEvents.filter(ev => {
                 return userEvents.some(e => JSON.stringify(e._id) !== JSON.stringify(ev._id) );
@@ -255,6 +275,7 @@ exports.getUserEvents = (req, res, next) => {
 }
 
 //cannot send more than 500 emails in 1 day from a personal account!!
+
 // add validation 
 exports.sendAcceptedEmails = (req, res, next) => { 
     const eventId = req.params.eventId;
