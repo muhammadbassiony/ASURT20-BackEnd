@@ -379,14 +379,14 @@ const fields = [
     { label: 'Faculty', value: 'user.faculty' },
     { label: 'department', value: 'user.departmed' },
     {  label: 'Grad Year', value: 'user.graduationYear'  },
-    { label: 'Credit',  value: 'user.mobile' },
+    { label: 'Credit',  value: 'user.credit' },
     { label: 'Choice 1', value: 'selSubteam1.name' },
     { label: 'Choice 2',  value: 'selSubteam2.name' },
     { label: 'User Id', value: 'user._id' },
     { label: 'App Id', value: '_id' }
 ];
 const transforms = [unwind({ paths: ['user', 'selSubteam1', 'selSubteam2'], blankOut: true })];
-const json2csvParser = new Parser({ fields, transforms });
+const json2csvParser = new Parser({ fields, transforms , excelStrings: true});
 
 exports.exportCsv = (req, res, next) => {
     const eventId = req.params.eventId;
@@ -400,16 +400,18 @@ exports.exportCsv = (req, res, next) => {
             JSON.stringify(app.season) === JSON.stringify(currentSeason));
     })
     .then(apps => {
-        const filePath = path.join(__dirname, "../excel-files", eventId + "-query.csv");
+        const filePath = path.join(__dirname, "../excel-files", 
+            eventId + "-" + Date.now() + "-query.csv");
         
         const csv = json2csvParser.parse(apps);
 
         fs.writeFile(filePath, csv, function(err) {
             if (err) throw err;
-            res.status(200).json({
-                message: 'created excel file',
-                csvPath: filePath
-            });
+            // res.status(200).json({
+            //     message: 'created excel file',
+            //     csvPath: filePath
+            // });
+            res.sendFile(filePath);
         });
 
     })
