@@ -9,6 +9,8 @@ router.post('/add-new-intrv', interviewsController.newInterview);
 
 router.get('/all-intrvs', interviewsController.getAllInterviews);
 
+router.get('/event-intrvs/:eventId', interviewsController.getEventInterviews);
+
 router.get('/get-intrv/:ivId', interviewsController.getInterview);
 
 router.get('/free-dates', interviewsController.getAvailableDates);

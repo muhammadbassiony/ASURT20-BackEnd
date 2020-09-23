@@ -1,5 +1,6 @@
 const Interview = require('../models/interview');
 const mongoose = require("mongoose");
+const { updateEvent } = require('./event');
 
 getBckClr = (status) => {
     if(JSON.stringify(status) === JSON.stringify('SCHEDULED')){
@@ -24,6 +25,33 @@ exports.getAllInterviews = (req, res, next) => {
         res.status(200).json({
             message: 'fetched all interviews',
             interviews: allIntrvs
+        });
+    })
+    .catch(err => {
+        if (!err.statusCode) {
+            err.statusCode = 500;
+        }
+        next(err);
+    });  
+}
+
+exports.getEventInterviews = (req, res, next) => {
+    const eventId = req.params.eventId;
+
+    let eventIvs = [];
+
+    Interview.find()
+    .populate('extendedProps.application')
+    .then(allIntrvs => {
+        allIntrvs.forEach(iv => {
+            if(iv.extendedProps.event == eventId){
+                eventIvs.push(iv);
+            }
+        });
+
+        res.status(200).json({
+            message: 'fetched all interviews',
+            interviews: eventIvs
         });
     })
     .catch(err => {
@@ -63,20 +91,28 @@ exports.newInterview = (req, res, next) => {
     const end = req.body.end;
     const title = req.body.title;
     const url = req.body.url;
-    const backgroundColor = req.body.backgroundColor;
+    // const backgroundColor = req.body.backgroundColor;
+    const backgroundColor = getBckClr('SCHEDULED');
+    const eventId = req.body.eventId;
+    // const extendedProps = {};
 
     const intrv = new Interview({
         start: start,
         end: end,
         title: title,
         url: url,
-        backgroundColor: backgroundColor
+        backgroundColor: backgroundColor,
+        extendedProps: { event: eventId } 
     })
     .save()
     .then(intrv => {
+        intrv.url = '/interview/' + intrv._id;
+        return intrv.save();
+    })
+    .then(iv => {
         res.status(201).json({
             message: 'new interview created!',
-            interview: intrv
+            interview: iv
         });
     })
     .catch(err => {
