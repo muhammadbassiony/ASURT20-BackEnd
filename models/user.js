@@ -7,6 +7,8 @@ const userSchema = new Schema(
 
         email: { type: String, required: true, maxlength: 256 },
         password: { type: String, required: true },
+
+        member: { type: Schema.Types.ObjectId, ref: 'Member'},
         
         mobile: { type: String, maxlength: 13 },
         birthDate: { type: Date },

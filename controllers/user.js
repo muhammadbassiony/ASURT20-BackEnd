@@ -1,5 +1,6 @@
 const User = require('../models/user');
 const Member = require('../models/member');
+const anymatch = require('anymatch');
 
 exports.getAllUsers = (req, res, next) => {
     User.find()
@@ -70,14 +71,35 @@ exports.addMember = (req, res, next) => {
     const subteamId = req.body.subteamId;
     const isHead = req.body.head;
 
+    let currentUser;
+    let createdMember;
+
     const member = new Member({
         user: userId,
         team: teamId,
         subteam: subteamId,
         head: isHead
+    });
+
+    User.findById(userId)
+    .then(user => {
+        if(!user){
+            const error = new Error('Could not find user.');
+            error.statusCode = 404;
+            throw error;
+        }
+
+        currentUser = user;
+
+        return member.save();
     })
-    .save()
     .then(member => {
+        createdMember = member;
+        currentUser.member = member._id;
+
+        return currentUser.save();        
+    })
+    .then(user => {
         res.status(201).json({
             message: 'member created',
             member: member
@@ -93,6 +115,7 @@ exports.addMember = (req, res, next) => {
 
 exports.getMember = (req, res, next) => {
     const memberId = req.params.memberId;
+
     Member.findById(memberId)
     .populate('user')
     .populate('team')
@@ -118,6 +141,7 @@ exports.getMember = (req, res, next) => {
 
 exports.getTeamMembers = (req, res, next) => {
     const teamId = req.params.teamId;
+
     Member.find({ team: teamId })
     .populate('user')
     .populate('team')
