@@ -3,16 +3,17 @@ const mongoose = require("mongoose");
 
 
 getBckClr = (status) => {
-    if(JSON.stringify(status) === JSON.stringify('SCHEDULED')){
+    // console.log('BckColor :: ', status, JSON.stringify('SCHEDULED'));
+    if(status === JSON.stringify('SCHEDULED')){
         return "#3562bd";
     }
-    if(JSON.stringify(status) === JSON.stringify('DONE')){
+    if(status === JSON.stringify('DONE')){
         return "#00d92b";
     }
-    if(JSON.stringify(status) === JSON.stringify('BOOKED')){
+    if(status === JSON.stringify('BOOKED')){
         return "#f00c89";
     }
-    if(JSON.stringify(status) === JSON.stringify('MISSED')){
+    if(status === JSON.stringify('MISSED')){
         return "#fc2121";
     }
     return null;
@@ -94,6 +95,7 @@ exports.newInterview = (req, res, next) => {
     // const backgroundColor = req.body.backgroundColor;
     const backgroundColor = getBckClr('SCHEDULED');
     const eventId = req.body.eventId;
+    
 
     const intrv = new Interview({
         start: start,
@@ -165,6 +167,7 @@ exports.updateInterview = (req, res, next) => {
     const appId = mongoose.Types.ObjectId(extendedProps.appId);
     // const ivStatus = InterviewStatus[extendedProps.ivStatus];
     const ivStatus = extendedProps.ivStatus.toUpperCase();
+    // console.log('\nHERE\n ::', ivStatus, getBckClr(JSON.stringify(ivStatus)));
 
     Interview.findById(ivId)
     .then(iv => {
@@ -178,7 +181,7 @@ exports.updateInterview = (req, res, next) => {
         iv.end = end;
         iv.title = title;
         iv.url = url;
-        iv.backgroundColor = getBckClr(extendedProps.ivStatus);
+        iv.backgroundColor = getBckClr(JSON.stringify(ivStatus));
         iv.extendedProps = extendedProps;
         iv.extendedProps.application = appId;
         iv.extendedProps.ivStatus = ivStatus;
