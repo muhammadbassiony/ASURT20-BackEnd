@@ -1,11 +1,13 @@
 const router = require("express").Router();
 const { body } = require("express-validator");
-const validate = require("../middlewares/validate");
-const isAuth = require("../middlewares/isAuth");
-const isAdmin = require("../middlewares/isAdmin");
+
+const validate = require("../../middleware/validate");
+const isAuth = require("../../middleware/isAuth");
+const isAdmin = require("../../middleware/isAdmin");
+const upload = require("../../middleware/upload");
 
 const prizeController = require("../controllers/prizes");
-const upload = require("../middlewares/upload");
+
 
 router.post(
     "/add",

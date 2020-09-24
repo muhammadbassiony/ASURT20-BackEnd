@@ -1,6 +1,6 @@
 const Prize = require("../models/prizes");
 const Comp = require("../models/competition");
-const errorFunction = require("../utils/errorFunction");
+// const errorFunction = require("../utils/errorFunction");
 
 const mongoose = require("mongoose");
 const competition = require("../models/competition");

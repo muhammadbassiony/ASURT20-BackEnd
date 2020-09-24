@@ -1,9 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const upload = require("../middlewares/upload");
+
 const photorollsController = require("../controllers/photorolls");
-const isAuth = require("../middlewares/isAuth");
-const isAdmin = require("../middlewares/isAdmin");
+
+const upload = require("../../middleware/upload");
+const isAuth = require("../../middleware/isAuth");
+const isAdmin = require("../../middleware/isAdmin");
 
 router.get("/get/:id", photorollsController.getPhotoroll);
 

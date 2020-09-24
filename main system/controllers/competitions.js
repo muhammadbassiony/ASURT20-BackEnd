@@ -1,6 +1,6 @@
 const { Error } = require("mongoose");
 const Comp = require("../models/competition");
-const error = require("../utils/errorFunction");
+// const error = require("../utils/errorFunction");
 
 exports.add = async (req, res, next) => {
     const name = req.body.name;

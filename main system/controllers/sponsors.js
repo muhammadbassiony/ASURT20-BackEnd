@@ -1,5 +1,5 @@
 const Sponsor = require("../models/sponsors");
-const error = require("../utils/errorFunction");
+// const error = require("../utils/errorFunction");
 const fs = require("fs");
 const { Types,Error } = require("mongoose");
 

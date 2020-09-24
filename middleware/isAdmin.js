@@ -1,4 +1,4 @@
-const error = require("../utils/errorFunction");
+// const error = require("../utils/errorFunction");
 module.exports = (req, res, next) => {
     try {
         const isAdmin = req.permissions === 1;

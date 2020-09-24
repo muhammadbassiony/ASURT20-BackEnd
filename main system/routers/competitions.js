@@ -1,9 +1,11 @@
 const router = require("express").Router();
 const { body } = require("express-validator");
+
 const { getAll, add, getOne } = require("../controllers/competitions");
-const isAdmin = require("../middlewares/isAdmin");
-const isAuth = require("../middlewares/isAuth");
-const validate = require("../middlewares/validate");
+
+const isAdmin = require("../../middleware/isAdmin");
+const isAuth = require("../../middleware/isAuth");
+const validate = require("../../middleware/validate");
 
 router.get("/getAll", getAll);
 router.get("/getOne/:id", getOne);

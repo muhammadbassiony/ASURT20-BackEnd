@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Photoroll = require("../models/photoroll");
 const Comp = require("../models/competition");
-const error = require("../utils/errorFunction");
+// const error = require("../utils/errorFunction");
 const fs = require("fs");
 
 exports.getPhotoroll = async (req, res, next) => {

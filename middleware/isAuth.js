@@ -1,4 +1,4 @@
-const error = require("../utils/errorFunction");
+// const error = require("../utils/errorFunction");
 const jwt = require("jsonwebtoken");
 module.exports = (req, res, next) => {
     try {
