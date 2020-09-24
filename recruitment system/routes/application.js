@@ -4,7 +4,7 @@ const express = require('express');
 const applicationsController = require('../controllers/application');
 //requests with multiple populates take a lot of time -- divide across multiple api calls?
 
-const  extractCv = require('../middleware/pdf-files');
+const  extractCv = require('../../middleware/pdf-files');
 
 const router = express.Router();
 

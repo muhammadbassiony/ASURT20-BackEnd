@@ -6,11 +6,12 @@ const mongoose = require("mongoose");
 const multer = require('multer');
 const fs = require('fs');
 
-const teamRoutes = require('./routes/team');
 const userRoutes = require('./routes/user');
-const eventRoutes = require('./routes/event');
-const appsRoutes = require('./routes/application');
-const interviewRoutes = require('./routes/interview');
+
+const teamRoutes = require('./recruitment system/routes/team');
+const eventRoutes = require('./recruitment system/routes/event');
+const appsRoutes = require('./recruitment system/routes/application');
+const interviewRoutes = require('./recruitment system/routes/interview');
 
 const MONGODB_URI =
   'mongodb+srv://admin:admin@cluster0.9141m.mongodb.net/recruitment?retryWrites=true&w=majority';
@@ -19,8 +20,8 @@ const app = express();
 
 app.use(bodyParser.json()); 
 // app.use(bodyParser.urlencoded({ extended: false }));
-app.use("/cvs", express.static(path.join(__dirname, "cvs")));
-app.use("/excel-files", express.static(path.join(__dirname, "excel-files")));
+app.use("/recruitment system/cvs", express.static(path.join(__dirname, "cvs")));
+app.use("/recruitment system/excel-files", express.static(path.join(__dirname, "excel-files")));
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -32,13 +33,14 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use('/api/team', teamRoutes);
 app.use('/api/user', userRoutes);
-app.use('/api/event', eventRoutes);
-app.use('/api/application', appsRoutes);
-app.use('/api/interview', interviewRoutes);
 
-// TODO :: set global this.currentSeason for all app
+app.use('/api/rec/team', teamRoutes);
+app.use('/api/rec/event', eventRoutes);
+app.use('/api/rec/application', appsRoutes);
+app.use('/api/rec/interview', interviewRoutes);
+
+// TODO :: set global this.currentSeason for all app ??
 
 app.use((error, req, res, next) => {
   console.log(error);
