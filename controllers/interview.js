@@ -1,6 +1,6 @@
 const Interview = require('../models/interview');
 const mongoose = require("mongoose");
-const { updateEvent } = require('./event');
+
 
 getBckClr = (status) => {
     if(JSON.stringify(status) === JSON.stringify('SCHEDULED')){
@@ -94,7 +94,6 @@ exports.newInterview = (req, res, next) => {
     // const backgroundColor = req.body.backgroundColor;
     const backgroundColor = getBckClr('SCHEDULED');
     const eventId = req.body.eventId;
-    // const extendedProps = {};
 
     const intrv = new Interview({
         start: start,
@@ -161,9 +160,11 @@ exports.updateInterview = (req, res, next) => {
     const end = req.body.end;
     const title = req.body.title;
     const url = req.body.url;
-    const backgroundColor = req.body.backgroundColor;
+    // const backgroundColor = req.body.backgroundColor;
     const extendedProps = req.body.extendedProps;
     const appId = mongoose.Types.ObjectId(extendedProps.appId);
+    // const ivStatus = InterviewStatus[extendedProps.ivStatus];
+    const ivStatus = extendedProps.ivStatus.toUpperCase();
 
     Interview.findById(ivId)
     .then(iv => {
@@ -180,6 +181,7 @@ exports.updateInterview = (req, res, next) => {
         iv.backgroundColor = getBckClr(extendedProps.ivStatus);
         iv.extendedProps = extendedProps;
         iv.extendedProps.application = appId;
+        iv.extendedProps.ivStatus = ivStatus;
 
         return iv.save();
     })
