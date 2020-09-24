@@ -1,6 +1,8 @@
 const User = require('../models/user');
 const Member = require('../models/member');
-const anymatch = require('anymatch');
+
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 exports.getAllUsers = (req, res, next) => {
     User.find()
@@ -40,21 +42,26 @@ exports.getUser = (req, res, next) => {
     });
 }
 
+//equivalent to sign up function
 exports.addNewUser = (req, res, next) => {
     const email = req.body.email;
-    const name = req.body.userName;
+    const name = req.body.name;
     const password = req.body.password;
+    const hashedPassword = bcrypt.hashSync(password, 12);
 
     const user = new User({
         name: name,
         email: email,
-        password: password
+        password: hashedPassword
     })
     .save()
     .then(resUser => {
+
+        const token = this.generateJWT(resUser._id, resUser.permissions);
         res.status(201).json({
-            message: 'user created',
-            user: resUser
+            message: 'Account created',
+            token: token
+            // user: resUser
         });
     })
     .catch(err => {
@@ -369,4 +376,8 @@ exports.deleteMember = (req, res, next) => {
 }
 
 
-
+exports.generateJWT = (id, permissions) => {
+    return jwt.sign({ userId: id, permissions: permissions }, process.env.JWT_SECRET, {
+        expiresIn: "2h",
+    });
+};

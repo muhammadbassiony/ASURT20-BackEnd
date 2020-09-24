@@ -8,7 +8,12 @@ const userSchema = new Schema(
         email: { type: String, required: true, maxlength: 256 },
         password: { type: String, required: true },
 
-        member: { type: Schema.Types.ObjectId, ref: 'Member'},
+        member: { type: Schema.Types.ObjectId, ref: 'Member', default: null},
+        permissions: { 
+            type: Number, 
+            enum: [0, 1, 2],    // 0 = guest, 1 = member, 2 = admin
+            default: 0
+        },
         
         mobile: { type: String, maxlength: 13 },
         birthDate: { type: Date },
