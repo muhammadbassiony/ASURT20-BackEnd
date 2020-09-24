@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Documentation</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        ::-webkit-scrollbar {
+            width: 0;
+        }
+
+        * {
+            font-family: 'Courier New', Courier, monospace;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: rgb(200, 200, 200);
+        }
+
+        #logo {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
+
+        nav {
+            box-shadow: -2px 0 20px 10px rgb(77, 77, 77);
+        }
+
+        a {
+            font-size: 1.6rem;
+        }
+
+        .nav-link {
+            color: #ff0000 !important
+        }
+
+        table,
+        tr {
+            width: 96%;
+            text-align: center;
+
+        }
+
+        tr {
+            height: 3rem;
+            border: 1px solid #000;
+        }
+
+        th,
+        td {
+            width: 16%;
+            padding: 16px;
+            font-size: 0.9rem;
+        }
+
+
+
+
+        thead {
+            background-color: #535353;
+            font-size: 1.2rem;
+            color: #eee;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand navbar-dark bg-dark">
+        <div class="nav navbar-nav">
+            <a class="navbar-brand" href="#"><img id="logo"
+                    src="https://scontent.fcai20-2.fna.fbcdn.net/v/t1.0-9/11223487_925460564182048_4790896485186821491_n.jpg?_nc_cat=106&_nc_sid=09cbfe&_nc_ohc=lqirYMpjo1AAX-4YcTj&_nc_ht=scontent.fcai20-2.fna&oh=ad79ef237886f83cc81b2c185cc63bb3&oe=5F7BE019"
+                    alt="Logo"></a>
+            <a class="nav-item nav-link" href="#">Documentation <span class="sr-only">(current)</span></a>
+        </div>
+    </nav>
+    <div class="container-fluid py-5 px-5">
+        <h1 class="text-center">API Documentation</h1>
+
+        <div class="row d-flex justify-content-center">
+            <h5>Note : [Name] = document of model name ,
+                [[Name]] = array of documents of model name</h5>
+            <table>
+                <thead>
+                    <th>Method</th>
+                    <th>Endpoint</th>
+                    <th>Admin</th>
+                    <th>Params</th>
+                    <th>Body</th>
+                    <th>Response</th>
+                </thead>
+                <tbody>
+                    <!-- Start Photorolls -->
+                    <tr>
+                        <td>GET</td>
+                        <td>api/main/photorolls/get/:id</td>
+                        <td>False</td>
+                        <td>id</td>
+                        <td>No body</td>
+                        <td>[Photoroll]</td>
+                    </tr>
+
+                    <tr>
+                        <td>POST</td>
+                        <td>api/main/photorolls/add</td>
+                        <td>True</td>
+                        <td>No params</td>
+                        <td>title:String,(File(s))</td>
+                        <td>[Photoroll]</td>
+
+                    </tr>
+                    <tr>
+                        <td>DELETE</td>
+                        <td>api/main/photorolls/delete</td>
+                        <td>True</td>
+                        <td>No params</td>
+                        <td>title:String,name:String</td>
+                        <td>{[Photoroll],deleted}</td>
+                    </tr>
+                    <!-- End Photorolls -->
+
+                    <!-- Start Sponsors -->
+                    <tr>
+                        <td>GET</td>
+                        <td>api/main/sponsors/get</td>
+                        <td>False</td>
+                        <td>No params</td>
+                        <td>No body</td>
+                        <td>[[Sponsor]]</td>
+                    </tr>
+
+                    <tr>
+                        <td>POST</td>
+                        <td>api/main/sponsors/add</td>
+                        <td>True</td>
+                        <td>No params</td>
+                        <td>name:String,competitionId:String,name:Desc,(File(s))</td>
+                        <td>[Sponsor]</td>
+
+                    </tr>
+                    <tr>
+                        <td>PATCH</td>
+                        <td>api/main/sponsors/activate/:id</td>
+                        <td>True</td>
+                        <td>id</td>
+                        <td>No body</td>
+                        <td>{sponsor:{[Sponsor],message:String}}</td>
+                    </tr>
+                    <!-- End Sponsors -->
+
+                    <!-- Start Users -->
+                    <tr>
+                        <td>POST</td>
+                        <td>api/auth/user/signup</td>
+                        <td>False</td>
+                        <td>No params</td>
+                        <td>name:String,email:String,password:String</td>
+                        <td>{message:String,token:String}</td>
+                    </tr>
+
+                    <tr>
+                        <td>POST</td>
+                        <td>api/auth/user/login</td>
+                        <td>False</td>
+                        <td>No params</td>
+                        <td>email:String,password:String</td>
+                        <td>{message:String,token:String}</td>
+                    </tr>
+                    <!-- End Users -->
+
+                    <!-- Start Prizes -->
+                    <tr>
+                        <td>POST</td>
+                        <td>api/main/prizes/add</td>
+                        <td>True</td>
+                        <td>No params</td>
+                        <td>competitionId:String,title:String,<br>description:String,imagePrize:File</td>
+                        <td>{message:String}</td>
+                    </tr>
+                    <tr>
+                        <td>GET</td>
+                        <td>api/main/prizes/get/:competitionName</td>
+                        <td>False</td>
+                        <td>competitionName</td>
+                        <td>No body</td>
+                        <td>[Prize]</td>
+                    </tr>
+                    <!-- End Prizes -->
+
+                    <!-- Start Competitions -->
+                    <tr>
+                        <td>GET</td>
+                        <td>api/main/competitions/getOne/:id</td>
+                        <td>False</td>
+                        <td>id</td>
+                        <td>No body</td>
+                        <td>[Competition]</td>
+                    </tr>
+                    <tr>
+                        <td>GET</td>
+                        <td>api/main/competitions/getAll</td>
+                        <td>False</td>
+                        <td>No params</td>
+                        <td>No body</td>
+                        <td>[[Competition]]</td>
+                    </tr>
+                    <tr>
+                        <td>POST</td>
+                        <td>api/main/competitions/add</td>
+                        <td>True</td>
+                        <td>No params</td>
+                        <td>name:String</td>
+                        <td>[Competition]</td>
+
+                    </tr>
+
+                    <!-- End Competitions -->
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</body>
+
+</html>
