@@ -23,7 +23,7 @@ if (process.env.NODE_ENV !== "production") require("dotenv").config();
 
 
 const MONGODB_URI =
-  'mongodb+srv://admin:admin@cluster0.9141m.mongodb.net/recruitment2?retryWrites=true&w=majority';
+  'mongodb+srv://admin:admin@cluster0.9141m.mongodb.net/recruitment?retryWrites=true&w=majority';
 
 // const MONGODB_URI = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0.srk19.mongodb.net/${process.env.MONGO_DEFAULT_DATABASE}`;
 // // mongodb+srv://RacingTeam:RacingTeamPass@cluster0.srk19.mongodb.net/rcteam
@@ -81,8 +81,8 @@ mongoose
     MONGODB_URI
   )
   .then(result => {
-    // app.listen(process.env.PORT || 3000);
-    app.listen(8080);
+    app.listen(process.env.PORT || 3000);
+    // app.listen(8080);
     console.log("connected!");
   })
   .catch(err => console.log(err));

@@ -72,6 +72,23 @@ exports.addNewUser = (req, res, next) => {
     });
 }
 
+exports.login = async (req, res, next) => {
+    try {
+        const { email, password } = req.body;
+        const user = await User.findOne({ email: email });
+        const id = user._id.toString();
+        const permissions = user.permissions;
+        const hashedPassword = user.password;
+        const doMatch = bcrypt.compareSync(password, hashedPassword);
+        if (doMatch) {
+            const token = this.generateJWT(id, permissions);
+            res.status(200).json({ message: "Login successfully", token: token });
+        } else error("Password is incorrect", 401, [{ email: email }]);
+    } catch (err) {
+        next(err);
+    }
+}
+
 exports.addMember = (req, res, next) => {
     const userId = req.body.userId;
     const teamId = req.body.teamId;
