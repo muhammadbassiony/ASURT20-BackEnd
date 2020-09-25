@@ -25,6 +25,8 @@ router.put('/increment-num-pendacc/:eventId', eventsController.incrementNumPendA
 
 router.put('/increment-num-pendrej/:eventId', eventsController.incrementNumPendRej);
 
+// TODO :: EVENT DELETION
+
 module.exports = router;
 
 //put -> update

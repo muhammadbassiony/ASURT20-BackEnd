@@ -5,8 +5,8 @@ const fs = require('fs');
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: 'mimotamer@gmail.com',
-      pass: '' 
+      user: 'asurt.managment@gmail.com', //mimotamer@gmail.com
+      pass: 'asurtIT20' 
       // naturally, replace both with your real credentials or an application-specific password
     }
 });
@@ -33,7 +33,7 @@ var email = {
             instructions: 'To get started with Mailgen, please click here:',
             button: {
                 color: '#22BC66', // Optional action button color
-                text: 'Confirm your account hehe',
+                text: 'Confirm your account',
                 link: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstleyVEVO'
             }
         },

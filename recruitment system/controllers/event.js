@@ -52,7 +52,11 @@ exports.addNewEvent = (req, res, next) => {
     const season = req.body.season;
     const eventActive = req.body.eventActive;
     const questions = req.body.questions;
-
+    
+    // TODO ::  
+    // CANT START AN EVENT FOR A TEAM IN A SEASON IF CURRENT TEAM 
+    // ALREADY HAS AN EVENT IN THIS SEASON - OR ASK KOMY
+    
     Team.findById(teamId)
     .then(team => {
         if(!team){
@@ -88,7 +92,8 @@ exports.addNewEvent = (req, res, next) => {
 exports.updateEvent = (req, res, next) => {
     const eventId = req.params.eventId;
 
-    const teamId = mongoose.Types.ObjectId(req.body.teamId);
+    // const teamId = mongoose.Types.ObjectId(req.body.teamId);
+    const teamId = req.body.teamId;
     const season = req.body.season;
     const eventActive = req.body.eventActive;
     const questions = req.body.questions;

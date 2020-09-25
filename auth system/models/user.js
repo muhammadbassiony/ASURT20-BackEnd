@@ -11,7 +11,8 @@ const userSchema = new Schema(
         member: { type: Schema.Types.ObjectId, ref: 'Member', default: null},
         permissions: { 
             type: Number, 
-            enum: [0, 1, 2],    // 0 = guest, 1 = member, 2 = admin
+            enum: [0, 1, 2, 3],    // 0 = guest, 1 = technical member, 
+            // 2 = technical head & managment member, 3 = admins: managment heads
             default: 0
         },
         

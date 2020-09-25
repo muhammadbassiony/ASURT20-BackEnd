@@ -16,6 +16,12 @@ const eventSchema = new Schema(
 
         activeSubteams: [{ type: Schema.Types.ObjectId, ref: 'Subteam'}],
 
+        currentPhase: {
+            type: String,
+            enum: ['SCREENING', 'HR_IV', 'TECH_MISSION', 'DR_IV'],
+            default: 'SCREENING'
+        },
+        
         startDate: { type: Date },
         endDate: { type: Date },
 

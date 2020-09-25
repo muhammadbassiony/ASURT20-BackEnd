@@ -287,9 +287,12 @@ exports.sendAcceptedEmails = (req, res, next) => {
     Application.find({ event: eventId })
     .populate('user')
     .then(apps => {
+        // console.log('REQUEST HERE :: APPS :: \n\n', apps);
         apps.forEach(app => {
+            // console.log('\nREQUEST HERE 2 ::\n', app)
             if(JSON.stringify(app.currentPhase) === JSON.stringify(phase) && 
                     JSON.stringify(app.currentPhaseStatus) === JSON.stringify('ACCEPTED')){
+                
                 emails.push(app.user.email);
                 countAccepted ++;
             }
@@ -302,7 +305,7 @@ exports.sendAcceptedEmails = (req, res, next) => {
         }
         if(countAccepted <= 0){
             const error = new Error('No accepted applicants');
-            error.statusCode = 500;
+            error.statusCode = 404;
             throw error;
         }
 
@@ -317,7 +320,7 @@ exports.sendAcceptedEmails = (req, res, next) => {
     })
     .catch(err => {
         if (!err.statusCode) {
-            err.statusCode = 500;
+            err.statusCode = 503;
         }
         next(err);
     }); 
@@ -326,6 +329,7 @@ exports.sendAcceptedEmails = (req, res, next) => {
 exports.sendRejectedEmails = (req, res, next) => { 
     const eventId = req.params.eventId;
     const phase = req.body.phase;
+    console.log('\n\nPHASE ::', phase, '\n\n');
 
     emails = [];
     countRejected = 0;
@@ -333,9 +337,11 @@ exports.sendRejectedEmails = (req, res, next) => {
     Application.find({ event: eventId })
     .populate('user')
     .then(apps => {
+        // console.log('REQUEST HERE :: APPS :: \n\n', apps);
         apps.forEach(app => {
             if(JSON.stringify(app.currentPhase) === JSON.stringify(phase) && 
                     JSON.stringify(app.currentPhaseStatus) !== JSON.stringify('ACCEPTED')){
+               
                 emails.push(app.user.email);
                 countRejected ++;
             }
@@ -348,7 +354,7 @@ exports.sendRejectedEmails = (req, res, next) => {
         }
         if(countRejected <= 0){
             const error = new Error('No rejected applicants');
-            error.statusCode = 500;
+            error.statusCode = 404;
             throw error;
         }
 
@@ -362,7 +368,7 @@ exports.sendRejectedEmails = (req, res, next) => {
     })
     .catch(err => {
         if (!err.statusCode) {
-            err.statusCode = 500;
+            err.statusCode = 503;
         }
         next(err);
     }); 
@@ -377,13 +383,13 @@ const fields = [
     { label: 'Birth Date', value: 'user.birthDate' },
     { label: 'University',  value: 'user.university' },
     { label: 'Faculty', value: 'user.faculty' },
-    { label: 'department', value: 'user.departmed' },
+    { label: 'department', value: 'user.department' },
     {  label: 'Grad Year', value: 'user.graduationYear'  },
     { label: 'Credit',  value: 'user.credit' },
     { label: 'Choice 1', value: 'selSubteam1.name' },
     { label: 'Choice 2',  value: 'selSubteam2.name' },
     { label: 'User Id', value: 'user._id' },
-    { label: 'App Id', value: '_id' }
+    { label: 'Application Id', value: '_id' }
 ];
 const transforms = [unwind({ paths: ['user', 'selSubteam1', 'selSubteam2'], blankOut: true })];
 const json2csvParser = new Parser({ fields, transforms , excelStrings: true});
