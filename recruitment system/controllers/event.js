@@ -56,7 +56,7 @@ exports.addNewEvent = (req, res, next) => {
     // TODO ::  
     // CANT START AN EVENT FOR A TEAM IN A SEASON IF CURRENT TEAM 
     // ALREADY HAS AN EVENT IN THIS SEASON - OR ASK KOMY
-    
+
     Team.findById(teamId)
     .then(team => {
         if(!team){
@@ -98,6 +98,7 @@ exports.updateEvent = (req, res, next) => {
     const eventActive = req.body.eventActive;
     const questions = req.body.questions;
     const activeSubteams = req.body.activeSubteams;
+    const phase = req.body.currentPhase;
 
     Event.findById(eventId)
     .then(event => {
@@ -112,6 +113,7 @@ exports.updateEvent = (req, res, next) => {
         event.eventActive = eventActive;
         event.questions = questions;
         event.activeSubteams = activeSubteams;
+        event.currentPhase = phase;
 
         return event.save();
     })
