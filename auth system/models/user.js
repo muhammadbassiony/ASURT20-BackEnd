@@ -3,13 +3,13 @@ const Schema = mongoose.Schema;
 
 const userSchema = new Schema(
     {
-        name: { type: String, required: true, maxlength: 50 },
+        name: { type: String, maxlength: 50 },
 
         email: { type: String, required: true, maxlength: 256 },
         password: { type: String, required: true },
 
         member: { type: Schema.Types.ObjectId, ref: 'Member', default: null},
-        permissions: { 
+        level: { 
             type: Number, 
             enum: [0, 1, 2, 3],    // 0 = guest, 1 = technical member, 
             // 2 = technical head & managment member, 3 = admins: managment heads

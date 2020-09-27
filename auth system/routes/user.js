@@ -17,7 +17,7 @@ router.get('/get-user/:userId', userController.getUser);
 
 router.get('/all-members', userController.getAllMembers);
 
-// router.post('/add-user', userController.addNewUser);
+// router.post('/signup', userController.signUp);
 
 router.post('/add-member', userController.addMember);
 
@@ -50,14 +50,10 @@ router.post(
                     return true;
                 });
             }),
-        body("name")
-            .isLength({ min: 3 })
-            .withMessage("Name must be at least 3 characters")
-            .escape(),
         body("password").isLength({ min: 8 }).withMessage("Password must be at least 8 characters"),
     ],
     validate(),
-    userController.addNewUser
+    userController.signUp
 );
 
 router.post(

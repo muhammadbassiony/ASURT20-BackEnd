@@ -42,26 +42,39 @@ exports.getUser = (req, res, next) => {
     });
 }
 
+exports.generateJWT = (id, level) => {
+    return jwt.sign(
+        { userId: id, level: level }, 
+        process.env.JWT_SECRET, 
+        { expiresIn: "2h" }
+    );
+}
+
 //equivalent to sign up function
-exports.addNewUser = (req, res, next) => {
+exports.signUp = (req, res, next) => {
     const email = req.body.email;
-    const name = req.body.name;
+    // const name = req.body.name;
     const password = req.body.password;
     const hashedPassword = bcrypt.hashSync(password, 12);
 
     const user = new User({
-        name: name,
+        // name: name,
         email: email,
         password: hashedPassword
     })
     .save()
     .then(resUser => {
+        const token = this.generateJWT(resUser._id, resUser.level);
+        let authUser = {
+            _id: resUser._id,
+            level: resUser.level,
+            token: token
+        };
 
-        const token = this.generateJWT(resUser._id, resUser.permissions);
         res.status(201).json({
             message: 'Account created',
-            token: token
-            // user: resUser
+            // token: token
+            user: authUser
         });
     })
     .catch(err => {
@@ -75,16 +88,34 @@ exports.addNewUser = (req, res, next) => {
 exports.login = async (req, res, next) => {
     try {
         const { email, password } = req.body;
+
         const user = await User.findOne({ email: email });
         const id = user._id.toString();
-        const permissions = user.permissions;
+        const level = user.level;
+
         const hashedPassword = user.password;
         const doMatch = bcrypt.compareSync(password, hashedPassword);
+
         if (doMatch) {
-            const token = this.generateJWT(id, permissions);
-            res.status(200).json({ message: "Login successfully", token: token });
+            const token = this.generateJWT(id, level);
+            let authUser = {
+                _id: user._id,
+                level: user.level,
+                token: token
+            };
+
+            res.status(200).json({ 
+                message: "Login successfully", 
+                user: authUser
+                // token: token 
+            });
+
         } else error("Password is incorrect", 401, [{ email: email }]);
+
     } catch (err) {
+        if (!err.statusCode) {
+            err.statusCode = 500;
+        }
         next(err);
     }
 }
@@ -393,8 +424,4 @@ exports.deleteMember = (req, res, next) => {
 }
 
 
-exports.generateJWT = (id, permissions) => {
-    return jwt.sign({ userId: id, permissions: permissions }, process.env.JWT_SECRET, {
-        expiresIn: "2h",
-    });
-};
+
