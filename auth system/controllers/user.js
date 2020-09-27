@@ -1,8 +1,11 @@
 const User = require('../models/user');
 const Member = require('../models/member');
+const Team = require('../../recruitment system/models/team');
+const Subteam = require('../../recruitment system/models/subteam');
 
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const team = require('../../recruitment system/models/team');
 
 exports.getAllUsers = (req, res, next) => {
     User.find()
@@ -151,6 +154,19 @@ exports.addMember = (req, res, next) => {
     .then(member => {
         createdMember = member;
         currentUser.member = member._id;
+        let calcLevel = currentUser.level;
+
+        //add here user level calc
+        Team.find({ name: 'Managment'})
+        .then(mgmt => {
+            if(mgmt._id == teamId){
+                calcLevel = isHead ? 3 : 2;
+            } else {
+                calcLevel = 1;
+            }
+        }).catch(err => next(err));
+
+        currentUser.level = calcLevel;
 
         return currentUser.save();        
     })
