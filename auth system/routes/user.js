@@ -5,35 +5,37 @@ const { body } = require("express-validator");
 const userController = require('../controllers/user');
 
 const validate = require("../../middleware/validate");
+const isAdmin = require('../../middleware/isAdmin');
+const isAuth = require('../../middleware/isAuth');
 
 const User = require('../models/user');
 const Member = require('../models/member');
 
 const router = express.Router();
 
-router.get('/all-users', userController.getAllUsers);
+router.get('/all-users', isAuth, isAdmin(2), userController.getAllUsers);
 
-router.get('/get-user/:userId', userController.getUser);
+router.get('/get-user/:userId', isAuth, isAdmin(2), userController.getUser);
 
-router.get('/all-members', userController.getAllMembers);
+router.get('/all-members', isAuth, isAdmin(2), userController.getAllMembers);
 
 // router.post('/signup', userController.signUp);
 
-router.post('/add-member', userController.addMember);
+router.post('/add-member', isAuth, isAdmin(2), userController.addMember);
 
-router.get('/get-member/:memberId', userController.getMember);
+router.get('/get-member/:memberId', isAuth, isAdmin(2), userController.getMember);
 
-router.get('/get-team-members/:teamId', userController.getTeamMembers);
+router.get('/get-team-members/:teamId', isAuth, isAdmin(2), userController.getTeamMembers);
 
-router.put('/edit-user/:userId', userController.updateUser);
+router.put('/edit-user/:userId', isAuth, userController.updateUser);
 
-router.put('/edit-member/:memberId', userController.updateMember);
+router.put('/edit-member/:memberId', isAuth, isAdmin(2), userController.updateMember);
 
-router.put('/sumbit-user-info/:userId', userController.addUserInfo);
+router.put('/sumbit-user-info/:userId', isAuth, userController.addUserInfo);
 
-router.delete('/delete-user/:userId', userController.deleteUser);
+router.delete('/delete-user/:userId', isAuth, isAdmin(2), userController.deleteUser);
 
-router.delete('/delete-member/:meberId', userController.deleteMember);
+router.delete('/delete-member/:meberId', isAuth, isAdmin(2), userController.deleteMember);
 
 router.post(
     "/signup",

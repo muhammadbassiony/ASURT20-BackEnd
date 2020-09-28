@@ -12,10 +12,10 @@ router.get("/get/:id", photorollsController.getPhotoroll);
 router.post(
     "/add",
     isAuth,
-    isAdmin,
+    isAdmin(2),
     upload({ sub: "photorolls" }, false),
     photorollsController.updatePhotoroll
 );
-router.delete("/delete", isAuth, isAdmin, photorollsController.delete);
+router.delete("/delete", isAuth, isAdmin(2), photorollsController.delete);
 
 module.exports = router;

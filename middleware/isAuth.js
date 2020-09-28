@@ -9,7 +9,7 @@ module.exports = (req, res, next) => {
         decodedToken = jwt.verify(token, process.env.JWT_SECRET);
         if (!decodedToken) error("Authentication failed", 401);
         req.userId = decodedToken.userId;
-        req.permissions = decodedToken.permissions;
+        req.level = decodedToken.level;
         next();
     } catch (err) {
         if (err instanceof jwt.JsonWebTokenError) error("Invalid token", 401);

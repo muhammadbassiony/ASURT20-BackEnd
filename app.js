@@ -19,6 +19,7 @@ const sponsorsRouter = require("./main system/routers/sponsors");
 const prizesRouter = require("./main system/routers/prizes");
 const competitionsRouter = require("./main system/routers/competitions");
 
+
 if (process.env.NODE_ENV !== "production") require("dotenv").config();
 
 //switch to this uri if you want to use the recruitment system
@@ -56,13 +57,12 @@ app.use('/api/rec/event', eventRoutes);
 app.use('/api/rec/application', appsRoutes);
 app.use('/api/rec/interview', interviewRoutes);
 
-// app.use("/api/main/users", usersRouter);
 app.use("/api/main/sponsors", sponsorsRouter);
 app.use("/api/main/prizes", prizesRouter);
 app.use("/api/main/photorolls", photorollsRouter);
 app.use("/api/main/competitions", competitionsRouter);
 
-// TODO :: set global this.currentSeason for all app ?? where ?? - leave for next season
+// TODO :: set global this.currentSeason for all app?? where?? with front??- leave for next season
 
 app.use("", (req, res) => {
   res.sendFile(path.join(__dirname, "views", "doc.html"));

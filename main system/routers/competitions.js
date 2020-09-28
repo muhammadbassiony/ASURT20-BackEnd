@@ -17,7 +17,7 @@ router.post(
             .withMessage("Competition name must be at least 3 characters"),
     ],
     isAuth,
-    isAdmin,
+    isAdmin(3),
     validate("Competition data is invalid"),
     add
 );
