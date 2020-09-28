@@ -7,6 +7,8 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const team = require('../../recruitment system/models/team');
 
+const currentSeason = '20-21'; 
+
 exports.getAllUsers = (req, res, next) => {
     User.find()
     .then(users => {
@@ -128,6 +130,7 @@ exports.addMember = (req, res, next) => {
     const teamId = req.body.teamId;
     const subteamId = req.body.subteamId;
     const isHead = req.body.head;
+    const season = req.body.season;
 
     let currentUser;
     let createdMember;
@@ -136,7 +139,8 @@ exports.addMember = (req, res, next) => {
         user: userId,
         team: teamId,
         subteam: subteamId,
-        head: isHead
+        head: isHead,
+        season: season
     });
 
     User.findById(userId)
@@ -147,6 +151,13 @@ exports.addMember = (req, res, next) => {
             throw error;
         }
 
+        
+        if(user.member && season == currentSeason){
+            const error = new Error('This user is already registered as a member for this season!');
+            error.statusCode = 406;
+            throw error;
+        }
+
         currentUser = user;
 
         return member.save();
@@ -154,21 +165,24 @@ exports.addMember = (req, res, next) => {
     .then(member => {
         createdMember = member;
         currentUser.member = member._id;
-        let calcLevel = currentUser.level;
-
-        //add here user level calc
-        Team.find({ name: 'Managment'})
-        .then(mgmt => {
-            if(mgmt._id == teamId){
-                calcLevel = isHead ? 3 : 2;
-            } else {
-                calcLevel = 1;
-            }
-        }).catch(err => next(err));
-
+        
+         return Team.findById(teamId);       
+    })
+    .then(team => {
+        if(!team){
+            const error = new Error('Could not find team.');
+            error.statusCode = 404;
+            throw error;
+        }
+        console.log(team.name, team.name == 'Managment');
+        if(team.name == 'Managment'){
+            calcLevel = isHead ? 3 : 2;
+        } else {
+            calcLevel = 1;
+        }
         currentUser.level = calcLevel;
 
-        return currentUser.save();        
+        return currentUser.save();   
     })
     .then(user => {
         res.status(201).json({
