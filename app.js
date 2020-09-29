@@ -30,12 +30,20 @@ const MONGODB_URI =
 // const MONGODB_URI = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0.srk19.mongodb.net/${process.env.MONGO_DEFAULT_DATABASE}`;
 // // mongodb+srv://RacingTeam:RacingTeamPass@cluster0.srk19.mongodb.net/rcteam
 
+var options = {
+  setHeaders: function (res, path, stat) {
+    res.set('Content-Type', 'image/jpeg');
+    res.set('X-Content-Type-Options', 'nosniff');
+  }
+}
 
 const app = express();
 
 app.use(bodyParser.json()); 
-// app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: false }));
+
 app.use("/images", express.static(path.join(__dirname, "images")));
+app.use("/sponsors", express.static(path.join(__dirname, "images", "sponsors")));
 
 app.use("/recruitment system/cvs", express.static(path.join(__dirname, "cvs")));
 app.use("/recruitment system/excel-files", express.static(path.join(__dirname, "excel-files")));
@@ -46,7 +54,8 @@ app.use((req, res, next) => {
         'Access-Control-Allow-Methods',
         'OPTIONS, GET, POST, PUT, PATCH, DELETE'
     );
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Content-Type-Options');
+    // res.setHeader('X-Content-Type-Options', 'nosniff');    
     next();
 });
 

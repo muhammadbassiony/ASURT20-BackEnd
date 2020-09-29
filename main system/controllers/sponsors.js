@@ -5,8 +5,34 @@ const { Types,Error } = require("mongoose");
 
 exports.getAll = async (req, res, next) => {
     const sponsors = await Sponsor.find({}).select("-__v");
-    res.status(200).json({ sponsors });
+    res.setHeader('X-Content-Type-Options', 'nosniff');
+    res.status(200).json({ 
+        message: "all sponsors fetched",
+        sponsors: sponsors
+    });
 };
+
+exports.getActivated = (req, res, next) => {
+    Sponsor.find({ isChecked: true})
+    .then(spns => {
+        if(!spns){
+            const error = new Error('No active sponsors found!');
+            error.statusCode = 404;
+            throw error;
+        }
+
+        res.status(200).json({
+            message: 'active sponsors fetched!',
+            sponsors: spns
+        });
+    })
+    .catch(err => {
+        if (!err.statusCode) {
+            err.statusCode = 500;
+        }
+        next(err);
+    });
+}
 
 //  USE ID!!
 exports.activate = async (req, res, next) => {
@@ -59,3 +85,9 @@ exports.addSponsor = async (req, res, next) => {
         next(err);
     }
 };
+
+exports.getLogo = (req, res, next) => {
+    const logoUrl = req.params.url;
+    console.log('SEND LOGO :: URL ::', url)
+    res.sendFile(logoUrl);
+}

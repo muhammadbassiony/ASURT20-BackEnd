@@ -12,7 +12,7 @@ const prizeController = require("../controllers/prizes");
 router.post(
     "/add",
     isAuth,
-    isAdmin,
+    isAdmin(2),
     upload({ main: "images", sub: "prizes" }, true, "prizeImage"),
     [body("title").not().isEmpty(), body("description").not().isEmpty()],
     validate("prize data is not valid", 400),

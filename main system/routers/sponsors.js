@@ -7,15 +7,20 @@ const upload = require("../../middleware/upload");
 
 const sponsorsController = require("../controllers/sponsors");
 
-router.get("/get", sponsorsController.getAll);
+router.get("/get-all", sponsorsController.getAll);
+
+router.get('/get-activated', sponsorsController.getActivated);
 
 router.post(
     "/add",
     isAuth,
-    isAdmin,
+    isAdmin(2),
     upload({ sub: "sponsors" }, true, "logo"),
     sponsorsController.addSponsor
 );
-router.patch("/activate/:id", isAuth, isAdmin, sponsorsController.activate);
+
+router.patch("/activate/:id", isAuth, isAdmin(2), sponsorsController.activate);
+
+router.get('/get-logo/:url', sponsorsController.getLogo);
 
 module.exports = router;

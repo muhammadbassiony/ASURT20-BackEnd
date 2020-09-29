@@ -9,8 +9,9 @@
 //     }
 // };
 
-module.exports = (accessLevel) => {
-    return function(req, res, next) {
+module.exports = function isAdmin(accessLevel) {
+    return (error, req, res, next) => {
+        if(error) next(error);
         // next();
         // implement here later
         try {
@@ -19,6 +20,8 @@ module.exports = (accessLevel) => {
             next();
         } catch (err) {
             next(err);
+            // return res.status(401).json({ message: 'Unauthorized' });
+
         }
     }
 }
