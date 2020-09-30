@@ -15,6 +15,7 @@ module.exports = function isAdmin(accessLevel) {
         // next();
         // implement here later
         try {
+            console.log('ISADMIN', req.level, req.level>=accessLevel);
             const isAdmin = req.level >= accessLevel;
             if (!isAdmin) error("Access denied", 403);
             next();

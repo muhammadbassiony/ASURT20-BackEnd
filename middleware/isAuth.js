@@ -3,7 +3,6 @@ const jwt = require("jsonwebtoken");
 
 module.exports = (req, res, next) => {
     try {
-        console.log('AUTH HERE MOFOFS :: \n',req);
         const authHeader = req.get("Authorization");
         if (!authHeader) error("Authentication failed", 401, ["No authentication token"]);
         const token = authHeader.split(" ")[1];

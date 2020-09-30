@@ -21,6 +21,5 @@ router.post(
 
 router.patch("/activate/:id", isAuth, isAdmin(2), sponsorsController.activate);
 
-router.get('/get-logo/:url', sponsorsController.getLogo);
 
 module.exports = router;

@@ -68,6 +68,7 @@ exports.activate = async (req, res, next) => {
 exports.addSponsor = async (req, res, next) => {
     const { name, desc } = req.body;
     const file = req.file;
+    console.log('checkpoint 3', name, desc, file);
 
     try {
         const doc = await Sponsor.findOne({ name: name });
@@ -75,9 +76,12 @@ exports.addSponsor = async (req, res, next) => {
             fs.unlink(`images/sponsors/${file.filename}`, (err) => {});
             error("Sponsor already exists", 400, [{ id: doc._id, name }]);
         }
+        console.log('checkpoint 3', name, desc, file);
         const data = { name, desc: desc, logo: file.path, message: "sponsor created!" };
+        console.log('checkpoint 1', data);
         const newSponsor = await new Sponsor(data).save();
         data.id = newSponsor._id;
+        console.log('checkpoint 2', newSponsor, data);
         res.status(201).json({
             sponsor: data,
         });
@@ -86,8 +90,4 @@ exports.addSponsor = async (req, res, next) => {
     }
 };
 
-exports.getLogo = (req, res, next) => {
-    const logoUrl = req.params.url;
-    console.log('SEND LOGO :: URL ::', url)
-    res.sendFile(logoUrl);
-}
+
