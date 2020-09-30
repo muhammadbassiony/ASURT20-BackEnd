@@ -2,6 +2,7 @@ const Sponsor = require("../models/sponsors");
 // const error = require("../utils/errorFunction");
 const fs = require("fs");
 const { Types,Error } = require("mongoose");
+const { findByIdAndUpdate } = require("../models/sponsors");
 
 exports.getAll = async (req, res, next) => {
     const sponsors = await Sponsor.find({}).select("-__v");
@@ -90,4 +91,36 @@ exports.addSponsor = async (req, res, next) => {
     }
 };
 
+
+exports.updateAllSponsors = async (req, res, next) => {
+    const allSponsors = req.body.sponsors;
+
+    try {
+        for(let spn of allSponsors){
+            sponsor = await Sponsor.findById(spn._id);
+            sponsor = spn;
+            if(!sponsor){
+                const error = new Error('sponsor not found!');
+                error.statusCode = 404;
+                throw error;
+            }
+            const updatedSpn = await Sponsor.findByIdAndUpdate(sponsor._id, sponsor, { new: true });
+            
+        }
+    
+        let allSpns = await Sponsor.find();
+        // console.log('\ALL UPDATED SPONSOR ::\n', allSpns);
+        res.status(200).json({
+            message: 'all sponsors updated!',
+            sponsors: allSpns
+        });
+
+    } catch (err) {
+        if (!err.statusCode) {
+            err.statusCode = 500;
+        }
+        next(err);
+    }
+    
+}
 

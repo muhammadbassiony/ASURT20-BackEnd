@@ -21,5 +21,7 @@ router.post(
 
 router.patch("/activate/:id", isAuth, isAdmin(2), sponsorsController.activate);
 
+router.post('/update-all', sponsorsController.updateAllSponsors);
+
 
 module.exports = router;
