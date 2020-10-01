@@ -67,3 +67,49 @@ exports.delete = async (req, res, next) => {
         next(err);
     }
 };
+
+
+exports.getAllPhotorolls = (req, res, next) => {
+    Photoroll.find()
+    .then(phs => {
+        if(!phs){
+            const error = new Error('No PhotoRolls found');
+            error.statusCode = 404;
+            throw error;
+        }
+
+        res.status(200).json({
+            message: 'all photorolls fetched!',
+            photorolls: phs
+        });
+    })
+    .catch(err => {
+        if (!err.statusCode) {
+            err.statusCode = 500;
+        }
+        next(err);
+    });
+}
+
+
+exports.addNewPhotoroll = (req, res, next) => {
+    const phName = req.body.name;
+    const imgs = req.body.images;
+
+    const newPh = new Photoroll({
+        title: phName,
+        images: imgs
+    }).save()
+    .then(ph => {
+        res.status(200).json({
+            message: 'new photoroll created!',
+            photoroll: ph
+        });
+    })
+    .catch(err => {
+        if (!err.statusCode) {
+            err.statusCode = 500;
+        }
+        next(err);
+    });
+}

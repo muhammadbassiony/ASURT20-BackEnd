@@ -18,4 +18,8 @@ router.post(
 );
 router.delete("/delete", isAuth, isAdmin(2), photorollsController.delete);
 
+router.post('/add-new', photorollsController.addNewPhotoroll);
+
+router.get('/get-all', photorollsController.getAllPhotorolls);
+
 module.exports = router;
