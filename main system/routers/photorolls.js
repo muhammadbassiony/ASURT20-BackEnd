@@ -10,7 +10,7 @@ const isAdmin = require("../../middleware/isAdmin");
 router.get("/get/:id", photorollsController.getPhotoroll);
 
 router.post(
-    "/add",
+    "/update",
     isAuth,
     isAdmin(2),
     upload({ sub: "photorolls" }, false),

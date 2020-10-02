@@ -44,6 +44,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use("/images", express.static(path.join(__dirname, "images")));
 app.use("/sponsors", express.static(path.join(__dirname, "images", "sponsors")));
+app.use("/photorolls", express.static(path.join(__dirname, "images", "photorolls")));
 
 app.use("/recruitment system/cvs", express.static(path.join(__dirname, "cvs")));
 app.use("/recruitment system/excel-files", express.static(path.join(__dirname, "excel-files")));

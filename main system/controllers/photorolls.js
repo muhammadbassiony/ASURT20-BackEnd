@@ -8,7 +8,7 @@ exports.getPhotoroll = async (req, res, next) => {
     const id = req.params.id;
     const phtotroll = await Photoroll.findById(id);
     try {
-        if (!doc) error("Photorol not found", 404);
+        if (!doc) error("Photoroll not found", 404);
         res.status(200).json({ message: 'phtotoroll fetched!', phtotroll: photoroll });
     } catch (err) {
         next(err);
@@ -16,42 +16,71 @@ exports.getPhotoroll = async (req, res, next) => {
 };
 
 exports.updatePhotoroll = async (req, res, next) => {
+    const phId = req.body._id;
     const title = req.body.title;
     const files = req.files;
-    const competitionId = req.body.competitionId;
+    // const competitionId = req.body.competitionId;
     const images = files.map((image) => image.filename);
-    try {
-        const doc = await Photoroll.findOne({ title: title });
-        let photoroll;
-        if (!doc) {
-            const competitionExists = await Comp.findById(competitionId);
-            if (!competitionExists) error("Competition doesn't exist", 404);
-            photoroll = await new Photoroll({ title: title, images: images }).save();
-            competitionExists.photorolls.push(photoroll._id);
-            competitionExists.save();
-        } else {
-            const existingImages = doc.images;
-            var allImages = [...existingImages, ...images];
+    console.log('PH-CNTRL : IMAGES ::\n', images);
 
-            photoroll = await Photoroll.findOneAndUpdate({ title: title }, { images: allImages });
+    Photoroll.findById(phId)
+    .then(photoroll => {
+        if(!photoroll){
+            const error = new Error('No PhotoRoll found!');
+            error.statusCode = 404;
+            throw error;
         }
-        res.json({
-            id: photoroll._id,
-            compitionId: competitionId,
-            title: title,
-            images: allImages ? allImages : [...photoroll.images],
+
+        photoroll.title = title;
+        photoroll.images = images;
+        return photoroll.save();
+    })
+    .then(ph => {
+        res.status(200).json({
+            message: 'photoroll updated!',
+            photoroll: ph
         });
-    } catch (err) {
+    })
+    .catch(err => {
+        if (!err.statusCode) {
+            err.statusCode = 500;
+        }
         next(err);
-    }
+    });
+
+    // try {
+    //     // const doc = await Photoroll.findOne({ title: title });
+    //     const doc = await Photoroll.findById(phId);
+    //     let photoroll;
+    //     if (!doc) {
+    //         // const competitionExists = await Comp.findById(competitionId);
+    //         // if (!competitionExists) error("Competition doesn't exist", 404);
+    //         photoroll = await new Photoroll({ title: title, images: images }).save();
+    //         // competitionExists.photorolls.push(photoroll._id);
+    //         // competitionExists.save();
+    //     } else {
+    //         const existingImages = doc.images;
+    //         var allImages = [...existingImages, ...images];
+
+    //         photoroll = await Photoroll.findOneAndUpdate({ title: title }, { images: allImages });
+    //     }
+    //     res.status(201).json({
+    //         id: photoroll._id,
+    //         compitionId: competitionId,
+    //         title: title,
+    //         images: allImages ? allImages : [...photoroll.images],
+    //     });
+    // } catch (err) {
+    //     next(err);
+    // }
 };
 
 exports.delete = async (req, res, next) => {
-    const id = req.body.id;
+    const id = req.body._id;
     const imageName = req.body.name;
     const doc = await Photoroll.findById(id);
     try {
-        if (!doc) error("Photorol not found", 404, [{ id: id, image: imageName }]);
+        if (!doc) error("Photoroll not found", 404, [{ id: id, image: imageName }]);
         const images = doc.images;
         const imageExists = images.includes(imageName);
         if (!imageExists) error("Image not found", 404, [{ id: id, image: imageName }]);
