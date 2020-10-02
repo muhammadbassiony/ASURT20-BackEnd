@@ -4,17 +4,60 @@ const Comp = require("../models/competition");
 // const error = require("../utils/errorFunction");
 const fs = require("fs");
 const { SSL_OP_NETSCAPE_CA_DN_BUG } = require("constants");
+const photoroll = require("../models/photoroll");
 
 exports.getPhotoroll = async (req, res, next) => {
     const id = req.params.id;
-    const phtotroll = await Photoroll.findById(id);
-    try {
-        if (!doc) error("Photoroll not found", 404);
-        res.status(200).json({ message: 'phtotoroll fetched!', phtotroll: photoroll });
-    } catch (err) {
-        next(err);
+    
+    if(id.length>6){
+        Photoroll.findById(id)
+        .then(photoroll => {
+            if(!photoroll){
+                const error = new Error('No PhotoRoll found!');
+                error.statusCode = 404;
+                throw error;
+            }
+            
+            res.status(200).json({
+                message: 'photoroll updated!',
+                photoroll: photoroll
+            });
+            
+        })
+        .catch(err => {
+            if (!err.statusCode) {
+                err.statusCode = 500;
+            }
+            next(err);
+        });
+
+    } else {
+
+        // Lanfing  page will always be created first - photoroll creation will be done MAUNALLY
+        Photoroll.findOne({}, {}, { sort: { 'created_at' : -1 } })
+        .then(photoroll => {
+            if(!photoroll){
+                const error = new Error('No PhotoRoll found!');
+                error.statusCode = 404;
+                throw error;
+            }
+            
+            res.status(200).json({
+                message: 'photoroll updated!',
+                photoroll: photoroll
+            });
+            
+        })
+        .catch(err => {
+            if (!err.statusCode) {
+                err.statusCode = 500;
+            }
+            next(err);
+        });
+        
     }
-};
+    
+}
 
 exports.updatePhotoroll = async (req, res, next) => {
     const phId = req.body._id;
