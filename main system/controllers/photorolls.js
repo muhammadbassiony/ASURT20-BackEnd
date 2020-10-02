@@ -3,6 +3,7 @@ const Photoroll = require("../models/photoroll");
 const Comp = require("../models/competition");
 // const error = require("../utils/errorFunction");
 const fs = require("fs");
+const { SSL_OP_NETSCAPE_CA_DN_BUG } = require("constants");
 
 exports.getPhotoroll = async (req, res, next) => {
     const id = req.params.id;
@@ -20,8 +21,13 @@ exports.updatePhotoroll = async (req, res, next) => {
     const title = req.body.title;
     const files = req.files;
     // const competitionId = req.body.competitionId;
-    const images = files.map((image) => image.filename);
-    console.log('PH-CNTRL : IMAGES ::\n', images);
+    try {
+        const images = files.map((image) => image.filename);
+    } catch (error) {
+        next(error);
+    }
+    
+    console.log('\n\nPH-CNTRL : IMAGES ::\n', images);
 
     Photoroll.findById(phId)
     .then(photoroll => {
