@@ -12,25 +12,25 @@ const  extractCv = require('../../middleware/pdf-files');
 
 const router = express.Router();
 
-router.post('/add-new-app', extractCv, applicationsController.newApp);
+router.post('/add-new-app',  isAuth, extractCv, applicationsController.newApp);
 
-router.get('/all-apps', applicationsController.getAllApps); //why? - not implemented in front end
+router.get('/all-apps', isAuth, isAdmin(2), applicationsController.getAllApps); //why? - not implemented in front end
 
-router.get('/get-app/:appId', applicationsController.getApp);
+router.get('/get-app/:appId',  isAuth, isAdmin(2), applicationsController.getApp);
 
-router.get('/user-apps/:userId', applicationsController.getUserApps);
+router.get('/user-apps/:userId',  isAuth, isAdmin(2), applicationsController.getUserApps);
 
-router.get('/event-apps/:eventId', applicationsController.getEventApps);
+router.get('/event-apps/:eventId',  isAuth, isAdmin(2), applicationsController.getEventApps);
 
-router.get('/subteam-apps/:subteamId', applicationsController.getSubteamApps);
+router.get('/subteam-apps/:subteamId',  isAuth, isAdmin(2), applicationsController.getSubteamApps);
 
-router.put('/update-app/:appId', applicationsController.updateApp);
+router.put('/update-app/:appId',  isAuth, isAdmin(2), applicationsController.updateApp);
 
-router.get('/user-event-apps/:userId', applicationsController.getUserEvents);
+router.get('/user-event-apps/:userId',  isAuth, isAdmin(2), applicationsController.getUserEvents);
 
-router.post('/send-acc-mails/:eventId', applicationsController.sendAcceptedEmails);
+router.post('/send-acc-mails/:eventId',  isAuth, isAdmin(3), applicationsController.sendAcceptedEmails);
 
-router.post('/send-rej-mails/:eventId', applicationsController.sendRejectedEmails);
+router.post('/send-rej-mails/:eventId',  isAuth, isAdmin(3), applicationsController.sendRejectedEmails);
 
 router.get('/event-csv/:eventId', applicationsController.exportCsv);
 
