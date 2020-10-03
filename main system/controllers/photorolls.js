@@ -6,10 +6,11 @@ const fs = require("fs");
 const { SSL_OP_NETSCAPE_CA_DN_BUG } = require("constants");
 const photoroll = require("../models/photoroll");
 
-exports.getPhotoroll = async (req, res, next) => {
+exports.getPhotoroll = (req, res, next) => {
     const id = req.params.id;
     
     if(id.length>6){
+
         Photoroll.findById(id)
         .then(photoroll => {
             if(!photoroll){
