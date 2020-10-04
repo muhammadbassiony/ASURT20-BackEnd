@@ -26,7 +26,7 @@ router.get('/subteam-apps/:subteamId',  isAuth, isAdmin(2), applicationsControll
 
 router.put('/update-app/:appId',  isAuth, isAdmin(2), applicationsController.updateApp);
 
-router.get('/user-event-apps/:userId',  isAuth, isAdmin(2), applicationsController.getUserEvents);
+router.get('/user-event-apps/:userId',  isAuth, applicationsController.getUserEvents);
 
 router.post('/send-acc-mails/:eventId',  isAuth, isAdmin(3), applicationsController.sendAcceptedEmails);
 

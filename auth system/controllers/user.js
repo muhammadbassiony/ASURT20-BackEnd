@@ -55,7 +55,7 @@ exports.generateJWT = (id, level) => {
     );
 }
 
-//equivalent to sign up function
+
 exports.signUp = (req, res, next) => {
     const email = req.body.email;
     // const name = req.body.name;

@@ -10,6 +10,7 @@ const path = require('path')
 const { Parser, transforms: { unwind } } = require('json2csv');
 
 const Email = require('./emails');
+const { all } = require('../routes/team');
 const currentSeason = '20-21';  //create setter and getter later
 
 exports.getAllApps = (req, res, next) => {
@@ -246,24 +247,34 @@ exports.getUserEvents = (req, res, next) => {
 
         userEvents = [];
         userApps.forEach(e => userEvents.push(e.event));
-        // console.log('evss:: ', userEvents);
+        // console.log('evss 11111 :: \n', userEvents);
 
         return Event.find({ _id: { $in: userEvents } }).populate('team');
     })
     .then(userEvents => {
-        // console.log('usersss::', userEvents);
+        console.log('usersss::', userEvents == null);
         Event.find()
         .populate('team')
         .then(allEvents => {
+            if(userEvents.length < 1){
+                res.status(200).json({
+                    message: 'user app events fetched!',
+                    appliedTo: [],
+                    didntApply:  allEvents
+                });
+                return;
+            }
+
+
             let difference = allEvents.filter(ev => {
-                return userEvents.some(e => JSON.stringify(e._id) !== JSON.stringify(ev._id) );
+                return userEvents.some(e => JSON.stringify(e._id) !== JSON.stringify(ev._id));
             });
             
             res.status(200).json({
                 message: 'user app events fetched!',
                 appliedTo: userEvents,
                 didntApply:  difference
-            })
+            });
         })
     })
     .catch(err => {
@@ -339,9 +350,12 @@ exports.sendRejectedEmails = (req, res, next) => {
     .then(apps => {
         // console.log('REQUEST HERE :: APPS :: \n\n', apps);
         apps.forEach(app => {
+            // console.log('\nREJ HERE ::\n', phase, app.currentPhase, 
+            //     JSON.stringify(app.currentPhase) === JSON.stringify(phase));
+            // console.log(app.currentPhaseStatus, JSON.stringify(app.currentPhaseStatus) !== JSON.stringify('ACCEPTED'));
             if(JSON.stringify(app.currentPhase) === JSON.stringify(phase) && 
                     JSON.stringify(app.currentPhaseStatus) !== JSON.stringify('ACCEPTED')){
-               
+                
                 emails.push(app.user.email);
                 countRejected ++;
             }
