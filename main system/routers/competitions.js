@@ -24,6 +24,8 @@ router.post(
     competitionsController.addNewCompetition
 );
 
+router.put('/update-comp/:compId', competitionsController.updateCompetition);
+
 router.post('/add-award/:compId', competitionsController.addNewAward);
 
 // router.get('/get-award/:awardId', competitionsController.getAward);

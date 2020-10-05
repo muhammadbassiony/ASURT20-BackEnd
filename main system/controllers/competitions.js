@@ -43,6 +43,39 @@ exports.getCompetition = async (req, res, next) => {
     }
 };
 
+exports.updateCompetition = (req, res, next) => {
+    const compId = req.params.compId;
+
+    const name = req.body.name;
+    const visible = req.body.visible;
+    const awards = req.body.awards;
+    const photoroll = req.body.photoroll;
+
+    Competition.findById(compId)
+    .then(comp => {
+        if (!comp) errorFunction("Competition doesn't exist", 404);
+
+        comp.name = name;
+        comp.visible = visible;
+        comp.awards = awards;
+        comp.photoroll = photoroll;
+
+        return comp.save();
+    })
+    .then(updatedComp => {
+        res.status(201).json({
+            message: 'competition updated!',
+            competition: updatedComp
+        });
+    })
+    .catch(err => {
+        if (!err.statusCode) {
+            err.statusCode = 500;
+        }
+        next(err);
+    });
+}
+
 
 
 exports.addNewAward = (req, res, next) => {
