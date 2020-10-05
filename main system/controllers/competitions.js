@@ -46,65 +46,137 @@ exports.getCompetition = async (req, res, next) => {
 
 
 exports.addNewAward = (req, res, next) => {
-    const competitionId = req.body.competitionId;
-    //change to id and cast it as an id - use the next line
-    // const competitionId = mongoose.Types.ObjectId(req.params.competitionId);
+    const compId = req.params.compId;
+    
     const title = req.body.title;
     const description = req.body.description;
     const imagePrize = req.file.path;
 
-    // REPLACE  this entire function whith the following flow:
-    // 1- get competition by ID if not found throw error
-    // 2- if found: save this award with the competition Id
+    let comp;
 
     const award = new Award({
         competitionId: competitionId,
         title: title,
         description: description,
-        imagePath: imagePrize,
+        imagePath: imagePrize
     });
 
-    Competition.findById(competitionId)
+    Competition.findById(compId)
     .then((competitionExists) => {
         if (!competitionExists) errorFunction("Competition doesn't exist", 404);
 
-        award
-        .save()
-        .then((result) => {
-            competitionExists.prizes.push(result._id);
-            competitionExists.save();
-            res.status(201).json({
-                message: "saved successfully!!",
-                award: result,
-            });
-        })
-        .catch((err) => {
-            next(err);
+        comp = competitionExists;
+        // award
+        // .save()
+        // .then((result) => {
+        //     competitionExists.awards.push(result._id);
+        //     competitionExists.save();
+        //     res.status(201).json({
+        //         message: "saved successfully!!",
+        //         award: result,
+        //     });
+        // })
+        // .catch((err) => {
+        //     next(err);
+        // });
+
+        return award.save();
+    })
+    .then(aw => {
+        comp.awards.push(aw._id);
+        award = aw;
+        return comp.save();
+    })
+    .then(result => {
+        res.status(201).json({
+            message: "saved successfully!!",
+            award: award
         });
     })
     .catch((err) => next(err));
 };
 
 
-// review this function
-exports.getPrizes = (req, res, next) => {
-    const id = req.params.id;
+// // review this function
+// exports.getPrizes = (req, res, next) => {
+//     const id = req.params.id;
 
-    // FIND BY COMPETITION ID!! - validate competition exists first as well
+//     // FIND BY COMPETITION ID!! - validate competition exists first as well
 
-    Award.findById(id)
-        .then((result) => {
-            if (result.length <= 0) {
-                errorFunction(`There's no prizes with the id : ${id}`, 404);
-            }
+//     Award.findById(id)
+//         .then((result) => {
+//             if (result.length <= 0) {
+//                 errorFunction(`There's no prizes with the id : ${id}`, 404);
+//             }
 
-            res.status(200).json(result);
-        })
-        .catch((err) => {
-            if (err instanceof mongoose.Error.CastError) {
-                err.message = "Invalid id";
-                err.statusCode = 400;
-            }
-            next(err);
+//             res.status(200).json(result);
+//         })
+//         .catch((err) => {
+//             if (err instanceof mongoose.Error.CastError) {
+//                 err.message = "Invalid id";
+//                 err.statusCode = 400;
+//             }
+//             next(err);
+//         });
+// };
+
+exports.updateAward = (req, res, next) => {
+    const awardId = req.params.awardId;
+
+    const title = req.body.title;
+    const description = req.body.description;
+    const imagePath = req.file.path;
+
+    Award.findById(awardId)
+    .then(award => {
+        if(!award){
+            const error = new Error('Could not find this award');
+            error.statusCode = 404;
+            throw error;
+        }
+
+        award.title = title;
+        award.description = description;
+        award.imagePath = imagePath;
+
+        return award.save();
+    })
+    .then(award => {
+        res.status(201).json({
+            award: award
         });
-};
+    })
+    .catch(err => {
+        if (!err.statusCode) {
+            err.statusCode = 500;
+        }
+        next(err);
+    });
+}
+
+
+exports.deleteAward = (req, res, next) => {
+    const awardId = req.body.awardId;
+    const compId = req.body.compId;
+
+    Competition.findById(compId)
+    .then(comp => {
+        comp.awards.filter(aw => aw !== awardId);
+
+        return comp.save();
+    })
+    .then(updatedComp => {
+        return Award.findByIdAndDelete(awardId);
+    })
+    .then(aw => {
+        res.status(200).json({
+            message: 'award deleted!'
+        });
+    })
+    .catch(err => {
+        if (!err.statusCode) {
+            err.statusCode = 500;
+        }
+        next(err);
+    });
+}
