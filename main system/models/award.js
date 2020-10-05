@@ -13,7 +13,7 @@ const awardsSchema = new Schema({
         imagePath: {
             type: String,
             required: true,
-        },
+        }
     },
     { timestamps: true }
 );

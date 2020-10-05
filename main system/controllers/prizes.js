@@ -3,7 +3,6 @@ const Competition = require("../models/competition");
 // const errorFunction = require("../utils/errorFunction");
 
 const mongoose = require("mongoose");
-// const competition = require("../models/competition");
 
 exports.addPrize = (req, res, next) => {
     const competitionId = req.body.competitionId;
