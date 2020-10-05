@@ -16,7 +16,8 @@ exports.addNewCompetition = async (req, res, next) => {
 
 exports.getAllCompetitions = async (req, res, next) => {
     try {
-        const competitions = await Competition.find().populate("photoroll").populate("awards");
+        // const competitions = await Competition.find().populate("photoroll").populate("awards");
+        const competitions = await Competition.find();
         res.status(200).json({ 
             message: 'fetched All comps!',
             competitions: competitions
