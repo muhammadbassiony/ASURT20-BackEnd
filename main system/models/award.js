@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const prizesSchema = new Schema({
+const awardsSchema = new Schema({
         title: {
             type: String,
             required: true,
@@ -10,11 +10,11 @@ const prizesSchema = new Schema({
             type: String,
             required: true,
         },
-        imagePrize: {
+        imagePath: {
             type: String,
             required: true,
         },
     },
     { timestamps: true }
 );
-module.exports = mongoose.model("Prize", prizesSchema);
+module.exports = mongoose.model("Award", awardsSchema);

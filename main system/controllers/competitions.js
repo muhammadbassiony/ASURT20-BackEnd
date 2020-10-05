@@ -1,13 +1,13 @@
 const { Error } = require("mongoose");
-const Comp = require("../models/competition");
+const Competition = require("../models/competition");
 // const error = require("../utils/errorFunction");
 
 exports.addNewCompetition = async (req, res, next) => {
     const name = req.body.name;
     try {
-        const competition = await Comp.findOne({ name });
+        const competition = await Competition.findOne({ name });
         if (competition) error("Competition already exists", 400, [{ competition }]);
-        const doc = await new Comp({ name }).save();
+        const doc = await new Competition({ name }).save();
         res.status(201).json({ competition: doc });
     } catch (err) {
         next(err);
@@ -16,7 +16,7 @@ exports.addNewCompetition = async (req, res, next) => {
 
 exports.getAllCompetitions = async (req, res, next) => {
     try {
-        const competitions = await Comp.find().populate("photoroll").populate("prizes");
+        const competitions = await Competition.find().populate("photoroll").populate("prizes");
         res.status(200).json({ competitions });
     } catch (err) {
         next(err);
@@ -26,7 +26,7 @@ exports.getAllCompetitions = async (req, res, next) => {
 exports.getCompetition = async (req, res, next) => {
     const id = req.params.id;
     try {
-        const competition = await Comp.findById(id).populate("photoroll").populate("prizes");
+        const competition = await Competition.findById(id).populate("photoroll").populate("prizes");
         if (!competition) error("Competition not found", 404, [{ id }]);
         res.status(200).json({ competition });
     } catch (err) {

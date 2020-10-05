@@ -1,9 +1,9 @@
-const Prize = require("../models/prizes");
-const Comp = require("../models/competition");
+const Award = require("../models/award");
+const Competition = require("../models/competition");
 // const errorFunction = require("../utils/errorFunction");
 
 const mongoose = require("mongoose");
-const competition = require("../models/competition");
+// const competition = require("../models/competition");
 
 exports.addPrize = (req, res, next) => {
     const competitionId = req.body.competitionId;
@@ -17,30 +17,32 @@ exports.addPrize = (req, res, next) => {
     // 1- get competition by ID if not found throw error
     // 2- if found: save this award with the competition Id
 
-    const prize = new Prize({
+    const award = new Award({
         competitionId: competitionId,
         title: title,
         description: description,
-        imagePrize: imagePrize,
+        imagePath: imagePrize,
     });
-    Comp.findById(competitionId)
-        .then((competitionExists) => {
-            if (!competitionExists) errorFunction("Competition doesn't exist", 404);
-            prize
-                .save()
-                .then((result) => {
-                    competitionExists.prizes.push(result._id);
-                    competitionExists.save();
-                    res.status(201).json({
-                        message: "saved successfully!!",
-                        award: result,
-                    });
-                })
-                .catch((err) => {
-                    next(err);
-                });
+
+    Competition.findById(competitionId)
+    .then((competitionExists) => {
+        if (!competitionExists) errorFunction("Competition doesn't exist", 404);
+
+        award
+        .save()
+        .then((result) => {
+            competitionExists.prizes.push(result._id);
+            competitionExists.save();
+            res.status(201).json({
+                message: "saved successfully!!",
+                award: result,
+            });
         })
-        .catch((err) => next(err));
+        .catch((err) => {
+            next(err);
+        });
+    })
+    .catch((err) => next(err));
 };
 
 exports.getPrizes = (req, res, next) => {
@@ -48,7 +50,7 @@ exports.getPrizes = (req, res, next) => {
 
     // FIND BY COMPETITION ID!! - validate competition exists first as well
 
-    Prize.findById(id)
+    Award.findById(id)
         .then((result) => {
             if (result.length <= 0) {
                 errorFunction(`There's no prizes with the id : ${id}`, 404);
