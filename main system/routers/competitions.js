@@ -13,14 +13,14 @@ router.get("/get-comp/:id", competitionsController.getCompetition);
 
 router.post(
     "/add-comp",
-    [
-        body("name")
-        .isLength({ min: 3 })
-        .withMessage("Competition name must be at least 3 characters"),
-    ],
-    isAuth,
-    isAdmin(3),
-    validate("Competition data is invalid"),
+    // [
+    //     body("name")
+    //     .isLength({ min: 3 })
+    //     .withMessage("Competition name must be at least 3 characters"),
+    // ],
+    // isAuth,
+    // isAdmin(3),
+    // validate("Competition data is invalid"),
     competitionsController.addNewCompetition
 );
 
@@ -32,6 +32,6 @@ router.post('/add-award/:compId', competitionsController.addNewAward);
 
 router.put('/update-award/:awardId', competitionsController.updateAward);
 
-router.delete('/delete-award', competitionsController.deleteAward);
+router.delete('/delete-award/:awardId/:compId', competitionsController.deleteAward);
 
 module.exports = router;

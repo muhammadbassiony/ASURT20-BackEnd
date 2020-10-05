@@ -5,7 +5,7 @@ const Award = require('../models/award');
 exports.addNewCompetition = async (req, res, next) => {
     const name = req.body.name;
     try {
-        const competition = await Competition.findOne({ name });
+        const competition = await Competition.findOne({ name: name });
         if (competition) error("Competition already exists", 400, [{ competition }]);
         const doc = await new Competition({ name }).save();
         res.status(201).json({ competition: doc });
@@ -98,21 +98,7 @@ exports.addNewAward = (req, res, next) => {
     Competition.findById(compId)
     .then((competitionExists) => {
         if (!competitionExists) errorFunction("Competition doesn't exist", 404);
-
         comp = competitionExists;
-        // award
-        // .save()
-        // .then((result) => {
-        //     competitionExists.awards.push(result._id);
-        //     competitionExists.save();
-        //     res.status(201).json({
-        //         message: "saved successfully!!",
-        //         award: result,
-        //     });
-        // })
-        // .catch((err) => {
-        //     next(err);
-        // });
 
         return award.save();
     })
@@ -131,7 +117,7 @@ exports.addNewAward = (req, res, next) => {
 };
 
 
-// // review this function
+// // review this function - not needed?
 // exports.getPrizes = (req, res, next) => {
 //     const id = req.params.id;
 
@@ -190,8 +176,8 @@ exports.updateAward = (req, res, next) => {
 
 
 exports.deleteAward = (req, res, next) => {
-    const awardId = req.body.awardId;
-    const compId = req.body.compId;
+    const awardId = req.params.awardId;
+    const compId = req.params.compId;
 
     Competition.findById(compId)
     .then(comp => {
