@@ -244,27 +244,24 @@ exports.getUserEvents = (req, res, next) => {
     Application.find({ user: user })
     .populate({path: 'event', populate: {path: 'team', model: 'Team'}})
     .then(userApps => {
-
         userEvents = [];
         userApps.forEach(e => userEvents.push(e.event));
         // console.log('evss 11111 :: \n', userEvents);
-
         return Event.find({ _id: { $in: userEvents } }).populate('team');
     })
     .then(userEvents => {
-        console.log('usersss::', userEvents == null);
+        // console.log('usersss :: ', userEvents == null);
         Event.find()
         .populate('team')
         .then(allEvents => {
-            if(userEvents.length < 1){
+            if(userEvents.length < 1) {
                 res.status(200).json({
                     message: 'user app events fetched!',
                     appliedTo: [],
                     didntApply:  allEvents
                 });
-                return;
+                return ;
             }
-
 
             let difference = allEvents.filter(ev => {
                 return userEvents.some(e => JSON.stringify(e._id) !== JSON.stringify(ev._id));

@@ -1,16 +1,18 @@
 const router = require("express").Router();
 const { body } = require("express-validator");
 
-const { getAll, add, getOne } = require("../controllers/competitions");
+const competitionsController = require("../controllers/competitions");
 
 const isAdmin = require("../../middleware/isAdmin");
 const isAuth = require("../../middleware/isAuth");
 const validate = require("../../middleware/validate");
 
-router.get("/getAll", getAll);
-router.get("/getOne/:id", getOne);
+router.get("/get-all-comps",  competitionsController.getAllCompetitions);
+
+router.get("/get-comp/:id", competitionsController.getCompetition);
+
 router.post(
-    "/add",
+    "/add-comp",
     [
         body("name")
             .isLength({ min: 3 })
@@ -19,7 +21,7 @@ router.post(
     isAuth,
     isAdmin(3),
     validate("Competition data is invalid"),
-    add
+    competitionsController.addNewCompetition
 );
 
 module.exports = router;
