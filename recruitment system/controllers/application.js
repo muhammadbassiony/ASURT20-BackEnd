@@ -421,7 +421,7 @@ exports.exportCsv = (req, res, next) => {
             eventId + "-" + Date.now() + "-query.csv");
         
         const csv = json2csvParser.parse(apps);
-
+        
         fs.writeFile(filePath, csv, function(err) {
             if (err) throw err;
             // res.status(200).json({
