@@ -192,6 +192,8 @@ exports.deleteAward = (req, res, next) => {
     const awardId = req.params.awardId;
     const compId = req.params.compId;
 
+    //delete award pic 
+    
     Competition.findById(compId)
     .then(comp => {
         comp.awards.filter(aw => aw !== awardId);
