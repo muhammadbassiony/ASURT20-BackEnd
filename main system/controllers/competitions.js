@@ -27,6 +27,19 @@ exports.getAllCompetitions = async (req, res, next) => {
     }
 };
 
+exports.getAllCompetitionsPopulated = async (req, res, next) => {
+    try {
+        const competitions = await Competition.find().populate("photoroll").populate("awards");
+        // const competitions = await Competition.find();
+        res.status(200).json({ 
+            message: 'fetched All comps!',
+            competitions: competitions
+        });
+    } catch (err) {
+        next(err);
+    }
+};
+
 exports.getCompetition = async (req, res, next) => {
     const id = req.params.id;
     try {
@@ -88,8 +101,8 @@ exports.addNewAward = (req, res, next) => {
 
     let comp;
 
-    const award = new Award({
-        competitionId: competitionId,
+    let award = new Award({
+        // competitionId: competitionId,
         title: title,
         description: description,
         imagePath: imagePrize
