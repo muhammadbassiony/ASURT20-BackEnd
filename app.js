@@ -14,7 +14,6 @@ const appsRoutes = require('./recruitment system/routes/application');
 const interviewRoutes = require('./recruitment system/routes/interview');
 
 const photorollsRouter = require("./main system/routers/photorolls");
-// const usersRouter = require("./routers/users");
 const sponsorsRouter = require("./main system/routers/sponsors");
 const prizesRouter = require("./main system/routers/prizes");
 const competitionsRouter = require("./main system/routers/competitions");
@@ -37,6 +36,17 @@ var options = {
 
 const app = express();
 
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader(
+      'Access-Control-Allow-Methods',
+      'OPTIONS, GET, POST, PUT, PATCH, DELETE'
+  );
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Content-Type-Options');
+  // res.setHeader('X-Content-Type-Options', 'nosniff');    
+  next();
+});
+
 app.use(bodyParser.json()); 
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -44,7 +54,7 @@ app.use("/images", express.static(path.join(__dirname, "images")));
 app.use("/sponsors", express.static(path.join(__dirname, "images", "sponsors")));
 app.use("/photorolls", express.static(path.join(__dirname, "images", "photorolls")));
 
-app.use("/recruitment system/cvs", express.static(path.join(__dirname, "recruitment system", "cvs")));
+app.use("/cvs", express.static(path.join(__dirname, "recruitment system", "cvs")));
 app.use("/recruitment system/excel-files", express.static(path.join(__dirname,  "recruitment system", "excel-files")));
 
 app.use((req, res, next) => {
