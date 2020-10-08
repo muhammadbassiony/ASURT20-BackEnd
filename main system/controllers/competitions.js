@@ -59,11 +59,12 @@ exports.getCompetition = async (req, res, next) => {
 
 exports.updateCompetition = (req, res, next) => {
     const compId = req.params.compId;
-
+    
     const name = req.body.name;
     const visible = req.body.visible;
     const awards = req.body.awards;
     const photoroll = req.body.photoroll;
+
 
     Competition.findById(compId)
     .then(comp => {
