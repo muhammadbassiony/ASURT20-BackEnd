@@ -64,25 +64,22 @@ exports.activate = async(req, res, next) => {
 };
 
 exports.addSponsor = async(req, res, next) => {
-    console.log("el request nafso ::", req);
-    console.log("el body b2a ::", req.body);
+ 
     const { name, desc } = req.body;
-    const file = req.file;
+    const file = req.file.path;
 
-    console.log('checkpoint 3', name, desc, file);
 
     try {
-        const doc = await Sponsor.findOne({ name: name });
-        if (doc) {
-            fs.unlink(`images/sponsors/${file.filename}`, (err) => {});
-            error("Sponsor already exists", 400, [{ id: doc._id, name }]);
-        }
-        console.log('checkpoint 3', name, desc, file);
-        const data = { name, desc: desc, logo: file.path, message: "sponsor created!" };
-        console.log('checkpoint 1', data);
+        // const doc = await Sponsor.findOne({ name: name });
+        // if (doc) {
+        //     fs.unlink(`images/sponsors/${file}`, (err) => {});
+        //     error("Sponsor already exists", 400, [{ id: doc._id, name }]);
+        // }
+        const data = { name, desc: desc, logo: file, message: "sponsor created!" };
+    
         const newSponsor = await new Sponsor(data).save();
         data.id = newSponsor._id;
-        console.log('checkpoint 2', newSponsor, data);
+        
         res.status(201).json({
             sponsor: data,
         });

@@ -8,6 +8,7 @@ module.exports = (folders = { main: "", sub: "" }, single = true, fieldName = "f
     
     const storage = multer.diskStorage({
         destination: (req, file, cb) => {
+            console.log('UPLOAD MIDDLEWARE DEST HERE ::');
             let dir = `${mainFolder}`;
             if (!fs.existsSync(dir)) fs.mkdirSync(dir);
             dir =`${mainFolder}/${subFolder}`
@@ -16,7 +17,7 @@ module.exports = (folders = { main: "", sub: "" }, single = true, fieldName = "f
         },
         filename: (req, file, cb) => {
             const fileName = `${new Date().getTime()}_${file.originalname}`;
-            // console.log('UPLOAD MIDDLEWARE FILENAME ::', fileName);
+            console.log('UPLOAD MIDDLEWARE FILENAME ::', fileName);
             cb(null, fileName);
         },
     });
