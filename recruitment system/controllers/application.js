@@ -70,7 +70,7 @@ exports.newApp = (req, res, next) => {
     const event = mongoose.Types.ObjectId(req.body.eventId);
     const selSubteam1 = mongoose.Types.ObjectId(req.body.selectedSubteam1);
     const selSubteam2 = mongoose.Types.ObjectId(req.body.selectedSubteam2);
-    const cvPath =  "/cvs/" + req.file.filename;
+    const cvPath =  "/recruitment system/cvs/" + req.file.filename;
     // const cvPath = url + "/cvs/" + req.file.filename;
     const userAnswers = JSON.parse(req.body.userAnswers);
     // console.log("/cvs/" + req.file.filename, '\n\n\n');
