@@ -39,13 +39,15 @@ const app = express();
 
 app.use(bodyParser.json()); 
 app.use(bodyParser.urlencoded({ extended: false }));
-
+// app.use("/index", express.static(path.join(__dirname, "images")));
 app.use("/images", express.static(path.join(__dirname, "images")));
 app.use("/sponsors", express.static(path.join(__dirname, "images", "sponsors")));
 app.use("/photorolls", express.static(path.join(__dirname, "images", "photorolls")));
 
 app.use("/recruitment system/cvs", express.static(path.join(__dirname, "recruitment system", "cvs")));
 app.use("/recruitment system/excel-files", express.static(path.join(__dirname,  "recruitment system", "excel-files")));
+
+app.use("/", express.static(path.join(__dirname, "angular")));
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -72,8 +74,8 @@ app.use("/api/main/competitions", competitionsRouter);
 
 // TODO :: set global this.currentSeason for all app?? where?? with front??- leave for next season
 
-app.use("", (req, res) => {
-  res.sendFile(path.join(__dirname, "views", "doc.html"));
+app.use((req, res, next) => {
+  res.sendFile(path.join(__dirname, "angular", "index.html"));
 });
 
 app.use((error, req, res, next) => {
