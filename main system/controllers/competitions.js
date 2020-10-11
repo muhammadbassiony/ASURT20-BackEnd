@@ -59,11 +59,12 @@ exports.getCompetition = async (req, res, next) => {
 
 exports.updateCompetition = (req, res, next) => {
     const compId = req.params.compId;
-
+    
     const name = req.body.name;
     const visible = req.body.visible;
     const awards = req.body.awards;
     const photoroll = req.body.photoroll;
+
 
     Competition.findById(compId)
     .then(comp => {
@@ -94,10 +95,11 @@ exports.updateCompetition = (req, res, next) => {
 
 exports.addNewAward = (req, res, next) => {
     const compId = req.params.compId;
-    
+    // console.log('ADD NEW AWARD :: \n');
     const title = req.body.title;
     const description = req.body.description;
     const imagePrize = req.file.path;
+    // console.log('ADD NEW AWARD :: \n', title, description);
 
     let comp;
 
@@ -193,7 +195,7 @@ exports.deleteAward = (req, res, next) => {
     const compId = req.params.compId;
 
     //delete award pic 
-    
+
     Competition.findById(compId)
     .then(comp => {
         comp.awards.filter(aw => aw !== awardId);

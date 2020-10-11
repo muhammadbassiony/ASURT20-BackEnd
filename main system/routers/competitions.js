@@ -5,7 +5,7 @@ const competitionsController = require("../controllers/competitions");
 
 const isAdmin = require("../../middleware/isAdmin");
 const isAuth = require("../../middleware/isAuth");
-const validate = require("../../middleware/validate");
+// const validate = require("../../middleware/validate");
 const upload = require("../../middleware/upload");
 
 router.get("/get-all-comps",  competitionsController.getAllCompetitions);

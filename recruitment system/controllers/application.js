@@ -64,13 +64,14 @@ exports.getApp = (req, res, next) => {
 
 //adjust function to receive form data not json
 exports.newApp = (req, res, next) => {
-    const url = req.protocol + "://" + req.get("host");
+    // const url = req.protocol + "://" + req.get("host");
 
     const user = mongoose.Types.ObjectId(req.body.userId);
     const event = mongoose.Types.ObjectId(req.body.eventId);
     const selSubteam1 = mongoose.Types.ObjectId(req.body.selectedSubteam1);
     const selSubteam2 = mongoose.Types.ObjectId(req.body.selectedSubteam2);
-    const cvPath = url + "/cvs/" + req.file.filename;
+    const cvPath =  "/cvs/" + req.file.filename;
+    // const cvPath = url + "/cvs/" + req.file.filename;
     const userAnswers = JSON.parse(req.body.userAnswers);
     // console.log("/cvs/" + req.file.filename, '\n\n\n');
 
@@ -195,7 +196,7 @@ exports.getSubteamApps = (req, res, next) => {
 
 exports.updateApp = (req, res, next) => {
     const appId = req.params.appId;
-
+    
     const user = mongoose.Types.ObjectId(req.body.userId);
     const event = mongoose.Types.ObjectId(req.body.eventId);
     const selSubteam1 = mongoose.Types.ObjectId(req.body.selectedSubteam1);
@@ -221,7 +222,7 @@ exports.updateApp = (req, res, next) => {
         app.userAnswers = userAnswers;
         app.currentPhase = currentPhase;
         app.currentPhaseStatus = currentPhaseStatus;
-
+        
         return app.save();
     })
     .then(app => {
@@ -421,7 +422,7 @@ exports.exportCsv = (req, res, next) => {
             eventId + "-" + Date.now() + "-query.csv");
         
         const csv = json2csvParser.parse(apps);
-
+        
         fs.writeFile(filePath, csv, function(err) {
             if (err) throw err;
             // res.status(200).json({
@@ -430,6 +431,7 @@ exports.exportCsv = (req, res, next) => {
             // });
             res.sendFile(filePath);
         });
+        //delete file here?
 
     })
     .catch(err => {
