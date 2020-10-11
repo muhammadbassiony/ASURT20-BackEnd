@@ -20,10 +20,14 @@ const competitionsRouter = require("./main system/routers/competitions");
 
 
 if (process.env.NODE_ENV !== "production") require("dotenv").config();
+// require("dotenv").config();
 
 
 const MONGODB_URI =
    'mongodb+srv://admin:admin@cluster0.9141m.mongodb.net/recruitment?retryWrites=true&w=majority';
+
+// const MONGODB_URI = "mongodb://localhost:27017/asurtWebsite"
+
 
 
 
@@ -57,6 +61,9 @@ app.use("/photorolls", express.static(path.join(__dirname, "images", "photorolls
 app.use("/cvs", express.static(path.join(__dirname, "recruitment system", "cvs")));
 app.use("/recruitment system/excel-files", express.static(path.join(__dirname,  "recruitment system", "excel-files")));
 
+app.use("/", express.static(path.join(__dirname, "angular")));
+
+
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader(
@@ -85,6 +92,11 @@ app.use("/api/main/competitions", competitionsRouter);
 app.use("", (req, res) => {
   res.sendFile(path.join(__dirname, "views", "doc.html"));
 });
+
+
+// app.use((req, res, next) => {
+//   res.sendFile(path.join(__dirname, "angular", "index.html"));
+// });
 
 app.use((error, req, res, next) => {
   console.log(error);

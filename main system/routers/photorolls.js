@@ -13,11 +13,12 @@ router.post(
     "/update",
     isAuth,
     isAdmin(2),
-    upload({ sub: "photorolls" }, false),
+    upload({ sub: "photorolls" }, false, "images"),
     photorollsController.updatePhotoroll
 );
 router.delete("/delete", isAuth, isAdmin(2), photorollsController.delete);
 
+//not required in front end - no auth needed
 router.post('/add-new', photorollsController.addNewPhotoroll);
 
 router.get('/get-all', photorollsController.getAllPhotorolls);
