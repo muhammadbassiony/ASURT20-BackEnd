@@ -64,6 +64,7 @@ exports.updatePhotoroll = async (req, res, next) => {
     const phId = req.body._id;
     const title = req.body.title;
     const files = req.files;
+    console.log('UPDATE PHOTOROLL BODY FILES :: \n\n', req.body, req.files);
     // const competitionId = req.body.competitionId;
     try {
         const images = files.map((image) => image.filename);

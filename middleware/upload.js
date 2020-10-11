@@ -4,7 +4,7 @@ const fs = require("fs");
 module.exports = (folders = { main: "", sub: "" }, single = true, fieldName = "file") => {
     const mainFolder = folders.main || "images";
     const subFolder = folders.sub || "";
-
+    console.log('UPLOAD MIDDLEWARE DEST HERE OG OG ::');
     
     const storage = multer.diskStorage({
         destination: (req, file, cb) => {

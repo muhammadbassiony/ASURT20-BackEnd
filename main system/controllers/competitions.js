@@ -15,6 +15,7 @@ exports.addNewCompetition = async (req, res, next) => {
 };
 
 exports.getAllCompetitions = async (req, res, next) => {
+    
     try {
         // const competitions = await Competition.find().populate("photoroll").populate("awards");
         const competitions = await Competition.find();
@@ -68,7 +69,7 @@ exports.updateCompetition = (req, res, next) => {
 
     Competition.findById(compId)
     .then(comp => {
-        if (!comp) errorFunction("Competition doesn't exist", 404);
+        if (!comp) throw new Error("Competition doesn't exist", 404);
 
         comp.name = name;
         comp.visible = visible;
