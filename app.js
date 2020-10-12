@@ -88,9 +88,9 @@ app.use("/api/main/competitions", competitionsRouter);
 
 // TODO :: set global this.currentSeason for all app?? where?? with front??- leave for next season
 
-// app.use((req, res, next) => {
-//   res.sendFile(path.join(__dirname, "angular", "index.html"));
-// });
+app.use((req, res, next) => {
+  res.sendFile(path.join(__dirname, "angular", "index.html"));
+});
 
 
 
@@ -105,7 +105,10 @@ app.use((error, req, res, next) => {
 
 mongoose
   .connect(
-    MONGODB_URI
+    MONGODB_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    }
   )
   .then(result => {
     app.listen(process.env.PORT || 3000);
