@@ -19,14 +19,14 @@ const prizesRouter = require("./main system/routers/prizes");
 const competitionsRouter = require("./main system/routers/competitions");
 
 
-if (process.env.NODE_ENV !== "production") require("dotenv").config();
-// require("dotenv").config();
+// if (process.env.NODE_ENV !== "production") require("dotenv").config();
+require("dotenv").config();
 
 
-const MONGODB_URI =
-  'mongodb+srv://admin:admin@cluster0.9141m.mongodb.net/recruitment?retryWrites=true&w=majority';
+//const MONGODB_URI =
+// 'mongodb+srv://admin:admin@cluster0.9141m.mongodb.net/recruitment?retryWrites=true&w=majority';
 
-// const MONGODB_URI = "mongodb://localhost:27017/asurtWebsite"
+const MONGODB_URI = "mongodb://localhost:27017/asurtWebsite"
 
 
 
