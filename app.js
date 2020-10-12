@@ -23,10 +23,10 @@ if (process.env.NODE_ENV !== "production") require("dotenv").config();
 // require("dotenv").config();
 
 
-//const MONGODB_URI =
-//   'mongodb+srv://admin:admin@cluster0.9141m.mongodb.net/recruitment?retryWrites=true&w=majority';
+const MONGODB_URI =
+  'mongodb+srv://admin:admin@cluster0.9141m.mongodb.net/recruitment?retryWrites=true&w=majority';
 
-const MONGODB_URI = "mongodb://localhost:27017/asurtWebsite"
+// const MONGODB_URI = "mongodb://localhost:27017/asurtWebsite"
 
 
 
@@ -53,7 +53,7 @@ app.use((req, res, next) => {
 
 app.use(bodyParser.json()); 
 app.use(bodyParser.urlencoded({ extended: false }));
-// app.use("/index", express.static(path.join(__dirname, "images")));
+
 app.use("/images", express.static(path.join(__dirname, "images")));
 app.use("/sponsors", express.static(path.join(__dirname, "images", "sponsors")));
 app.use("/photorolls", express.static(path.join(__dirname, "images", "photorolls")));
@@ -63,16 +63,16 @@ app.use("/recruitment system/excel-files", express.static(path.join(__dirname,  
 
 app.use("/", express.static(path.join(__dirname, "angular")));
 
-app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader(
-        'Access-Control-Allow-Methods',
-        'OPTIONS, GET, POST, PUT, PATCH, DELETE'
-    );
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Content-Type-Options');
-    // res.setHeader('X-Content-Type-Options', 'nosniff');    
-    next();
-});
+// app.use((req, res, next) => {
+//     res.setHeader('Access-Control-Allow-Origin', '*');
+//     res.setHeader(
+//         'Access-Control-Allow-Methods',
+//         'OPTIONS, GET, POST, PUT, PATCH, DELETE'
+//     );
+//     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Content-Type-Options');
+//     // res.setHeader('X-Content-Type-Options', 'nosniff');    
+//     next();
+// });
 
 app.use('/api/auth/user', userRoutes);
 
@@ -88,9 +88,9 @@ app.use("/api/main/competitions", competitionsRouter);
 
 // TODO :: set global this.currentSeason for all app?? where?? with front??- leave for next season
 
-app.use((req, res, next) => {
-  res.sendFile(path.join(__dirname, "angular", "index.html"));
-});
+// app.use((req, res, next) => {
+//   res.sendFile(path.join(__dirname, "angular", "index.html"));
+// });
 
 
 
