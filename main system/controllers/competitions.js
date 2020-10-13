@@ -45,7 +45,7 @@ exports.getCompetition = async (req, res, next) => {
     const id = req.params.id;
     try {
         // const competition = await Competition.findById(id).populate("photoroll").populate("awards");
-        const competition = await Competition.findById(id);
+        const competition = await Competition.findById(id).populate("awards");
         if (!competition) error("Competition not found", 404, [{ id }]);
         res.status(200).json({ 
             message: 'fetched comp!',
