@@ -23,10 +23,10 @@ const competitionsRouter = require("./main system/routers/competitions");
 require("dotenv").config();
 
 
-const MONGODB_URI =
-'mongodb+srv://admin:admin@cluster0.9141m.mongodb.net/recruitment?retryWrites=true&w=majority';
+// const MONGODB_URI =
+// 'mongodb+srv://admin:admin@cluster0.9141m.mongodb.net/recruitment?retryWrites=true&w=majority';
 
-// const MONGODB_URI = "mongodb://localhost:27017/asurtWebsite"
+const MONGODB_URI = "mongodb://localhost:27017/asurtWebsite"
 
 
 
@@ -79,9 +79,9 @@ app.use("/api/main/competitions", competitionsRouter);
 
 // TODO :: set global this.currentSeason for all app?? where?? with front??- leave for next season
 
-// app.use((req, res, next) => {
-//   res.sendFile(path.join(__dirname, "angular", "index.html"));
-// });
+app.use((req, res, next) => {
+  res.sendFile(path.join(__dirname, "angular", "index.html"));
+});
 
 
 
@@ -98,11 +98,11 @@ app.use((error, req, res, next) => {
   mongoose.connect(
     MONGODB_URI,
     {
-      // "auth": {
-      //   "authSource": "admin"
-      // },
-      // "user": "asurtIT",
-      // "pass": "ITians_asurt20",
+      "auth": {
+        "authSource": "admin"
+      },
+      "user": "asurtIT",
+      "pass": "ITians_asurt20",
       "useNewUrlParser": true,
       "useUnifiedTopology": true
      }
