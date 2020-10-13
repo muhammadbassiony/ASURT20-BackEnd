@@ -23,10 +23,10 @@ const competitionsRouter = require("./main system/routers/competitions");
 require("dotenv").config();
 
 
-//const MONGODB_URI =
-// 'mongodb+srv://admin:admin@cluster0.9141m.mongodb.net/recruitment?retryWrites=true&w=majority';
+const MONGODB_URI =
+'mongodb+srv://admin:admin@cluster0.9141m.mongodb.net/recruitment?retryWrites=true&w=majority';
 
-const MONGODB_URI = "mongodb://localhost:27017/asurtWebsite"
+// const MONGODB_URI = "mongodb://localhost:27017/asurtWebsite"
 
 
 
@@ -63,16 +63,6 @@ app.use("/recruitment system/excel-files", express.static(path.join(__dirname,  
 
 app.use("/", express.static(path.join(__dirname, "angular")));
 
-// app.use((req, res, next) => {
-//     res.setHeader('Access-Control-Allow-Origin', '*');
-//     res.setHeader(
-//         'Access-Control-Allow-Methods',
-//         'OPTIONS, GET, POST, PUT, PATCH, DELETE'
-//     );
-//     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Content-Type-Options');
-//     // res.setHeader('X-Content-Type-Options', 'nosniff');    
-//     next();
-// });
 
 app.use('/api/auth/user', userRoutes);
 
@@ -88,9 +78,9 @@ app.use("/api/main/competitions", competitionsRouter);
 
 // TODO :: set global this.currentSeason for all app?? where?? with front??- leave for next season
 
-app.use((req, res, next) => {
-  res.sendFile(path.join(__dirname, "angular", "index.html"));
-});
+// app.use((req, res, next) => {
+//   res.sendFile(path.join(__dirname, "angular", "index.html"));
+// });
 
 
 
@@ -103,16 +93,22 @@ app.use((error, req, res, next) => {
 });
 
 
-mongoose
-  .connect(
-    MONGODB_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true
-    }
+
+  mongoose.connect(
+    MONGODB_URI,
+    {
+      // "auth": {
+      //   "authSource": "admin"
+      // },
+      // "user": "asurtIT",
+      // "pass": "ITians_asurt20",
+      "useNewUrlParser": true,
+      "useUnifiedTopology": true
+     }
   )
   .then(result => {
-    app.listen(process.env.PORT || 3000);
-    // app.listen(8080);
-    console.log("connected!");
+      app.listen(process.env.PORT || 3000);
+      // app.listen(8080);
+      console.log("connected!");
   })
   .catch(err => console.log(err));
