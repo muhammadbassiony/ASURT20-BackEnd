@@ -358,7 +358,9 @@ exports.addUserInfo = (req, res, next) => {
 
     const emergencyContact_name = req.body.emergencyContact_name;
     const emergencyContact_relation = req.body.emergencyContact_relation;
-    const emergencyContact_mobile = req.body.emergencyContact_mobile 
+    const emergencyContact_mobile = req.body.emergencyContact_mobile;
+
+    const profileComplete = req.body.profileComplete;
 
     User.findById(userId)
     .then(user => {
@@ -385,6 +387,7 @@ exports.addUserInfo = (req, res, next) => {
         user.emergencyContact_name = emergencyContact_name;
         user.emergencyContact_mobile = emergencyContact_mobile;
         user.emergencyContact_relation = emergencyContact_relation;
+        user.profileComplete = profileComplete;
 
         return user.save();
     })
