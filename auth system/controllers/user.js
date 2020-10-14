@@ -73,7 +73,8 @@ exports.signUp = (req, res, next) => {
         let authUser = {
             _id: resUser._id,
             level: resUser.level,
-            token: token
+            token: token,
+            profileComplete: resUser.profileComplete
         };
 
         res.status(201).json({
@@ -106,7 +107,8 @@ exports.login = async (req, res, next) => {
             let authUser = {
                 _id: user._id,
                 level: user.level,
-                token: token
+                token: token,
+                profileComplete: user.profileComplete
             };
 
             res.status(200).json({ 

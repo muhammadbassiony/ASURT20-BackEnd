@@ -38,7 +38,9 @@ const userSchema = new Schema(
         
         emergencyContact_name: { type: String, maxlength: 50 },
         emergencyContact_relation: { type: String, maxlength: 20 },
-        emergencyContact_mobile: { type: String, maxlength: 13 }
+        emergencyContact_mobile: { type: String, maxlength: 13 },
+
+        profileComplete: { type: Boolean, required: true, default: false }
 
     },
     { timestamps: true }
