@@ -98,7 +98,6 @@ exports.login = async (req, res, next) => {
         const user = await User.findOne({ email: email });
         const id = user._id.toString();
         const level = user.level;
-        console.log('LOGIN USER :: \n', user, user.profileComplete);
 
         const hashedPassword = user.password;
         const doMatch = bcrypt.compareSync(password, hashedPassword);
