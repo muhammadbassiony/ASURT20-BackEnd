@@ -63,15 +63,18 @@ exports.getPhotoroll = (req, res, next) => {
 exports.updatePhotoroll = async (req, res, next) => {
     const phId = req.body._id;
     const title = req.body.title;
+    const imgPaths = JSON.parse(req.body.imgPaths);
     const files = req.files;
-    // const competitionId = req.body.competitionId;
+    
+    let images;
+
     try {
-        const images = files.map((image) => image.filename);
+        images = files.map((image) => image.path);
+        images = images.concat(imgPaths);
     } catch (error) {
         next(error);
     }
     
-    console.log('\n\nPH-CNTRL : IMAGES ::\n', images);
 
     Photoroll.findById(phId)
     .then(photoroll => {

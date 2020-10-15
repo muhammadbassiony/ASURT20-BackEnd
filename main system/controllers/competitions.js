@@ -15,6 +15,7 @@ exports.addNewCompetition = async (req, res, next) => {
 };
 
 exports.getAllCompetitions = async (req, res, next) => {
+    
     try {
         // const competitions = await Competition.find().populate("photoroll").populate("awards");
         const competitions = await Competition.find();
@@ -43,7 +44,8 @@ exports.getAllCompetitionsPopulated = async (req, res, next) => {
 exports.getCompetition = async (req, res, next) => {
     const id = req.params.id;
     try {
-        const competition = await Competition.findById(id).populate("photoroll").populate("awards");
+        // const competition = await Competition.findById(id).populate("photoroll").populate("awards");
+        const competition = await Competition.findById(id).populate("awards");
         if (!competition) error("Competition not found", 404, [{ id }]);
         res.status(200).json({ 
             message: 'fetched comp!',
@@ -68,7 +70,7 @@ exports.updateCompetition = (req, res, next) => {
 
     Competition.findById(compId)
     .then(comp => {
-        if (!comp) errorFunction("Competition doesn't exist", 404);
+        if (!comp) throw new Error("Competition doesn't exist", 404);
 
         comp.name = name;
         comp.visible = visible;
@@ -95,11 +97,10 @@ exports.updateCompetition = (req, res, next) => {
 
 exports.addNewAward = (req, res, next) => {
     const compId = req.params.compId;
-    // console.log('ADD NEW AWARD :: \n');
+    
     const title = req.body.title;
     const description = req.body.description;
     const imagePrize = req.file.path;
-    // console.log('ADD NEW AWARD :: \n', title, description);
 
     let comp;
 

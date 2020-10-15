@@ -1,13 +1,3 @@
-// const error = require("../utils/errorFunction");
-// module.exports = (req, res, next) => {
-//     try {
-//         const isAdmin = req.level === 1;
-//         if (!isAdmin) error("Access denied", 403);
-//         next();
-//     } catch (err) {
-//         next(err);
-//     }
-// };
 
 module.exports = function isAdmin(accessLevel) {
     return (error, req, res, next) => {
@@ -20,8 +10,8 @@ module.exports = function isAdmin(accessLevel) {
             if (!isAdmin) error("Access denied", 403);
             next();
         } catch (err) {
-            next(err);
-            // return res.status(401).json({ message: 'Unauthorized' });
+            // next(err);
+            return res.status(401).json({ message: 'Unauthorized' });
 
         }
     }
