@@ -14,7 +14,8 @@ module.exports = (folders = { main: "", sub: "" }, single = true, fieldName = "f
             return cb(null, dir);
         },
         filename: (req, file, cb) => {
-            const fileName = `${new Date().getTime()}_${file.originalname}`;
+            //const fileName = `${new Date().getTime()}_${file.originalname}`;
+            const fileName = file.originalname;
             // console.log('UPLOAD MIDDLEWARE FILENAME ::', fileName);
             cb(null, fileName);
         },
