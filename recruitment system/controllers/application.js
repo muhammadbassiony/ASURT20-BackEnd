@@ -10,7 +10,7 @@ const path = require('path')
 const { Parser, transforms: { unwind } } = require('json2csv');
 
 const Email = require('./emails');
-const { all } = require('../routes/team');
+// const { all } = require('../routes/team');
 const currentSeason = '20-21';  //create setter and getter later
 
 exports.getAllApps = (req, res, next) => {
@@ -338,7 +338,7 @@ exports.sendAcceptedEmails = (req, res, next) => {
 exports.sendRejectedEmails = (req, res, next) => { 
     const eventId = req.params.eventId;
     const phase = req.body.phase;
-    console.log('\n\nPHASE ::', phase, '\n\n');
+    console.log('\n\nSEND REJ EMAILS PHASE ::', phase, '\n\n');
 
     emails = [];
     countRejected = 0;
@@ -371,7 +371,7 @@ exports.sendRejectedEmails = (req, res, next) => {
         }
 
         emails = emails.join(', ');
-        return Email.sendMails(emails);
+        return Email.sendMails(emails, 'PR');
     })
     .then(result => {
         res.status(200).json({

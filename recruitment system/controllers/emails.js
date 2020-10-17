@@ -2,11 +2,12 @@ const nodemailer = require("nodemailer");
 const Mailgen = require("mailgen");
 const fs = require("fs");
 const emailTemps = require("./email-templates");
+
 const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
-        user: "asurt.managment@gmail.com", //mimotamer@gmail.com
-        pass: "asurtIT20",
+        user: "asurt.managment@gmail.com", 
+        pass: "asurtIT20"
         // naturally, replace both with your real credentials or an application-specific password
     },
 });
@@ -17,13 +18,16 @@ var mailGenerator = new Mailgen({
     product: {
         // Appears in header & footer of e-mails
         name: "ASU Racing Team",
-        link: "https://www.youtube.com/",
+        link: "http://104.237.129.57/",
         // Optional product logo
+        // logo: '../../images/awards/1601964108355_watermelon.jpg'
         // logo: 'https://mailgen.js/img/logo.png'
     },
 });
 
 exports.sendMails = (emails, type) => {
+    console.log('EMAILLLLSSS MFUCKER :: \n', emails, type);
+
     var email;
     switch (type) {
         case "PA": // Phase Acceptance
@@ -37,21 +41,21 @@ exports.sendMails = (emails, type) => {
             break;
         default:
             break;
-    }
+}
 
     // Generate an HTML email with the provided contents
     var emailBody = mailGenerator.generate(email);
-
     // Generate the plaintext version of the e-mail (for clients that do not support HTML)
     var emailText = mailGenerator.generatePlaintext(email);
 
     const mailOptions = {
-        from: "mimotamer@gmail.com",
+        from: "asurt.managment@gmail.com",
         to: " ",
-        subject: "Invoices due",
-        text: "Dudes, we really need your money.",
-        html: emailBody,
+        subject: "Application Update",
+        text: emailText,
+        html: emailBody
     };
+
     mailOptions.to = emails;
     console.log(mailOptions.to, typeof mailOptions.to);
 
