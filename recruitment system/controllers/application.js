@@ -320,7 +320,8 @@ exports.sendAcceptedEmails = (req, res, next) => {
 
         emails = emails.join(', ');
         // console.log(emails);
-        return Email.sendMails(emails);
+        let emailType = phase == 'DR_IV' ? 'FA' : 'PA';
+        return Email.sendMails(emails, emailType);
     })
     .then(result => {
         res.status(200).json({
