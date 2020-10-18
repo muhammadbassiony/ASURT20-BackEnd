@@ -39,6 +39,9 @@ exports.sendMails = (emails, type) => {
         case "FA": // Final Acceptance
             email = emailTemps.finalAcceptanceEmail;
             break;
+        case "RESET":
+            email = emailTemps.requestPassReset;
+            break;
         default:
             break;
 }

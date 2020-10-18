@@ -38,6 +38,11 @@ router.delete('/delete-user/:userId', isAuth, isAdmin(2), userController.deleteU
 
 router.delete('/delete-member/:meberId', isAuth, isAdmin(2), userController.deleteMember);
 
+router.put('/req-reset-password', userController.requestPasswordReset);
+
+// router.post('/new-password', AuthCtrl.NewPassword);
+// router.post('/valid-password-token', AuthCtrl.ValidPasswordToken);
+
 router.post(
     "/signup",
     [

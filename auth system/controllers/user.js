@@ -462,5 +462,43 @@ exports.deleteMember = (req, res, next) => {
     });
 }
 
+exports.requestPasswordReset = (req, res, next) => {
+    const email = req.body.email;
+    console.log('REQ PASSWORD HEREE ::', email);
+
+    User.findOne({ email: email})
+    .then(user => {
+        if(!user){
+            const error = new Error('Could not find this user.');
+            error.statusCode = 404;
+            throw error;
+        }
+
+        var resettoken = new passwordResetToken({ 
+            _userId: user._id, 
+            resettoken: crypto.randomBytes(16).toString('hex') 
+        });
+        console.log('REQ PASS 222 ::\n', resettoken);
+
+        return resettoken.save();
+    })
+    .then(token => {
+        console.log('TOKEEEENNNN ::\n', token);
+
+        Email.sendMails(email, 'RESET');
+
+        res.status(200).json({
+            message: 'mail sent successfully!',
+            token: token
+        });
+    })
+    .catch(err => {
+        if (!err.statusCode) {
+            err.statusCode = 500;
+        }
+        next(err);
+    });
+
+}
 
 

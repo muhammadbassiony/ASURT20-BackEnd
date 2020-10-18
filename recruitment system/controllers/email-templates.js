@@ -38,13 +38,14 @@ exports.finalAcceptanceEmail = {
 
 exports.requestPassReset = {
     body: {
+        greeting: false,
         intro: 'You have received this email because a password reset request for your account was received.',
         action: {
             instructions: 'Click the button below to reset your password:',
             button: {
                 color: '#DC4D2F',
                 text: 'Reset your password',
-                link: 'http://'
+                link: 'http://localhost:3000'
             }
         },
         outro: 'If you did not request a password reset, no further action is required on your part.'
