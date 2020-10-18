@@ -48,7 +48,7 @@ router.put(
     eventsController.incrementNumPendRej
 );
 
-router.delete("/delete-event/:eventId", isAuth, isAdmin(2), eventsController.deleteEvent);
+router.delete("/delete-event/:eventId", isAuth, isAdmin(3), eventsController.deleteEvent);
 
 module.exports = router;
 

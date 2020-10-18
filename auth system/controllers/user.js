@@ -1,11 +1,15 @@
 const User = require('../models/user');
 const Member = require('../models/member');
+const passwordResetToken = require('../models/resettoken');
+
 const Team = require('../../recruitment system/models/team');
 const Subteam = require('../../recruitment system/models/subteam');
 
 const bcrypt = require("bcryptjs");
+const crypto = require('crypto');
 const jwt = require("jsonwebtoken");
-const team = require('../../recruitment system/models/team');
+
+const Email = require('../../recruitment system/controllers/emails');
 
 const currentSeason = '20-21'; 
 

@@ -35,3 +35,18 @@ exports.finalAcceptanceEmail = {
         outro: "Need help, or have questions? Just reply to this email, we'd love to help.",
     },
 };
+
+exports.requestPassReset = {
+    body: {
+        intro: 'You have received this email because a password reset request for your account was received.',
+        action: {
+            instructions: 'Click the button below to reset your password:',
+            button: {
+                color: '#DC4D2F',
+                text: 'Reset your password',
+                link: 'http://'
+            }
+        },
+        outro: 'If you did not request a password reset, no further action is required on your part.'
+    }
+}

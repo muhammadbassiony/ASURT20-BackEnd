@@ -298,6 +298,7 @@ exports.incrementNumPendRej = (req, res, next) => {
         });
 };
 
+
 exports.deleteEvent = (req, res, next) => {
     const eventId = req.params.eventId;
 
