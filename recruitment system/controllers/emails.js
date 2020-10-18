@@ -76,12 +76,12 @@ exports.sendMails = (emails, type) => {
 
 exports.sendResetPasswordEmail = (emails, token) => {
     let email = emailTemps.requestPassReset;
-    email.body.action.button.link = email.body.action.button.link + '/' + token;
+    email.body.action.button.link = 'http://localhost:8000/response-reset-password/' + token; //testing
+        // email.body.action.button.link + '/response-reset-password/' + token;
     console.log('TOKEN RECEIVED CONTROLLER ::', token, email.body.action.button.link);
 
-    // Generate an HTML email with the provided contents
+    
     var emailBody = mailGenerator.generate(email);
-    // Generate the plaintext version of the e-mail (for clients that do not support HTML)
     var emailText = mailGenerator.generatePlaintext(email);
 
     const mailOptions = {

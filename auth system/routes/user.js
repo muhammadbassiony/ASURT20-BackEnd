@@ -40,8 +40,10 @@ router.delete('/delete-member/:meberId', isAuth, isAdmin(2), userController.dele
 
 router.put('/req-reset-password', userController.requestPasswordReset);
 
-// router.post('/new-password', AuthCtrl.NewPassword);
-// router.post('/valid-password-token', AuthCtrl.ValidPasswordToken);
+router.post('/valid-password-token', userController.validateResetToken);
+
+router.post('/new-password', userController.newPassword);
+
 
 router.post(
     "/signup",

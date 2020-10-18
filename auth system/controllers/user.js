@@ -488,8 +488,7 @@ exports.requestPasswordReset = (req, res, next) => {
         Email.sendResetPasswordEmail(email, token.resetToken);
 
         res.status(200).json({
-            message: 'mail sent successfully!',
-            token: token
+            message: 'mail sent successfully!'
         });
     })
     .catch(err => {
@@ -502,31 +501,74 @@ exports.requestPasswordReset = (req, res, next) => {
 }
 
 
-// exports.validateResetToken = (req, res, next) => {
-//     const resetToken = req.params.resetToken;
+exports.validateResetToken = (req, res, next) => {
+    const resetToken = req.body.token;
 
-//     passwordResetToken.findOne({ resetToken: resetToken })
-//     .then(token => {
-//         if(!token){
-//             const error = new Error('Invalid Token');
-//             error.statusCode = 404;
-//             throw error;
-//         }
-//         console.log('TOKENNNNN ', token);
+    passwordResetToken.findOne({ resetToken: resetToken })
+    .then(token => {
+        if(!token){
+            const error = new Error('Invalid Token');
+            error.statusCode = 404;
+            throw error;
+        }
+        console.log('TOKENNNNN ', token);
 
-//         res.status(200).json({ 
-//             message: 'Token verified successfully.',
-//             verified: true
-//         });
+        res.status(200).json({ 
+            message: 'Token verified successfully!',
+            verified: true
+        });
 
-//     })
-//     .catch(err => {
-//         if (!err.statusCode) {
-//             err.statusCode = 500;
-//         }
-//         next(err);
-//     });
-// }
+    })
+    .catch(err => {
+        if (!err.statusCode) {
+            err.statusCode = 500;
+        }
+        next(err);
+    });
+}
+
+
+exports.newPassword = (req, res, next) => {
+    const resetToken = req.body.token;
+    const newPass = req.body.password;
+    const hashedPassword = bcrypt.hashSync(newPass, 12);
+
+    let tokenId;
+
+    passwordResetToken.findOne({ resetToken: resetToken})
+    .then(token => {
+        if(!token){
+            const error = new Error('Invalid Token');
+            error.statusCode = 404;
+            throw error;
+        }
+        console.log('TOKENNNNN ', token);
+        tokenId = token._id;
+
+        return User.findById(token._userId);
+    })
+    .then(user => {
+        user.password = hashedPassword;
+        return user.save();
+    })
+    .then(savedUser => {
+        console.log('UPDATED USER PASS');
+        return passwordResetToken.findByIdAndDelete(tokenId);
+    })
+    .then(del => {
+        res.status(200).json({ 
+            message: 'password updated!'
+        });
+
+    })
+    .catch(err => {
+        if (!err.statusCode) {
+            err.statusCode = 500;
+        }
+        next(err);
+    });
+    
+}
 
 // exports.ValidPasswordToken = async (req, res) => {
 //     if (!req.body.resettoken) {
