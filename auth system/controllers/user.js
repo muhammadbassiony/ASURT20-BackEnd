@@ -464,7 +464,6 @@ exports.deleteMember = (req, res, next) => {
 
 exports.requestPasswordReset = (req, res, next) => {
     const email = req.body.email;
-    console.log('REQ PASSWORD HEREE ::', email);
 
     User.findOne({ email: email})
     .then(user => {
@@ -478,12 +477,10 @@ exports.requestPasswordReset = (req, res, next) => {
             _userId: user._id, 
             resetToken: crypto.randomBytes(16).toString('hex') 
         });
-        console.log('REQ PASS 222 ::\n', resettoken);
 
         return resettoken.save();
     })
     .then(token => {
-        console.log('TOKEEEENNNN ::\n', token);
 
         Email.sendResetPasswordEmail(email, token.resetToken);
 
@@ -511,7 +508,6 @@ exports.validateResetToken = (req, res, next) => {
             error.statusCode = 404;
             throw error;
         }
-        console.log('TOKENNNNN ', token);
 
         res.status(200).json({ 
             message: 'Token verified successfully!',
@@ -542,7 +538,7 @@ exports.newPassword = (req, res, next) => {
             error.statusCode = 404;
             throw error;
         }
-        console.log('TOKENNNNN ', token);
+        
         tokenId = token._id;
 
         return User.findById(token._userId);
@@ -552,7 +548,6 @@ exports.newPassword = (req, res, next) => {
         return user.save();
     })
     .then(savedUser => {
-        console.log('UPDATED USER PASS');
         return passwordResetToken.findByIdAndDelete(tokenId);
     })
     .then(del => {
@@ -567,74 +562,5 @@ exports.newPassword = (req, res, next) => {
         }
         next(err);
     });
-    
+
 }
-
-// exports.ValidPasswordToken = async (req, res) => {
-//     if (!req.body.resettoken) {
-//         return res
-//         .status(500)
-//         .json({ message: 'Token is required' });
-//     }
-
-//     const user = await passwordResetToken.findOne({
-//     resettoken: req.body.resettoken
-//     });
-//     if (!user) {
-//     return res
-//     .status(409)
-//     .json({ message: 'Invalid URL' });
-//     }
-//     User.findOneAndUpdate({ _id: user._userId }).then(() => {
-//     res.status(200).json({ message: 'Token verified successfully.' });
-//     }).catch((err) => {
-//     return res.status(500).send({ msg: err.message });
-//     });
-// },
-
-
-
-
-//     async NewPassword(req, res) {
-//         passwordResetToken.findOne({ resettoken: req.body.resettoken }, function (err, userToken, next) {
-//           if (!userToken) {
-//             return res
-//               .status(409)
-//               .json({ message: 'Token has expired' });
-//           }
-    
-//           User.findOne({
-//             _id: userToken._userId
-//           }, function (err, userEmail, next) {
-//             if (!userEmail) {
-//               return res
-//                 .status(409)
-//                 .json({ message: 'User does not exist' });
-//             }
-//             return bcrypt.hash(req.body.newPassword, 10, (err, hash) => {
-//               if (err) {
-//                 return res
-//                   .status(400)
-//                   .json({ message: 'Error hashing password' });
-//               }
-//               userEmail.password = hash;
-//               userEmail.save(function (err) {
-//                 if (err) {
-//                   return res
-//                     .status(400)
-//                     .json({ message: 'Password can not reset.' });
-//                 } else {
-//                   userToken.remove();
-//                   return res
-//                     .status(201)
-//                     .json({ message: 'Password reset successfully' });
-//                 }
-    
-//               });
-//             });
-//           });
-    
-//         })
-//     }
-// }
-
