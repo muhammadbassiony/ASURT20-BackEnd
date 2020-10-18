@@ -39,9 +39,9 @@ exports.sendMails = (emails, type) => {
         case "FA": // Final Acceptance
             email = emailTemps.finalAcceptanceEmail;
             break;
-        case "RESET":
-            email = emailTemps.requestPassReset;
-            break;
+        // case "RESET":
+        //     email = emailTemps.requestPassReset;
+        //     break;
         default:
             break;
 }
@@ -72,3 +72,28 @@ exports.sendMails = (emails, type) => {
 
     return transporter.sendMail(mailOptions);
 };
+
+
+exports.sendResetPasswordEmail = (emails, token) => {
+    let email = emailTemps.requestPassReset;
+    email.body.action.button.link = email.body.action.button.link + '/' + token;
+    console.log('TOKEN RECEIVED CONTROLLER ::', token, email.body.action.button.link);
+
+    // Generate an HTML email with the provided contents
+    var emailBody = mailGenerator.generate(email);
+    // Generate the plaintext version of the e-mail (for clients that do not support HTML)
+    var emailText = mailGenerator.generatePlaintext(email);
+
+    const mailOptions = {
+        from: "asurt.managment@gmail.com",
+        to: " ",
+        subject: "Reset Account Password",
+        text: emailText,
+        html: emailBody
+    };
+
+    mailOptions.to = emails;
+    console.log(mailOptions.to, typeof mailOptions.to);
+
+    return transporter.sendMail(mailOptions);
+}
