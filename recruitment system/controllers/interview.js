@@ -8,16 +8,20 @@ const currentSeason = "20-21";
 getBckClr = (status) => {
     // console.log('BckColor :: ', status, JSON.stringify('SCHEDULED'));
     if(status === JSON.stringify('SCHEDULED')){
-        return "#3562bd";
+        // return "#3562bd";
+        return "#4254f5";
     }
     if(status === JSON.stringify('DONE')){
-        return "#00d92b";
+        // return "#00d92b";
+        return "#42f587";
     }
     if(status === JSON.stringify('BOOKED')){
-        return "#f00c89";
+        // return "#f00c89";
+        return "#98b3aa"; 
     }
     if(status === JSON.stringify('MISSED')){
-        return "#fc2121";
+        // return "#fc2121";
+        return "#f54242";
     }
     return null;
 }
