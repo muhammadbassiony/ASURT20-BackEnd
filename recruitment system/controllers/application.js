@@ -387,6 +387,8 @@ exports.sendRejectedEmails = (req, res, next) => {
     }); 
 }
 
+
+
 /*********************** CSV **********************/
 
 const fields = [
@@ -401,8 +403,8 @@ const fields = [
     { label: 'Credit',  value: 'user.credit' },
     { label: 'Choice 1', value: 'selSubteam1.name' },
     { label: 'Choice 2',  value: 'selSubteam2.name' },
-    { label: 'User Id', value: 'user._id' },
-    { label: 'Application Id', value: '_id' }
+    // { label: 'User Id', value: 'user._id' },
+    // { label: 'Application Id', value: '_id' }
 ];
 const transforms = [unwind({ paths: ['user', 'selSubteam1', 'selSubteam2'], blankOut: true })];
 const json2csvParser = new Parser({ fields, transforms , excelStrings: true});

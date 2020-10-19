@@ -298,7 +298,7 @@ exports.incrementNumPendRej = (req, res, next) => {
         });
 };
 
-
+//delete all applications?
 exports.deleteEvent = (req, res, next) => {
     const eventId = req.params.eventId;
 

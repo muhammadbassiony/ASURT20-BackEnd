@@ -22,4 +22,6 @@ router.put('/update-intrv/:ivId', isAuth, interviewsController.updateInterview);
 
 router.delete('/delete-intrv/:ivId', isAuth, isAdmin(2), interviewsController.deleteInterview);
 
+router.get('/app-intrvs/:appId', isAuth, interviewsController.getAppInterviews);
+
 module.exports = router;

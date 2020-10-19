@@ -1,6 +1,9 @@
 const Interview = require('../models/interview');
+const Application = require('../models/application');
+const User = require('../../auth system/models/user');
 const mongoose = require("mongoose");
 
+const currentSeason = "20-21";
 
 getBckClr = (status) => {
     // console.log('BckColor :: ', status, JSON.stringify('SCHEDULED'));
@@ -217,6 +220,40 @@ exports.deleteInterview = (req, res, next) => {
     })
     .then(result => {
         res.status(200).json({ message: 'Deleted post.' });
+    })
+    .catch(err => {
+        if (!err.statusCode) {
+            err.statusCode = 500;
+        }
+        next(err);
+    });  
+}
+
+
+
+exports.getAppInterviews = (req, res, next) => {
+    const appId = req.params.appId;
+
+    Application.findById(appId)
+    .then(app => {
+        if(!app){
+            const error = new Error('Application not found!');
+            error.statusCode = 500;
+            throw error;
+        }
+        
+        return Interview
+            .find({ 
+                "extendedProps.application": appId })
+                // "extendedProps.application.season": currentSeason })
+            .populate('extendedProps.application');
+        
+    })
+    .then(userIvs=> {
+        res.status(200).json({
+            message: 'fetched',
+            ivs: filtered
+        });
     })
     .catch(err => {
         if (!err.statusCode) {
