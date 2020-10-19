@@ -61,10 +61,10 @@ app.use("/sponsors", express.static(path.join(__dirname, "images", "sponsors")))
 app.use("/photorolls", express.static(path.join(__dirname, "images", "photorolls")));
 app.use("/awards", express.static(path.join(__dirname, "images", "awards")));
 
-app.use("/cvs", express.static(path.join(__dirname, "recruitment system", "cvs")));
+app.use("/cvs", express.static(path.join(__dirname, "cvs")));
 app.use("/recruitment system/excel-files", express.static(path.join(__dirname,  "recruitment system", "excel-files")));
 
-app.use("/", express.static(path.join(__dirname, "angular")));
+// app.use("/", express.static(path.join(__dirname, "angular")));
 
 
 app.use('/api/auth/user', userRoutes);

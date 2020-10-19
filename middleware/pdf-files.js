@@ -7,7 +7,7 @@ const storage = multer.diskStorage({
       if (isValid) {
         error = null;
       }
-      cb(error, "recruitment system/cvs");
+      cb(error, "cvs");
     },
     filename: (req, file, cb) => {
       const userId = req.body.userId;

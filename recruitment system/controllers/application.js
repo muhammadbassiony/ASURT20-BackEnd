@@ -62,18 +62,16 @@ exports.getApp = (req, res, next) => {
     });
 }
 
-//adjust function to receive form data not json
-exports.newApp = (req, res, next) => {
-    // const url = req.protocol + "://" + req.get("host");
 
+exports.newApp = (req, res, next) => {
+    
     const user = mongoose.Types.ObjectId(req.body.userId);
     const event = mongoose.Types.ObjectId(req.body.eventId);
     const selSubteam1 = mongoose.Types.ObjectId(req.body.selectedSubteam1);
     const selSubteam2 = mongoose.Types.ObjectId(req.body.selectedSubteam2);
-    const cvPath =  "/recruitment system/cvs/" + req.file.filename;
-    // const cvPath = url + "/cvs/" + req.file.filename;
+    const cvPath =  "cvs/" + req.file.filename;
+    
     const userAnswers = JSON.parse(req.body.userAnswers);
-    // console.log("/cvs/" + req.file.filename, '\n\n\n');
 
     const app = new Application({
         user: user,
@@ -99,6 +97,7 @@ exports.newApp = (req, res, next) => {
             return app.save();
         })
     .then(app => {
+        
         res.status(201).json({
             message: 'app created',
             application: app
@@ -124,6 +123,7 @@ exports.getUserApps = (req, res, next) => {
     .populate('selSubteam1')
     .populate('selSubteam2')
     .then(apps => {
+        // console.log('USER APPS', apps);
         return apps.filter(app => 
             JSON.stringify(app.event.season) === JSON.stringify(currentSeason));
     })
@@ -267,7 +267,8 @@ exports.getUserEvents = (req, res, next) => {
             let difference = allEvents.filter(ev => {
                 return userEvents.some(e => JSON.stringify(e._id) !== JSON.stringify(ev._id));
             });
-            
+
+            // console.log('USER EVENTSSS', userEvents, difference);
             res.status(200).json({
                 message: 'user app events fetched!',
                 appliedTo: userEvents,

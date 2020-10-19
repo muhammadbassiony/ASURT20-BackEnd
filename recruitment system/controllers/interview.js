@@ -135,18 +135,21 @@ exports.getAvailableDates = (req, res, next) => {
 
     Interview.find()
     .then(ivs => {
+        console.log('ALL IVS :: \\n\n', ivs);
         ivs.forEach(iv => {
+            console.log('IV FILTERING :: ', iv._id, iv.start, iv.extendedProps, JSON.stringify(iv.extendedProps.ivStatus) === JSON.stringify('SCHEDULED'))
             if(JSON.stringify(iv.extendedProps.ivStatus) === JSON.stringify('SCHEDULED')){
+                
                 availables.push({ ivId: iv._id, start: iv.start });
             }
         });
-    
+        // console.log('\n\n AVS 11 :: \\n\n', availables);
         availables.forEach(av => {
             hrsmins = (av.start.getUTCHours()+2) + ":" + ("0" + av.start.getUTCMinutes()).slice(-2);
             date = av.start.toUTCString().substring(0,3)+" "+ av.start.getUTCDate()+"-"+(av.start.getUTCMonth()+1);
             avs.push({ _id: av.ivId, time: hrsmins, date: date });
         });
-        
+        console.log('\n\n AVS 222 :: \\n\n', avs);
         res.status(200).json({
             message: 'available dates fetched',
             availableDates: avs
