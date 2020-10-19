@@ -137,7 +137,7 @@ exports.addMember = (req, res, next) => {
     const subteamId = req.body.subteamId;
     const isHead = req.body.head;
     const season = req.body.season;
-
+    
     let currentUser;
     let createdMember;
 
@@ -180,7 +180,7 @@ exports.addMember = (req, res, next) => {
             error.statusCode = 404;
             throw error;
         }
-        console.log(team.name, team.name == 'Managment');
+        // console.log(team.name, team.name == 'Managment');
         if(team.name == 'Managment'){
             calcLevel = isHead ? 3 : 2;
         } else {
@@ -314,6 +314,8 @@ exports.updateMember = (req, res, next) => {
     const subteamId = req.body.subteamId;
     const isHead = req.body.head;
 
+    let calcLevel;
+
     Member.findById(memberId)
     .then(member => {
         if(!member){
@@ -322,6 +324,37 @@ exports.updateMember = (req, res, next) => {
             throw error;
         }
 
+        // member.team = teamId;
+        // member.subteam = subteamId;
+        // member.head = isHead;
+        
+        // return member.save();
+        return Team.findById(teamId);       
+    })
+    .then(team => {
+        if(!team){
+            const error = new Error('Could not find team.');
+            error.statusCode = 404;
+            throw error;
+        }
+        // console.log(team.name, team.name == 'Managment');
+        if(team.name == 'Managment'){
+            calcLevel = isHead ? 3 : 2;
+        } else {
+            calcLevel = 1;
+        }
+        // currentUser.level = calcLevel;
+
+        return User.findById(userId); 
+    })
+    .then(user => {
+        user.level = calcLevel;
+        return User.save();
+    })
+    .then(user => {
+        return Member.findById(memberId); 
+    })
+    .then(member => {
         member.team = teamId;
         member.subteam = subteamId;
         member.head = isHead;

@@ -10,7 +10,7 @@ const memberSchema = new Schema(
         season: {
             type: String,
             enum: ['20-21', '21-22','22-23', '23-24', '24-25'], //system should 100% be revamped by then
-            required: true
+            // required: true
         }
 
     },
