@@ -4,7 +4,6 @@ const User = require('../../auth system/models/user');
 const mongoose = require("mongoose");
 
 const currentSeason = "20-21";
-
 getBckClr = (status) => {
     // console.log('BckColor :: ', status, JSON.stringify('SCHEDULED'));
     if(status === JSON.stringify('SCHEDULED')){
@@ -25,7 +24,6 @@ getBckClr = (status) => {
     }
     return null;
 }
-
 exports.getAllInterviews = (req, res, next) => {
     Interview.find()
     .populate('extendedProps.application')
@@ -254,6 +252,8 @@ exports.getAppInterviews = (req, res, next) => {
         
     })
     .then(userIvs=> {
+        
+        let filtered = userIvs.filter(iv => iv.extendedProps.application.season == currentSeason);
         res.status(200).json({
             message: 'fetched',
             ivs: filtered
