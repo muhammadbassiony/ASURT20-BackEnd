@@ -23,10 +23,10 @@ const competitionsRouter = require("./main system/routers/competitions");
 require("dotenv").config();
 
 
-const MONGODB_URI =
-'mongodb+srv://admin:admin@cluster0.9141m.mongodb.net/recruitment?retryWrites=true&w=majority';
+// const MONGODB_URI =
+// 'mongodb+srv://admin:admin@cluster0.9141m.mongodb.net/recruitment?retryWrites=true&w=majority';
 
-// const MONGODB_URI = "mongodb://localhost:27017/asurtWebsite"
+const MONGODB_URI = "mongodb://localhost:27017/asurtWebsite"
 
 // const MONGODB_URI = "mongodb://104.237.129.57:27017/asurtWebsite"
 
@@ -64,7 +64,7 @@ app.use("/awards", express.static(path.join(__dirname, "images", "awards")));
 app.use("/cvs", express.static(path.join(__dirname, "cvs")));
 app.use("/recruitment system/excel-files", express.static(path.join(__dirname,  "recruitment system", "excel-files")));
 
-// app.use("/", express.static(path.join(__dirname, "angular")));
+app.use("/", express.static(path.join(__dirname, "angular")));
 
 
 app.use('/api/auth/user', userRoutes);
@@ -100,11 +100,11 @@ app.use((error, req, res, next) => {
   mongoose.connect(
     MONGODB_URI,
     {
-      // "auth": {
-      //   "authSource": "admin"
-      // },
-      // "user": "asurtIT",
-      // "pass": "ITians_asurt20",
+      "auth": {
+        "authSource": "admin"
+      },
+      "user": "asurtIT",
+      "pass": "ITians_asurt20",
       "useNewUrlParser": true,
       "useUnifiedTopology": true
      }
