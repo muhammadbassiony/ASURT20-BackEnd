@@ -242,7 +242,7 @@ exports.updateApp = (req, res, next) => {
 exports.getUserEvents = (req, res, next) => {
     const user = req.params.userId;
     
-    Application.find({ user: user })
+    Application.find({ user: user, season: currentSeason })
     .populate({path: 'event', populate: {path: 'team', model: 'Team'}})
     .then(userApps => {
         userEvents = [];
@@ -294,7 +294,7 @@ exports.sendAcceptedEmails = (req, res, next) => {
     emails = [];
     countAccepted = 0;
 
-    Application.find({ event: eventId })
+    Application.find({ event: eventId, season: currentSeason })
     .populate('user')
     .then(apps => {
         // console.log('REQUEST HERE :: APPS :: \n\n', apps);
@@ -345,7 +345,7 @@ exports.sendRejectedEmails = (req, res, next) => {
     emails = [];
     countRejected = 0;
 
-    Application.find({ event: eventId })
+    Application.find({ event: eventId, season: currentSeason })
     .populate('user')
     .then(apps => {
         // console.log('REQUEST HERE :: APPS :: \n\n', apps);
@@ -404,6 +404,8 @@ const fields = [
     { label: 'Credit',  value: 'user.credit' },
     { label: 'Choice 1', value: 'selSubteam1.name' },
     { label: 'Choice 2',  value: 'selSubteam2.name' },
+    { label: 'Current Phase',  value: 'currentPhase' },
+    { label: 'Application Status',  value: 'currentPhaseStatus' },
     // { label: 'User Id', value: 'user._id' },
     // { label: 'Application Id', value: '_id' }
 ];
@@ -413,7 +415,7 @@ const json2csvParser = new Parser({ fields, transforms , excelStrings: true});
 exports.exportCsv = (req, res, next) => {
     const eventId = req.params.eventId;
 
-    Application.find({ event: eventId }, '_id user selSubteam1 selSubteam2 season')
+    Application.find({ event: eventId }, '_id user selSubteam1 selSubteam2 season currentPhase currentPhaseStatus')
     .populate('user', '_id name email mobile birthdate university faculty graduationYear department')
     .populate('selSubteam1', 'name -_id')
     .populate('selSubteam2', 'name -_id')

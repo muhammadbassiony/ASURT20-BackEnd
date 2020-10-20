@@ -16,7 +16,7 @@ getBckClr = (status) => {
     }
     if(status === JSON.stringify('BOOKED')){
         // return "#f00c89";
-        return "#98b3aa"; 
+        return "#f5b84e"; 
     }
     if(status === JSON.stringify('MISSED')){
         // return "#fc2121";
