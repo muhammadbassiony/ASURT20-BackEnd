@@ -180,7 +180,7 @@ exports.addMember = (req, res, next) => {
             error.statusCode = 404;
             throw error;
         }
-        // console.log(team.name, team.name == 'Managment');
+        console.log(team.name, team.name == 'Managment');
         if(team.name == 'Managment'){
             calcLevel = isHead ? 3 : 2;
         } else {
@@ -337,7 +337,7 @@ exports.updateMember = (req, res, next) => {
             error.statusCode = 404;
             throw error;
         }
-        // console.log(team.name, team.name == 'Managment');
+        console.log(team.name, team.name == 'Managment', 'MEMBERINIO');
         if(team.name == 'Managment'){
             calcLevel = isHead ? 3 : 2;
         } else {
@@ -349,7 +349,7 @@ exports.updateMember = (req, res, next) => {
     })
     .then(user => {
         user.level = calcLevel;
-        return User.save();
+        return user.save();
     })
     .then(user => {
         return Member.findById(memberId); 
