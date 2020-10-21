@@ -7,6 +7,7 @@ const multer = require('multer');
 const fs = require('fs');
 
 const xXssProtection = require("x-xss-protection");
+const helmet = require("helmet");
 
 const userRoutes = require('./auth system/routes/user');
 
@@ -56,6 +57,7 @@ app.use((req, res, next) => {
 });
 
 app.use(xXssProtection());
+app.use(helmet());
 
 app.use(bodyParser.json()); 
 app.use(bodyParser.urlencoded({ extended: false }));
