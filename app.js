@@ -23,10 +23,10 @@ const competitionsRouter = require("./main system/routers/competitions");
 require("dotenv").config();
 
 
-// const MONGODB_URI =
-// 'mongodb+srv://admin:admin@cluster0.9141m.mongodb.net/recruitment?retryWrites=true&w=majority';
+const MONGODB_URI =
+'mongodb+srv://admin:admin@cluster0.9141m.mongodb.net/recruitment?retryWrites=true&w=majority';
 
-const MONGODB_URI = "mongodb://localhost:27017/asurtWebsite"
+// const MONGODB_URI = "mongodb://localhost:27017/asurtWebsite"
 
 // const MONGODB_URI = "mongodb://104.237.129.57:27017/asurtWebsite"
 
@@ -100,11 +100,11 @@ app.use((error, req, res, next) => {
   mongoose.connect(
     MONGODB_URI,
     {
-      "auth": {
-        "authSource": "admin"
-      },
-      "user": "asurtIT",
-      "pass": "ITians_asurt20",
+      // "auth": {
+      //   "authSource": "admin"
+      // },
+      // "user": "asurtIT",
+      // "pass": "ITians_asurt20",
       "useNewUrlParser": true,
       "useUnifiedTopology": true
      }
