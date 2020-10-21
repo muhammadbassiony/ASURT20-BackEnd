@@ -6,6 +6,8 @@ const mongoose = require("mongoose");
 const multer = require('multer');
 const fs = require('fs');
 
+const xXssProtection = require("x-xss-protection");
+
 const userRoutes = require('./auth system/routes/user');
 
 const teamRoutes = require('./recruitment system/routes/team');
@@ -52,6 +54,8 @@ app.use((req, res, next) => {
   // res.setHeader('X-Content-Type-Options', 'nosniff');    
   next();
 });
+
+app.use(xXssProtection());
 
 app.use(bodyParser.json()); 
 app.use(bodyParser.urlencoded({ extended: false }));

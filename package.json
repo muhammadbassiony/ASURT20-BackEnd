@@ -30,7 +30,8 @@
     "pupa": "^2.0.1",
     "readdirp": "^3.4.0",
     "responselike": "^1.0.2",
-    "semver-diff": "^3.1.1"
+    "semver-diff": "^3.1.1",
+    "x-xss-protection": "^2.0.0"
   },
   "devDependencies": {
     "dotenv": "^8.2.0",
