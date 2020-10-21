@@ -75,6 +75,7 @@ exports.updatePhotoroll = async (req, res, next) => {
         next(error);
     }
     
+    // console.log('UPDT PH :: \n\n', images);
 
     Photoroll.findById(phId)
     .then(photoroll => {
@@ -101,31 +102,6 @@ exports.updatePhotoroll = async (req, res, next) => {
         next(err);
     });
 
-    // try {
-    //     // const doc = await Photoroll.findOne({ title: title });
-    //     const doc = await Photoroll.findById(phId);
-    //     let photoroll;
-    //     if (!doc) {
-    //         // const competitionExists = await Comp.findById(competitionId);
-    //         // if (!competitionExists) error("Competition doesn't exist", 404);
-    //         photoroll = await new Photoroll({ title: title, images: images }).save();
-    //         // competitionExists.photorolls.push(photoroll._id);
-    //         // competitionExists.save();
-    //     } else {
-    //         const existingImages = doc.images;
-    //         var allImages = [...existingImages, ...images];
-
-    //         photoroll = await Photoroll.findOneAndUpdate({ title: title }, { images: allImages });
-    //     }
-    //     res.status(201).json({
-    //         id: photoroll._id,
-    //         compitionId: competitionId,
-    //         title: title,
-    //         images: allImages ? allImages : [...photoroll.images],
-    //     });
-    // } catch (err) {
-    //     next(err);
-    // }
 };
 
 exports.delete = async (req, res, next) => {
