@@ -16,7 +16,7 @@ router.post("/add-event", isAuth, isAdmin(3), eventsController.addNewEvent);
 
 router.put("/update-event/:eventId", isAuth, isAdmin(2), eventsController.updateEvent);
 
-router.put("/edit-event-status/:eventId", isAuth, isAdmin(2), eventsController.toggleEventStatus);
+router.put("/edit-event-status/:eventId", isAuth, isAdmin(3), eventsController.toggleEventStatus);
 
 router.put("/increment-event-applicants/:eventId", isAuth, eventsController.incrementNumApplicants);
 
