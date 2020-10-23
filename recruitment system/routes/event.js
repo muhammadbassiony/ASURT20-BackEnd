@@ -10,7 +10,7 @@ const router = express.Router();
 
 router.get("/all-events", isAuth, isAdmin(2), eventsController.getAllEvents);
 
-router.get("/get-event/:eventId", isAuth, isAdmin(2), eventsController.getEvent);
+router.get("/get-event/:eventId", isAuth, isAdmin(0), eventsController.getEvent);
 
 router.post("/add-event", isAuth, isAdmin(3), eventsController.addNewEvent);
 

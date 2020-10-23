@@ -118,7 +118,7 @@ exports.getUserApps = (req, res, next) => {
 
     Application.find({ user: userId })
     .populate('user')
-    // .populate('event')
+    .populate('event')
     .populate({path: 'event', populate: {path: 'team', model: 'Team'}})
     .populate('selSubteam1')
     .populate('selSubteam2')
@@ -242,39 +242,28 @@ exports.updateApp = (req, res, next) => {
 exports.getUserEvents = (req, res, next) => {
     const user = req.params.userId;
     
+    let userEvents = [];
+
     Application.find({ user: user, season: currentSeason })
-    .populate({path: 'event', populate: {path: 'team', model: 'Team'}})
+    // .populate({path: 'event', populate: {path: 'team', model: 'Team'}})
     .then(userApps => {
-        userEvents = [];
+        
         userApps.forEach(e => userEvents.push(e.event));
-        // console.log('evss 11111 :: \n', userEvents);
+        
         return Event.find({ _id: { $in: userEvents } }).populate('team');
     })
-    .then(userEvents => {
-        // console.log('usersss :: ', userEvents == null);
-        Event.find()
-        .populate('team')
-        .then(allEvents => {
-            if(userEvents.length < 1) {
-                res.status(200).json({
-                    message: 'user app events fetched!',
-                    appliedTo: [],
-                    didntApply:  allEvents
-                });
-                return ;
-            }
+    .then(userEvs => {
+        // console.log('\n\n\nUSERRSS :: ', userEvents);
+        userEvents = userEvs;
+        return Event.find({ _id: { $nin: userEvents } }).populate('team');
 
-            let difference = allEvents.filter(ev => {
-                return userEvents.some(e => JSON.stringify(e._id) !== JSON.stringify(ev._id));
-            });
-
-            // console.log('USER EVENTSSS', userEvents, difference);
-            res.status(200).json({
-                message: 'user app events fetched!',
-                appliedTo: userEvents,
-                didntApply:  difference
-            });
-        })
+    })
+    .then(notUserEvs => {
+        res.status(200).json({
+            message: 'user app events fetched!',
+            appliedTo: userEvents,
+            didntApply:  notUserEvs
+        });
     })
     .catch(err => {
         if (!err.statusCode) {

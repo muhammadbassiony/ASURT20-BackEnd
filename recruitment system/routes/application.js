@@ -18,7 +18,7 @@ router.get('/all-apps', isAuth, isAdmin(2), applicationsController.getAllApps); 
 
 router.get('/get-app/:appId',  isAuth, isAdmin(2), applicationsController.getApp);
 
-router.get('/user-apps/:userId',  isAuth, isAdmin(2), applicationsController.getUserApps);
+router.get('/user-apps/:userId',  isAuth, isAdmin(0), applicationsController.getUserApps);
 
 router.get('/event-apps/:eventId',  isAuth, isAdmin(2), applicationsController.getEventApps);
 

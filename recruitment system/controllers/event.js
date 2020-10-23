@@ -1,6 +1,7 @@
 const Event = require("../models/event");
 const Team = require("../models/team");
 const Subteam = require("../models/subteam");
+const Application = require("../models/application");
 
 const mongoose = require("mongoose");
 
@@ -309,7 +310,17 @@ exports.deleteEvent = (req, res, next) => {
                 error.statusCode = 404;
                 throw error;
             }
-            return Event.findByIdAndDelete(eventId);
+
+            return Application.find({ event: eventId});
+            
+        })
+        .then(eventApps => {
+            console.log('EVENT APPS : ', eventApps);
+            // for(let app of eventApps){
+                
+            // }
+
+            // return Event.findByIdAndDelete(eventId);
         })
         .then((result) => {
             res.status(200).json({ message: "Deleted event." });
