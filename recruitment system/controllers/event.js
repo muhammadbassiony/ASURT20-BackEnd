@@ -148,7 +148,7 @@ exports.toggleEventStatus = (req, res, next) => {
         .then((event) => {
             res.status(200).json({
                 message: "event status toggled",
-                event: event,
+                eventActive: event.eventActive,
             });
         })
         .catch((err) => {
