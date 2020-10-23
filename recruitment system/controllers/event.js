@@ -311,16 +311,18 @@ exports.deleteEvent = (req, res, next) => {
                 throw error;
             }
 
-            return Application.find({ event: eventId});
+            return Application.find({ event: eventId });
             
         })
         .then(eventApps => {
-            console.log('EVENT APPS : ', eventApps);
-            // for(let app of eventApps){
-                
-            // }
+            // console.log('EVENT APPS : ', eventApps);
+            for(let app of eventApps){
+                // console.log(app);
+                Application.findByIdAndDelete(app._id)
+                .then(del => {});
+            }
 
-            // return Event.findByIdAndDelete(eventId);
+            return Event.findByIdAndDelete(eventId);
         })
         .then((result) => {
             res.status(200).json({ message: "Deleted event." });

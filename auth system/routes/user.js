@@ -16,7 +16,7 @@ const router = express.Router();
 
 router.get('/all-users', isAuth, isAdmin(2), userController.getAllUsers);
 
-router.get('/get-user/:userId', isAuth, isAdmin(2), userController.getUser);
+router.get('/get-user/:userId', isAuth, isAdmin(0), userController.getUser);
 
 router.get('/all-members', isAuth, isAdmin(2), userController.getAllMembers);
 
