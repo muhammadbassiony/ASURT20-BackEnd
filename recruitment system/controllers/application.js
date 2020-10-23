@@ -220,8 +220,15 @@ exports.updateApp = (req, res, next) => {
         app.selSubteam2 = selSubteam2;
         app.cvPath = cvPath;
         app.userAnswers = userAnswers;
+        
+        // console.log('\nUPDATE APP :: \n', app.currentPhaseStatus, currentPhaseStatus, app.currentPhaseStatus != currentPhaseStatus);
+        if(app.currentPhaseStatus != currentPhaseStatus){
+            updateEventStats(event, app.currentPhaseStatus, currentPhaseStatus);
+        }
+
         app.currentPhase = currentPhase;
         app.currentPhaseStatus = currentPhaseStatus;
+
         
         return app.save();
     })
@@ -238,6 +245,60 @@ exports.updateApp = (req, res, next) => {
         next(err);
     });   
 }
+
+updateEventStats = (event, oldStatus, newStatus) => {
+    
+    Event.findById(event)
+    .then(ev => {
+        
+        switch(oldStatus) {
+            case "ACCEPTED":
+                ev.numAccepted = ev.numAccepted - 1;
+                break;
+            case "REJECTED":
+                ev.numRejected = ev.numRejected - 1;
+                break;
+            case "PENDING_ACCEPTANCE":
+                ev.numPendAcc = ev.numPendAcc - 1;
+                break;
+            case "PENDING_REJECTION":
+                ev.numPendRej = ev.numPendRej - 1;
+                break;
+            default:
+                break;
+        }
+
+        switch(newStatus) {
+            case "ACCEPTED":
+                ev.numAccepted = ev.numAccepted + 1;
+                break;
+            case "REJECTED":
+                ev.numRejected = ev.numRejected + 1;
+                break;
+            case "PENDING_ACCEPTANCE":
+                ev.numPendAcc = ev.numPendAcc + 1;
+                break;
+            case "PENDING_REJECTION":
+                ev.numPendRej = ev.numPendRej + 1;
+                break;
+            default:
+                break;
+        }
+
+        return ev.save();
+    })
+    // .then(updatedEv => {
+        
+    // })
+    .catch(err => {
+        if (!err.statusCode) {
+            err.statusCode = 500;
+        }
+        next(err);
+    });
+    
+}
+
 
 exports.getUserEvents = (req, res, next) => {
     const user = req.params.userId;
@@ -272,6 +333,7 @@ exports.getUserEvents = (req, res, next) => {
         next(err);
     }); 
 }
+
 
 
 
