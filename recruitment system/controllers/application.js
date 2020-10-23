@@ -250,12 +250,12 @@ exports.getUserEvents = (req, res, next) => {
         
         userApps.forEach(e => userEvents.push(e.event));
         
-        return Event.find({ _id: { $in: userEvents } }).populate('team');
+        return Event.find({ _id: { $in: userEvents }, season: currentSeason }).populate('team');
     })
     .then(userEvs => {
         // console.log('\n\n\nUSERRSS :: ', userEvents);
         userEvents = userEvs;
-        return Event.find({ _id: { $nin: userEvents } }).populate('team');
+        return Event.find({ _id: { $nin: userEvents }, season: currentSeason }).populate('team');
 
     })
     .then(notUserEvs => {
@@ -272,6 +272,8 @@ exports.getUserEvents = (req, res, next) => {
         next(err);
     }); 
 }
+
+
 
 //cannot send more than 500 emails in 1 day from a personal account!!
 
