@@ -36,7 +36,7 @@ router.put('/sumbit-user-info/:userId', isAuth, userController.addUserInfo);
 
 router.delete('/delete-user/:userId', isAuth, isAdmin(2), userController.deleteUser);
 
-router.delete('/delete-member/:meberId', isAuth, isAdmin(2), userController.deleteMember);
+router.delete('/delete-member/:memberId', isAuth, isAdmin(3), userController.deleteMember);
 
 router.put('/req-reset-password', userController.requestPasswordReset);
 

@@ -193,7 +193,7 @@ exports.addMember = (req, res, next) => {
     .then(user => {
         res.status(201).json({
             message: 'member created',
-            member: member
+            member: createdMember
         });
     })
     .catch(err => {
@@ -471,7 +471,7 @@ exports.deleteUser = (req, res, next) => {
 
 exports.deleteMember = (req, res, next) => {
     const memberId = req.params.memberId;
-    
+    console.log('DEL MEMBER MEMBID :: ', memberId);
     Member.findById(memberId)
     .then(member => {
         if(!member){
@@ -480,9 +480,17 @@ exports.deleteMember = (req, res, next) => {
             throw error;
         }
 
+        return User.findById(member.user);
+        
+    })
+    .then(user => {
+        user.member = null;
+        return user.save();
+    })
+    .then(updatedUser => {
         return Member.findByIdAndDelete(memberId);
     })
-    .then(res => {
+    .then(mem => {
         res.status(200).json({
             message: "member deleted!"
         });

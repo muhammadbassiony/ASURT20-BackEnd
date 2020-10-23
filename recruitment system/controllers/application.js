@@ -331,7 +331,7 @@ exports.sendAcceptedEmails = (req, res, next) => {
 exports.sendRejectedEmails = (req, res, next) => { 
     const eventId = req.params.eventId;
     const phase = req.body.phase;
-    console.log('\n\nSEND REJ EMAILS PHASE ::', phase, '\n\n');
+    // console.log('\n\nSEND REJ EMAILS PHASE ::', phase, '\n\n');
 
     emails = [];
     countRejected = 0;
