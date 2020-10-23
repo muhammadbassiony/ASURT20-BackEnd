@@ -471,7 +471,7 @@ exports.deleteUser = (req, res, next) => {
 
 exports.deleteMember = (req, res, next) => {
     const memberId = req.params.memberId;
-    console.log('DEL MEMBER MEMBID :: ', memberId);
+    
     Member.findById(memberId)
     .then(member => {
         if(!member){
